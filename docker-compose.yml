@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 7101:6000
+    volumes:
+      - ./src:/app/src
+    command: npm run start
+    user: root
+    env_file: 
+      - ./.env
+    networks:
+      - docker-network
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - docker-network
+    user: root
+    env_file: 
+      - ./.env
+    environment:
+      POSTGRESQL_DATABASE: ${POSTGRESQL_DATABASE}
+      POSTGRES_USERNAME: ${POSTGRESQL_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRESQL_USERNAME}
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 8080:80
+    env_file: 
+      - ./.env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - docker-network
+
+
+networks:
+  docker-network:
+    driver: bridge

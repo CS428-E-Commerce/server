@@ -16,6 +16,26 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@Entites/*": [
+        "src/entities/*"
+      ],
+      "@Constants/*": [
+        "src/constants/*"
+      ],
+      "@Decorators/*": [
+        "src/decorator/*"
+      ],
+      "@Configs/*": [
+        "src/configs/*"
+      ],
+      "@Serialize/*": [
+        "src/serialize/*"
+      ],
+      "@Utils/*": [
+        "src/utils/*"
+      ]
+    }
   }
 }
