@@ -9,10 +9,10 @@ services:
       - 7101:6000
     volumes:
       - ./src:/app/src
-    command: npm run start
+    command: npm run start:dev
     user: root
     env_file: 
-      - ./.env
+      - .env
     networks:
       - docker-network
     depends_on:
@@ -29,11 +29,11 @@ services:
       - docker-network
     user: root
     env_file: 
-      - ./.env
+      - .env
     environment:
-      POSTGRESQL_DATABASE: ${POSTGRESQL_DATABASE}
-      POSTGRES_USERNAME: ${POSTGRESQL_USERNAME}
-      POSTGRES_PASSWORD: ${POSTGRESQL_USERNAME}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   pgadmin:
     image: dpage/pgadmin4
@@ -41,7 +41,7 @@ services:
     ports:
       - 8080:80
     env_file: 
-      - ./.env
+      - .env
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
