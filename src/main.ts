@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { ValidationPipe } from '@nestjs/common';
+
+import { AppModule } from './app.module';
+
 
 
 async function bootstrap() {
@@ -8,6 +11,10 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter()
   );;
+
+  app.useGlobalPipes(new ValidationPipe());
+  app.enableCors();
+
   await app.listen(6000, '0.0.0.0');
 }
 bootstrap();
