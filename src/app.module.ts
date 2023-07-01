@@ -9,13 +9,12 @@ import { ConfigModule } from '@nestjs/config';
 
 // Modules
 import { SampleModule } from './modules';
+import { dataSourceOptions } from '@Configs/datasource';
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
-        TypeOrmModule.forRootAsync({
-            useClass: TypeOrmService,
-        }),
+        TypeOrmModule.forRoot(dataSourceOptions),
         SampleModule
     ],
     controllers: [AppController],
