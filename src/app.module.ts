@@ -4,12 +4,11 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Configs
-import { TypeOrmService } from '@Configs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
 // Modules
 import { SampleModule } from './modules';
-import { dataSourceOptions } from '@Configs/datasource';
+import { dataSourceOptions } from '@Configs/index';
 
 @Module({
     imports: [

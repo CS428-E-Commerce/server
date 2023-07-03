@@ -1,14 +1,21 @@
-import { Injectable } from "@nestjs/common";
-import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
+import { POSTGRES_DB, POSTGRES_HOST, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_USERNAME } from "@Constants/index";
+import { DataSource, DataSourceOptions } from "typeorm";
 
-// Constants
-import { dataSourceOptions } from "./datasource";
+export const dataSourceOptions: DataSourceOptions = {
+    type: "postgres",
+    host: POSTGRES_HOST || "db",
+    port: POSTGRES_PORT ? parseInt(process.env.POSTGRESQL_PORT) : 5432,
+    username: POSTGRES_USERNAME || "postgres",
+    password: POSTGRES_PASSWORD || "postgres",
+    database: POSTGRES_DB || "ecommerce",
+    synchronize: false,
+    logging: true,
+    entities: ['./dist/**/**.entity{.ts,.js}'],
+    migrations: ['./dist/migrations/*.js'],
+};
 
-@Injectable()
-export class TypeOrmService implements TypeOrmOptionsFactory {
-  async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
-    return dataSourceOptions;
-  }
-}
+const dataSource = new DataSource(dataSourceOptions);
 
-export default TypeOrmService;
+export default dataSource;
+
+  
