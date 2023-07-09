@@ -4,18 +4,21 @@ import { Int32, MixedList } from "typeorm";
 
 @Controller('courses')
 export class CourseController{
-    @Get()
-    getCourse():MixedList<CourseEntity>{
+    @Post(':all')
+    getCourse(@Body() available:boolean=true):MixedList<CourseEntity>{
+        //TODO: GET RANDOM COURSE (MAX NUMBER OF COURSE DEFINED)
         return []
     }
 
-    @Post()
-    getCourseWithLevel(@Body() level:Int32):MixedList<CourseEntity>{
+    @Post(':level')
+    getCourseWithLevel(@Body() level:Int32, available:boolean=true):MixedList<CourseEntity>{
+        //TODO: GET COURSE WITH LEVEL (MAX NUMBER OF COURSE DEFINED)
         return []
     }
 
-    @Post()
-    getCourseWithCoachID(@Body() coachID:string):MixedList<CourseEntity>{
+    @Post(':coach')
+    getCourseWithCoachID(@Body() coachID:string, available:boolean=true):MixedList<CourseEntity>{
+        //TODO: GET COURSE WITH ID OF COACH (MAX NUMBER OF COURSE DEFINED)
         return []
     }
 }
