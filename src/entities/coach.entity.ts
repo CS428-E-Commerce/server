@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({name: 'coach'})
-export class UserEntity {
+export class CoachEntity {
     @PrimaryColumn('varchar', { unique: true, nullable: false })    
     coachID: string;
 

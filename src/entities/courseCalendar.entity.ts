@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({name: 'courseCalendar'})
-export class UserEntity {
+export class CourseCalendarEntity {
     @PrimaryColumn('varchar', { nullable: false })    
     CoachID: string;
 

@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({name: 'paymentHistory'})
-export class UserEntity {
+export class PaymentEntity {
     @Column('varchar', { nullable: false })    
     CoachID: string;
 
