@@ -9,12 +9,14 @@ import { ConfigModule } from '@nestjs/config';
 // Modules
 import { SampleModule } from './modules';
 import { dataSourceOptions } from '@Configs/index';
+import { CourseModule } from './modules/course-module/course.module';
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
         TypeOrmModule.forRoot(dataSourceOptions),
-        SampleModule
+        SampleModule,
+        CourseModule,
     ],
     controllers: [AppController],
     providers: [AppService],

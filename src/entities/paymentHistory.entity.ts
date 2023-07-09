@@ -12,8 +12,8 @@ export class PaymentEntity {
     @PrimaryColumn('varchar', { nullable: false })
     CourseID: string;
 
-    @PrimaryColumn('varchar', { nullable: false })
-    time: string;
+    @PrimaryColumn('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP'})
+    time: Date;
 
     @Column('varchar', { nullable: false })
     money: string;

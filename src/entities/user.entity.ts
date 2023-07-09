@@ -3,21 +3,21 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: 'user'})
 export class UserEntity {
-    @PrimaryColumn('varchar', { unique: true, nullable: false })    
-    id: string;
-
     @Column('varchar', { nullable: true })
     email: string;
 
-    @Column('varchar', { nullable: true })
-    password: string;
-
-    @Column('varchar', { nullable: true })
+    @PrimaryColumn('varchar', { unique: true })
     phone: string;
+
+    @Column('varchar', { nullable: false})    
+    name: string;
 
     @Column('varchar', { nullable: true })
     userName: string;
-  
+
+    @Column('varchar', { nullable: true })
+    password: string;
+    
     @Column('varchar', { nullable: true })
     address: string;
 

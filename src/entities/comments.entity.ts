@@ -12,8 +12,8 @@ export class CommentsEntity {
     @Column('varchar', { nullable: true })
     comment: string;
 
-    @Column('date', { nullable: true })
-    date: string;
+    @Column('timestamp', { nullable: true, default: () => 'CURRENT_TIMESTAMP' })
+    date: Date;
 
     @Column('integer', { nullable: true })
     rate: number;

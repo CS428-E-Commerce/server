@@ -9,9 +9,9 @@ export class CourseCalendarEntity {
     @PrimaryColumn('varchar', { nullable: false })
     CourseID: string;
 
-    @PrimaryColumn('date', { nullable: false})
-    start: string;
+    @PrimaryColumn('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    start: Date;
 
-    @Column('date', { nullable: true})
-    end: string;
+    @Column('timestamp', { nullable: true, default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    end: Date;
 }
