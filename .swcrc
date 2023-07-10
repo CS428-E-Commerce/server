@@ -7,25 +7,26 @@
         "decorators": true,
         "dynamicImport": true
       },
+      
       "baseUrl": ".",
       "paths": {
-        "@Entites/*": [
-          "src/entities/*"
+        "@Entites/index.ts": [
+          "src/entities/index.ts"
         ],
-        "@Constants/*": [
-          "src/constants/*"
+        "@Constants/index.ts": [
+          "src/constants/index.ts"
         ],
-        "@Decorators/*": [
-          "src/decorators/*"
+        "@Decorators/index.ts": [
+          "src/decorators/index.ts"
         ],
-        "@Configs/*": [
-          "src/configs/*"
+        "@Configs/index.ts": [
+          "src/configs/index.ts"
         ],
-        "@Serialize/*": [
-          "src/serialize/*"
+        "@Serialize/index.ts": [
+          "src/serialize/index.ts"
         ],
-        "@Utils/*": [
-          "src/utils/*"
+        "@Utils/index.ts": [
+          "src/utils/index.ts"
         ]
       }
     },

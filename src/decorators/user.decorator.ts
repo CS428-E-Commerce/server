@@ -1,8 +1,9 @@
-import { ROLE_USER } from '@Constants/index';
+import { ROLE_USER } from '@Constants/index.ts';
 import { ExecutionContext, SetMetadata, createParamDecorator } from '@nestjs/common';
 
 export const UserInfo = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
+    console.log(request.user.user, 'request user')
     return request.user as string;
 });
 

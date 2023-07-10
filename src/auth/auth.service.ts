@@ -8,11 +8,14 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto, SignUpDto } from './dto';
 
 // Entities
-import { UserEntity } from '@Entites/index';
+import { UserEntity,CoachEntity } from '@Entites/index.ts';
+import { ROLE_USER } from '@Constants/index.ts';
 
 export class AuthService {
     constructor(
         @InjectRepository(UserEntity) private _userRepository: Repository<UserEntity>,
+        @InjectRepository(CoachEntity) private _coachRepository: Repository<CoachEntity>,
+
         private _jwtService: JwtService
     ) {}
 
@@ -45,6 +48,11 @@ export class AuthService {
             const user = this._userRepository.create({ email, password: hashPassword, role });
 
             user.setAttribute();
+
+            if(role === ROLE_USER.COACH) {
+                const newCoach = this._coachRepository.create({userId: user.id});
+                await this._coachRepository.save(newCoach);
+            }
 
             await this._userRepository.save(user);
 
@@ -99,7 +107,7 @@ export class AuthService {
                     HttpStatus.CONFLICT
                 );
             }
-            const payloadJwt = { user: {email, role: currentUser.role} };
+            const payloadJwt = { email, role: currentUser.role };
        
             const accessToken: string = this._jwtService.sign(payloadJwt);
 

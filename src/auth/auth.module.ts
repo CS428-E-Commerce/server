@@ -6,12 +6,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 // Service
 import { AuthService } from './auth.service';
-import { UserEntity } from '@Entites/index';
 // Entities
+import { UserEntity,CoachEntity } from '@Entites/index.ts';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([UserEntity]),
+        TypeOrmModule.forFeature([UserEntity, CoachEntity]),
         JwtModule.register({
             global: true,
             secret: process.env.JWT_SECRET,

@@ -1,4 +1,5 @@
 import { LoginDto } from "src/auth/dto";
+import { UpdateUserDto } from "src/modules/user/dto";
 import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -43,5 +44,14 @@ export class UserEntity {
 
     setAttribute() {
         this.id = uuidv4();
+    }
+
+    updateAttributes({phone, address, description, avatar, username}: UpdateUserDto) {
+        this.phone = phone ? phone : this.phone
+        this.address = address ? address : this.address
+        this.description = description ? description : this.description
+        this.avatar = avatar ? avatar : this.avatar
+        this.username = username ? username : this.username
+
     }
 }
