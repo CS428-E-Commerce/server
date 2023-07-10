@@ -7,7 +7,7 @@
         "decorators": true,
         "dynamicImport": true
       },
-      "baseUrl": "./",
+      "baseUrl": ".",
       "paths": {
         "@Entites/*": [
           "src/entities/*"
@@ -16,7 +16,7 @@
           "src/constants/*"
         ],
         "@Decorators/*": [
-          "src/decorator/*"
+          "src/decorators/*"
         ],
         "@Configs/*": [
           "src/configs/*"

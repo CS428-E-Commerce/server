@@ -2,8 +2,15 @@ import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 
 // Service
 import { AuthService } from "./auth.service";
+// Dto
 import { LoginDto, SignUpDto } from "./dto";
-import { AuthGuard } from "./guard";
+// Guard
+import { AuthGuard, RolesGuard } from "./guard";
+// Decorator
+import { Roles } from "@Decorators/index";
+
+// Constants
+import { ROLE_USER } from "@Constants/index";
 
 
 
@@ -23,7 +30,8 @@ export class AuthController {
         return this._authService.signIn(loginDto);
     }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles(ROLE_USER.COACH)
     @Get('/')
     test(){
         return 'hgelo';
