@@ -1,4 +1,6 @@
+import { LoginDto } from "src/auth/dto";
 import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { v4 as uuidv4 } from 'uuid';
 
 
 @Entity({name: 'user'})
@@ -16,7 +18,7 @@ export class UserEntity {
     phone: string;
 
     @Column('varchar', { nullable: true })
-    userName: string;
+    username: string;
   
     @Column('varchar', { nullable: true })
     address: string;
@@ -38,4 +40,8 @@ export class UserEntity {
   
     @Column({ type: 'timestamp', nullable: true })
     deletedAt: Date;
+
+    setAttribute() {
+        this.id = uuidv4();
+    }
 }
