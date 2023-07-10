@@ -1,4 +1,4 @@
-import { ROLE_USER } from '@Constants/index';
+import { ROLE_USER } from '@Constants/index.ts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 

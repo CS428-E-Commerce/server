@@ -7,10 +7,10 @@ import { LoginDto, SignUpDto } from "./dto";
 // Guard
 import { AuthGuard, RolesGuard } from "./guard";
 // Decorator
-import { Roles } from "@Decorators/index";
+import { Roles } from "@Decorators/index.ts";
 
 // Constants
-import { ROLE_USER } from "@Constants/index";
+import { ROLE_USER } from "@Constants/index.ts";
 
 
 

@@ -3,10 +3,10 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 
 // Constants
-import { ROLE_USER } from '@Constants/index';
+import { ROLE_USER } from '@Constants/index.ts';
 
 // Decorator
-import { ROLES_KEY } from '@Decorators/index';
+import { ROLES_KEY } from '@Decorators/index.ts';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -29,9 +29,9 @@ export class RolesGuard implements CanActivate {
             secret: process.env.JWT_SECRET,
         });
 
-        const { user } = payload;
+        const { role } = payload;
 
-        return requiredRoles.some((role) => user.role?.includes(role));
+        return requiredRoles.some((requireRole) => role?.includes(requireRole));
 
     }
 
