@@ -35,14 +35,14 @@ export class AuthService {
 
     async signUp(signUpDto: SignUpDto) {
         try {
-            const { email, password } = signUpDto;
+            const { email, password, role } = signUpDto;
 
             await this.checkExistUser(email);
 
             const salt = await bcrypt.genSalt();
             const hashPassword = await bcrypt.hash(password, salt);
 
-            const user = this._userRepository.create({ email, password: hashPassword });
+            const user = this._userRepository.create({ email, password: hashPassword, role });
 
             user.setAttribute();
 
@@ -99,7 +99,7 @@ export class AuthService {
                     HttpStatus.CONFLICT
                 );
             }
-            const payloadJwt = { email };
+            const payloadJwt = { user: {email, role: currentUser.role} };
        
             const accessToken: string = this._jwtService.sign(payloadJwt);
 
