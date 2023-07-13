@@ -1,23 +1,23 @@
 import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity({name: 'user'})
 export class UserEntity {
+    @PrimaryColumn('varchar', { unique: true, nullable: false })    
+    id: string;
+
     @Column('varchar', { nullable: true })
     email: string;
 
-    @PrimaryColumn('varchar', { unique: true })
-    phone: string;
-
-    @Column('varchar', { nullable: false})    
-    name: string;
-
-    @Column('varchar', { nullable: true })
-    userName: string;
-
     @Column('varchar', { nullable: true })
     password: string;
-    
+
+    @Column('varchar', { nullable: true })
+    phone: string;
+
+    @Column('varchar', { nullable: true })
+    username: string;
+  
     @Column('varchar', { nullable: true })
     address: string;
 
@@ -38,4 +38,8 @@ export class UserEntity {
   
     @Column({ type: 'timestamp', nullable: true })
     deletedAt: Date;
+
+    setAttribute() {
+        this.id = uuidv4();
+    }
 }
