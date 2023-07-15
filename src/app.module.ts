@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SampleModule } from './modules';
 import { dataSourceOptions } from '@Configs/index';
 import { CourseModule } from './modules/course-module/course.module';
+import { CoachModule } from './modules/coach-module/coach.module';
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { CourseModule } from './modules/course-module/course.module';
         TypeOrmModule.forRoot(dataSourceOptions),
         SampleModule,
         CourseModule,
+        CoachModule
     ],
     controllers: [AppController],
     providers: [AppService],

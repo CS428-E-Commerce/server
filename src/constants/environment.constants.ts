@@ -12,3 +12,7 @@ export const POSTGRES_DB = process.env.POSTGRES_DB || 'ecommerce';
 
 // Course
 export const MAX_NUMBER_COURSE_LOAD = 12
+
+// Role
+export const COACH = 'coach'
+export const STUDENT = 'student'

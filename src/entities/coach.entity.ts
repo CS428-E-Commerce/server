@@ -15,7 +15,7 @@ export class CoachEntity {
     @Column('integer', { nullable: false, default: 0 })
     classTaught: number;
 
-    @Column('money', { nullable: true })
+    @Column('float', { nullable: true, default: 0.0 })
     costPerClass: number;
   
     @Column('integer', { nullable: false, default: 0 })
