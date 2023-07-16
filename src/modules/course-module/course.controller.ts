@@ -1,5 +1,5 @@
-import { CourseEntity } from "@Entites/course.entity";
 import { Body, Controller, Post } from "@nestjs/common";
+import { CourseEntity } from "src/entities/course.entity";
 import { Int32, MixedList } from "typeorm";
 
 @Controller('courses')

@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       target: development
     ports:
-      - 7101:6000
+      - 4200:4200
     volumes:
       - ./src:/app/src
     command: npm run start:dev

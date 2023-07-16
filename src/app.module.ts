@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-// Configs
 import { ConfigModule } from '@nestjs/config';
 
+// Configs
+import { dataSourceOptions } from '@Configs/index.ts';
+
 // Modules
-import { SampleModule } from './modules';
-import { dataSourceOptions } from '@Configs/index';
+import {  UserModule } from './modules';
+import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './modules/course-module/course.module';
 import { CoachModule } from './modules/coach-module/coach.module';
 
@@ -16,7 +17,8 @@ import { CoachModule } from './modules/coach-module/coach.module';
     imports: [
         ConfigModule.forRoot(),
         TypeOrmModule.forRoot(dataSourceOptions),
-        SampleModule,
+        AuthModule,
+        UserModule,
         CourseModule,
         CoachModule
     ],

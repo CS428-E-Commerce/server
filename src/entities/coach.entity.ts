@@ -1,26 +1,32 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({name: 'coach'})
 export class CoachEntity {
-    @PrimaryColumn('varchar', { unique: true, nullable: false })    
-    coachID: string;
+    @PrimaryGeneratedColumn({type: 'int', unsigned: true })
+    id: number;
 
-    @Column('integer', { nullable: true, default: 0 })
+    @Column('varchar', {nullable: false})
+    userId: string;
+
+    @Column('numeric', {nullable: true, default: 0})
     totalRate: number;
 
-    @Column('integer', { nullable: false, default: 0 })
+    @Column('numeric', {nullable: true, default: 0})
     rateTurn: number;
 
-    @Column('integer', { nullable: false, default: 0 })
-    classTaught: number;
+    @Column('numeric', {nullable: true, default: 0})
+    totalStudent: number;
 
-    @Column('float', { nullable: true, default: 0.0 })
-    costPerClass: number;
+    @Column('numeric', {nullable: true, default: 0})
+    totalCourse: number;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    updatedAt: Date;
   
-    @Column('integer', { nullable: false, default: 0 })
-    studentNumber: number;
-
-    @Column('varchar', { nullable: true })
-    wallet: string;
+    @Column({ type: 'timestamp', nullable: true })
+    deletedAt: Date;
 }

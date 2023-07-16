@@ -1,10 +1,10 @@
-import { CoachEntity } from "@Entites/coach.entity";
+import { CoachEntity } from "src/entities/coach.entity";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CoachDTO } from "./dto";
-import { UserEntity } from "@Entites/user.entity";
-import { COACH } from "@Constants/environment.constants";
+import { UserEntity } from "src/entities/user.entity";
+import { COACH } from "@Constants/index.ts";
 
 @Injectable()
 export class CoachService{
@@ -23,8 +23,7 @@ export class CoachService{
             role: COACH
         });
         const newCoachRepo = this.coachRepo.create({
-            coachID: newCoachAcco.id,
-            wallet: coachdto.wallet
+            
         });
         return [this.coachRepo.save(newCoachRepo), this.coachAcco.save(newCoachAcco)];
     }
