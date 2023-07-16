@@ -3,30 +3,45 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity({name: 'courses'})
 export class CourseEntity {
-    @PrimaryColumn('varchar', { nullable: false })    
-    Title: string;
+    @PrimaryColumn('int', { nullable: false })    
+    id: number;
 
-    @PrimaryColumn('varchar', { nullable: false })
-    coachID: string;
+    @Column('varchar', {nullable: false})
+    code: string
+
+    @Column('int', { nullable: false })
+    coachID: number;
+
+    @Column('varchar', { nullable: false })
+    title: string;
+
+    @Column('text', { nullable: true })
+    banner: string;
 
     @Column('varchar', { nullable: true })
-    description: string;
-
-    @Column('varchar', { nullable: true })
-    image: string;
-
-    @Column('integer', { nullable: true })
-    maxSlot: number;
+    status: string;
   
-    @Column('money', { nullable: true })
+    @Column('varchar', { nullable: true })
+    level: string;
+
+    @Column('numeric', { nullable: true })
+    maxSlot: number;
+
+    @Column('numeric', { nullable: true })
     cost: number;
 
-    @Column('integer', { nullable: true })
-    status: number;
+    @Column('text', { nullable: true })
+    description: string;
 
-    @Column('integer', { nullable: true })
-    level: number;
+    @Column('varchar', {nullable:false})
+    zoomLink: string
 
-    @Column('varchar', { nullable: true })
-    join_link: string;
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    updatedAt: Date;
+  
+    @Column({ type: 'timestamp', nullable: true })
+    deletedAt: Date;
 }

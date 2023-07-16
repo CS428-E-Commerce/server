@@ -224,6 +224,11 @@ export class InitDatabase1688401721212 implements MigrationInterface {
                         generationStrategy: 'increment',                    
                     }),
                     new TableColumn({
+                        name: 'code',
+                        type: 'varchar',
+                        isNullable: false,
+                    }),
+                    new TableColumn({
                         name: 'coachId',
                         type: 'int',
                         isNullable: false,

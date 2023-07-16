@@ -1,4 +1,3 @@
-import { CoachEntity } from "@Entites/coach.entity";
 import { Body, Controller, Post } from "@nestjs/common";
 import { CoachService } from "./coach.service";
 import { CoachDTO } from "./dto";

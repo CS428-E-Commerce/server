@@ -3,15 +3,27 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: 'courseCalendar'})
 export class CourseCalendarEntity {
-    @PrimaryColumn('varchar', { nullable: false })    
-    CoachID: string;
+    @PrimaryColumn('int')
+    id: number
 
-    @PrimaryColumn('varchar', { nullable: false })
-    CourseID: string;
+    @Column('int', { nullable: false })    
+    coachId: number;
 
-    @PrimaryColumn('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
-    start: Date;
+    @Column('int', { nullable: false })
+    courseId: number;
 
-    @Column('timestamp', { nullable: true, default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
-    end: Date;
+    @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    startTime: Date;
+
+    @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    endTime: Date;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    updatedAt: Date;
+  
+    @Column({ type: 'timestamp', nullable: true })
+    deletedAt: Date;
 }
