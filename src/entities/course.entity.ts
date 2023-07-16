@@ -1,3 +1,4 @@
+import { CreateCourseDTO } from "src/modules/course-module/dto";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 
@@ -44,4 +45,17 @@ export class CourseEntity {
   
     @Column({ type: 'timestamp', nullable: true })
     deletedAt: Date;
+
+    updateAttributes({code, coachID, title, banner, status, level, maxSlot, cost, description, zoomLink}: CreateCourseDTO) {
+        this.code = code ? code : this.code
+        this.coachID = coachID ? coachID : this.coachID
+        this.description = description ? description : this.description
+        this.banner = banner ? banner : this.banner
+        this.title = title ? title : this.title
+        this.status = status ? status : this.status
+        this.level = level ? level : this.level
+        this.maxSlot = maxSlot ? maxSlot : this.maxSlot
+        this.cost = cost ? cost : this.cost
+        this.zoomLink = zoomLink ? zoomLink : this.zoomLink
+    }
 }

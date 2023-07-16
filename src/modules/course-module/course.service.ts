@@ -1,7 +1,7 @@
 import { CourseEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { IsNull, Repository } from "typeorm";
 import { CreateCourseDTO } from "./dto";
 import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
 import { FindCourseDTO } from "./dto/find-course.dto";
@@ -82,6 +82,41 @@ export class CourseService{
             const serializeCourses = plainToInstance(CourseSerialize, courses)
 
             return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
+        }
+        catch(error){
+            // handle the exception and return an appropriate response
+            if (error instanceof HttpException) {
+                throw error;
+            } else {
+                console.log(error);
+
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                        message: 'Internal server error',
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                );
+            }
+        }
+    }
+
+    async updateCourse(courseDto: CreateCourseDTO){
+        try{
+            const {code} = courseDto;
+
+            const currentCourse = await this.courseRepo.findOneBy({
+                code,
+                deletedAt: IsNull()
+            })
+
+            currentCourse.updateAttributes(courseDto);
+
+            await this.courseRepo.save(currentCourse);
+
+            const serializeCourse = plainToInstance(CourseSerialize, currentCourse);
+
+            return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
         }
         catch(error){
             // handle the exception and return an appropriate response
