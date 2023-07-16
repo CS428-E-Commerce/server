@@ -11,7 +11,6 @@ import { dataSourceOptions } from '@Configs/index.ts';
 import {  UserModule } from './modules';
 import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './modules/course-module/course.module';
-import { CoachModule } from './modules/coach-module/coach.module';
 
 @Module({
     imports: [
@@ -20,7 +19,7 @@ import { CoachModule } from './modules/coach-module/coach.module';
         AuthModule,
         UserModule,
         CourseModule,
-        CoachModule
+        // CoachModule
     ],
     controllers: [AppController],
     providers: [AppService],
