@@ -4,7 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Not, Repository } from "typeorm";
 import { CreateCourseDTO } from "./dto";
 import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
-import { FindCourseDTO } from "./dto/find-course.dto";
+import { FindCourseDTO, GetCourse } from "./dto/find-course.dto";
 import { plainToInstance } from "class-transformer";
 import { CourseSerialize } from "@Serialize/index.ts";
 import { log } from "console";
@@ -15,121 +15,24 @@ export class CourseService{
     constructor(@InjectRepository(CourseEntity) private courseRepo: Repository<CourseEntity>,
                 @InjectRepository(CourseEntity) private courseSchedulerRepo: Repository<CourseEntity>,){}
 
-    async create(courseDto: CreateCourseDTO){
-        try{
-            const newCourse = await this.courseRepo.create(courseDto);
-
-            const serializeCourse = plainToInstance(CourseSerialize, newCourse)
-
-            return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
-
-
-            // const {code} = courseDto;
-
-            // const currentCourse = await this.courseRepo.findOneBy({
-            //     code,
-            //     deletedAt: IsNull()
-            // })
-            
-            // currentCourse.updateAttributes(courseDto);
-            
-            // await this.courseRepo.save(currentCourse);
-
-            // const serializeCourse = plainToInstance(CourseSerialize, currentCourse);
-
-            // return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
-        }
-        catch (error) {
-            // handle the exception and return an appropriate response
-            if (error instanceof HttpException) {
-                throw error;
-            } else {
-                console.log(error);
-
-                throw new HttpException(
-                    {
-                        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                        message: 'Internal server error',
-                    },
-                    HttpStatus.INTERNAL_SERVER_ERROR
-                );
-            }
-        }
-    }
-
-    async length(){
-        try{
-            return {meta: {code: 200, msg: 'success'}, data: await this.courseRepo.count()}
-        }
-        catch(error){
-            // handle the exception and return an appropriate response
-            if (error instanceof HttpException) {
-                throw error;
-            } else {
-                console.log(error);
-
-                throw new HttpException(
-                    {
-                        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                        message: 'Internal server error',
-                    },
-                    HttpStatus.INTERNAL_SERVER_ERROR
-                );
-            }
-        }
-    }
-
-    // async findSome(windowIndex: number){
-    //     try{
-    //         const courses = await this.courseRepo.find({
-    //             select: {
-    //                 code: true,
-    //                 coachID: true,
-    //                 title: true,
-    //                 banner: true,
-    //                 status: true,
-    //                 level: true,
-    //                 maxSlot: true,
-    //                 cost: true,
-    //                 description: true,
-    //             },
-    //             skip: windowIndex * MAX_NUMBER_COURSE_LOAD,
-    //             take: MAX_NUMBER_COURSE_LOAD,
-    //         })
-
-    //         const serializeCourses = plainToInstance(CourseSerialize, courses)
-
-    //         return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
-    //     }
-    //     catch(error){
-    //         // handle the exception and return an appropriate response
-    //         log('---------------------------------------------')
-    //         log(error)
-    //         log('---------------------------------------------')
-    //         if (error instanceof HttpException) {
-    //             throw error;
-    //         } else {
-    //             console.log(error);
-
-    //             throw new HttpException(
-    //                 {
-    //                     statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-    //                     message: 'Internal server error',
-    //                 },
-    //                 HttpStatus.INTERNAL_SERVER_ERROR
-    //             );
-    //         }
-    //     }
-    // }
-
     async updateCourse(courseDto: CreateCourseDTO){
         try{
-            const {code} = courseDto;
-
-            const currentCourse = await this.courseRepo.findOneBy({
-                code,
-                deletedAt: IsNull()
+            const currentCourse = await this.courseRepo.findOne({
+                where: {
+                    code: courseDto.code,
+                    deletedAt: IsNull(),
+                }
             })
+            
+            if (!currentCourse){
+                const course = await this.courseRepo.create(courseDto)
+
+                await this.courseRepo.save(course)
+                
+                const serializeCourse = plainToInstance(CourseSerialize, course)
+                
+                return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
+            }
 
             currentCourse.updateAttributes(courseDto);
 
@@ -144,8 +47,6 @@ export class CourseService{
             if (error instanceof HttpException) {
                 throw error;
             } else {
-                console.log(error);
-
                 throw new HttpException(
                     {
                         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -157,13 +58,12 @@ export class CourseService{
         }
     }
 
-    async findCustom(courseDto: FindCourseDTO){
+    async findCourse(courseDto: FindCourseDTO){
         try{
-            log('=========---------------------------------------------------------------------======')
-            const courses = await this.courseRepo.find({
+            const course = await this.courseRepo.find({
                 select: {
                     code: true,
-                    coachID: true,
+                    coachId: true,
                     title: true,
                     banner: true,
                     status: true,
@@ -178,14 +78,13 @@ export class CourseService{
                     status: courseDto.status ? courseDto.status : Not(null),
                     maxSlot: courseDto.maxSlot ? courseDto.maxSlot : Not(null),
                     code: courseDto.code ? courseDto.code : Not(null),
-                    coachID: courseDto.coachID ? courseDto.coachID : Not(null)
+                    coachId: courseDto.coachId ? courseDto.coachId : Not(null)
                 },
                 skip: courseDto.windowIndex * MAX_NUMBER_COURSE_LOAD,
                 take: MAX_NUMBER_COURSE_LOAD,
             })
-            log('=========---------------------------------------------------------------------======')
-
-            const serializeCourses = plainToInstance(CourseSerialize, courses)
+            
+            const serializeCourses = plainToInstance(CourseSerialize, course)
             return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
         }
         catch(error){
@@ -193,8 +92,31 @@ export class CourseService{
             if (error instanceof HttpException) {
                 throw error;
             } else {
-                console.log(error);
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                        message: 'Internal server error',
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                );
+            }
+        }
+    }
 
+    async deleteCourse(getCourse: GetCourse){
+        try{
+            const course = await this.courseRepo.delete({
+                code: getCourse.code
+            })
+            
+            const serializeCourses = plainToInstance(CourseSerialize, course)
+            return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
+        }
+        catch(error){
+            // handle the exception and return an appropriate response
+            if (error instanceof HttpException) {
+                throw error;
+            } else {
                 throw new HttpException(
                     {
                         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,

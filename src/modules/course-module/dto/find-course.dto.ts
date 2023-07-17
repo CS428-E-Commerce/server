@@ -9,7 +9,7 @@ export class FindCourseDTO{
 
     @ApiProperty()
     @IsOptional()
-    coachID: number = null;
+    coachId: number = null;
     
     @ApiProperty()
     @IsString()
@@ -33,4 +33,10 @@ export class FindCourseDTO{
 
     @ApiProperty()
     windowIndex: number = 0;
+}
+
+export class GetCourse{
+    @ApiProperty()
+    @IsString()
+    code: string = null;
 }

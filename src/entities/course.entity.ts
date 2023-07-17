@@ -2,7 +2,7 @@ import { CreateCourseDTO } from "src/modules/course-module/dto";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
-@Entity({name: 'courses'})
+@Entity({name: 'course'})
 export class CourseEntity {
     @PrimaryGeneratedColumn({type: 'int', unsigned: true }) 
     id: number;
@@ -11,7 +11,7 @@ export class CourseEntity {
     code: string
 
     @Column('int', { nullable: false })
-    coachID: number;
+    coachId: number;
 
     @Column('varchar', { nullable: false })
     title: string;
@@ -48,7 +48,7 @@ export class CourseEntity {
 
     updateAttributes({code, coachID, title, banner, status, level, maxSlot, cost, description, zoomLink}: CreateCourseDTO) {
         this.code = code ? code : this.code
-        this.coachID = coachID ? coachID : this.coachID
+        this.coachId = coachID ? coachID : this.coachId
         this.description = description ? description : this.description
         this.banner = banner ? banner : this.banner
         this.title = title ? title : this.title

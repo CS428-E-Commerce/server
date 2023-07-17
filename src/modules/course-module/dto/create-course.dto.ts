@@ -4,11 +4,10 @@ import { IsOptional, IsString } from "class-validator";
 export class CreateCourseDTO{ 
     @ApiProperty()
     @IsString()
-    @IsOptional()
     code: string;
     
     @ApiProperty()
-    coachID: number;
+    coachId: number;
     
     @ApiProperty()
     @IsString()
