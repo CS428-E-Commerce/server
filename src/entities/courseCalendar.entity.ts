@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: 'courseCalendar'})
 export class CourseCalendarEntity {
-    @PrimaryColumn('int')
+    @PrimaryGeneratedColumn({type: 'int', unsigned: true })
     id: number
 
     @Column('int', { nullable: false })    

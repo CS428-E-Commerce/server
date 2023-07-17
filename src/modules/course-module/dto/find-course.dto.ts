@@ -30,4 +30,7 @@ export class FindCourseDTO{
     @ApiProperty()
     @IsOptional()
     maxSlot: number = null;
+
+    @ApiProperty()
+    windowIndex: number = 0;
 }

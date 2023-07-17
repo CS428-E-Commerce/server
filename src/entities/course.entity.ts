@@ -1,10 +1,10 @@
 import { CreateCourseDTO } from "src/modules/course-module/dto";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({name: 'courses'})
 export class CourseEntity {
-    @PrimaryColumn('int', { nullable: false })    
+    @PrimaryGeneratedColumn({type: 'int', unsigned: true }) 
     id: number;
 
     @Column('varchar', {nullable: false})

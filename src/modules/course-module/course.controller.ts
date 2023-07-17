@@ -13,12 +13,7 @@ export class CourseController{
     }
 
     @Post('getCourse')
-    async getCourse(@Body() windowIndex: number){
-        return this.courseService.findSome(windowIndex)
-    }
-
-    @Post('getCourseWithCondition')
-    async getCourseWithCondition(@Body() courseDto: FindCourseDTO){
-        return this.courseService.findCustom(courseDto);
+    async getCourse(@Body() findCourseDTO: FindCourseDTO){
+        return this.courseService.findCustom(findCourseDTO)
     }
 }
