@@ -11,7 +11,7 @@ export class CourseSerialize {
     code: string;
 
     @Expose()
-    coachID: number;
+    coachId: number;
 
     @Expose()
     title: string;

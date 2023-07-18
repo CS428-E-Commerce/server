@@ -1,19 +1,18 @@
-import { CourseEntity } from "@Entites/index.ts";
+import { CourseCalendarEntity, CourseEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { IsNull, Not, Repository } from "typeorm";
-import { CreateCourseDTO } from "./dto";
+import { IsNull, Repository } from "typeorm";
+import { CreateCourseDTO, CreateSchedulerDTO } from "./dto";
 import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
-import { FindCourseDTO, GetCourse } from "./dto/find-course.dto";
+import { FindCourseDTO, GetCourse, Scheduler } from "./dto/find-course.dto";
 import { plainToInstance } from "class-transformer";
-import { CourseSerialize } from "@Serialize/index.ts";
-import { log } from "console";
-import { notEqual } from "assert";
+import { CourseSerialize, SchedulerSerialize } from "@Serialize/index.ts";
 
 @Injectable()
 export class CourseService{
     constructor(@InjectRepository(CourseEntity) private courseRepo: Repository<CourseEntity>,
-                @InjectRepository(CourseEntity) private courseSchedulerRepo: Repository<CourseEntity>,){}
+                @InjectRepository(CourseCalendarEntity) private courseSchedulerRepo: Repository<CourseCalendarEntity>,
+                ){}
 
     async updateCourse(courseDto: CreateCourseDTO){
         try{
@@ -62,6 +61,7 @@ export class CourseService{
         try{
             const course = await this.courseRepo.find({
                 select: {
+                    id: true,
                     code: true,
                     coachId: true,
                     title: true,
@@ -73,12 +73,12 @@ export class CourseService{
                     description: true,
                 },
                 where:  {
-                    title: courseDto.title ? courseDto.title : Not(null),
-                    level: courseDto.level ? courseDto.level : Not(null),
-                    status: courseDto.status ? courseDto.status : Not(null),
-                    maxSlot: courseDto.maxSlot ? courseDto.maxSlot : Not(null),
-                    code: courseDto.code ? courseDto.code : Not(null),
-                    coachId: courseDto.coachId ? courseDto.coachId : Not(null)
+                    title: courseDto.title ? courseDto.title : null,
+                    level: courseDto.level ? courseDto.level : null,
+                    status: courseDto.status ? courseDto.status : null,
+                    maxSlot: courseDto.maxSlot ? courseDto.maxSlot : null,
+                    code: courseDto.code ? courseDto.code : null,
+                    coachId: courseDto.coachId ? courseDto.coachId : null,
                 },
                 skip: courseDto.windowIndex * MAX_NUMBER_COURSE_LOAD,
                 take: MAX_NUMBER_COURSE_LOAD,
@@ -128,9 +128,18 @@ export class CourseService{
         }
     }
 
-    async getScheduler(courseID: number){
+    async findScheduler(courseSchedule: Scheduler){
         try{
+            const scheduler = this.courseSchedulerRepo.find({
+                where: {
+                    courseId: courseSchedule.courseId,
+                    startTime: courseSchedule.startTime ? courseSchedule.startTime : null,
+                }
+            })
 
+            const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
+
+            return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -150,9 +159,59 @@ export class CourseService{
         }
     }
 
-    async changeScheduler(courseID: number, ){
+    async updateScheduler(createScheduler: CreateSchedulerDTO){
         try{
+            const currentScheduler = await this.courseSchedulerRepo.findOne({
+                where: {
+                    id: createScheduler.id,
+                    deletedAt: IsNull(),
+                }
+            })
+            
+            if (!currentScheduler){
+                const scheduler = await this.courseSchedulerRepo.create(createScheduler)
 
+                await this.courseSchedulerRepo.save(scheduler)
+                
+                const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
+                
+                return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
+            }
+
+            currentScheduler.updateAttributes(createScheduler);
+
+            await this.courseSchedulerRepo.save(currentScheduler);
+
+            const serializeCourse = plainToInstance(SchedulerSerialize, currentScheduler);
+
+            return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
+        }
+        catch(error){
+            // handle the exception and return an appropriate response
+            if (error instanceof HttpException) {
+                throw error;
+            } else {
+                console.log(error);
+
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                        message: 'Internal server error',
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                );
+            }
+        }
+    }
+
+    async deleteScheduler(courseScheduler: CreateSchedulerDTO){
+        try{
+            const scheduler = await this.courseSchedulerRepo.delete({
+                id: courseScheduler.id,
+            })
+            
+            const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
+            return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
         }
         catch(error){
             // handle the exception and return an appropriate response

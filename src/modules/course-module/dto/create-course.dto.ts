@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString } from "class-validator";
+import { IsDate, IsOptional, IsString } from "class-validator";
 
 export class CreateCourseDTO{ 
     @ApiProperty()
@@ -41,4 +41,23 @@ export class CreateCourseDTO{
     @IsString()
     @IsOptional()
     zoomLink: string;
+}
+
+export class CreateSchedulerDTO{
+    @ApiProperty()
+    id: number;
+
+    @ApiProperty()
+    coachId: number;
+
+    @ApiProperty()
+    courseId: number;
+
+    @ApiProperty()
+    @IsDate()
+    startTime: Date;
+
+    @ApiProperty()
+    @IsDate()
+    endTime: Date;
 }
