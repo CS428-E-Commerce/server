@@ -10,13 +10,16 @@ import { dataSourceOptions } from '@Configs/index.ts';
 // Modules
 import {  UserModule } from './modules';
 import { AuthModule } from './auth/auth.module';
+import { CourseModule } from './modules/course-module/course.module';
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
         TypeOrmModule.forRoot(dataSourceOptions),
         AuthModule,
-        UserModule
+        UserModule,
+        CourseModule,
+        // CoachModule
     ],
     controllers: [AppController],
     providers: [AppService],
