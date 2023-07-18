@@ -18,7 +18,7 @@ export class CourseService{
         try{
             const currentCourse = await this.courseRepo.findOne({
                 where: {
-                    code: courseDto.code,
+                    id: courseDto.id,
                     deletedAt: IsNull(),
                 }
             })

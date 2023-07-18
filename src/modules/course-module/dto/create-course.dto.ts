@@ -3,6 +3,9 @@ import { IsDate, IsOptional, IsString } from "class-validator";
 
 export class CreateCourseDTO{ 
     @ApiProperty()
+    id: number;
+
+    @ApiProperty()
     @IsString()
     code: string;
     
