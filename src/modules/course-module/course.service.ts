@@ -1,7 +1,7 @@
 import { CourseCalendarEntity, CourseEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { IsNull, Repository } from "typeorm";
+import { IsNull, Not, Repository } from "typeorm";
 import { CreateCourseDTO, CreateSchedulerDTO } from "./dto";
 import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
 import { FindCourseDTO, GetCourse, Scheduler } from "./dto/find-course.dto";
@@ -106,7 +106,11 @@ export class CourseService{
     async deleteCourse(getCourse: GetCourse){
         try{
             const course = await this.courseRepo.delete({
-                code: getCourse.code
+                id: getCourse.id,
+            })
+
+            await this.courseSchedulerRepo.delete({
+                courseId: getCourse.id
             })
             
             const serializeCourses = plainToInstance(CourseSerialize, course)
@@ -130,7 +134,14 @@ export class CourseService{
 
     async findScheduler(courseSchedule: Scheduler){
         try{
-            const scheduler = this.courseSchedulerRepo.find({
+            const scheduler = await this.courseSchedulerRepo.find({
+                select: {
+                    id: true,
+                    coachId: true,
+                    courseId: true,
+                    startTime: true,
+                    endTime: true,
+                },
                 where: {
                     courseId: courseSchedule.courseId,
                     startTime: courseSchedule.startTime ? courseSchedule.startTime : null,
@@ -163,7 +174,7 @@ export class CourseService{
         try{
             const currentScheduler = await this.courseSchedulerRepo.findOne({
                 where: {
-                    id: createScheduler.id,
+                    id: createScheduler.id ? createScheduler.id : Not(null),
                     deletedAt: IsNull(),
                 }
             })
