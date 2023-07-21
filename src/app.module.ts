@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { dataSourceOptions } from '@Configs/index.ts';
 
 // Modules
-import {  UserModule } from './modules';
+import {  UserModule,CoachModule } from './modules';
 import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './modules/course-module/course.module';
 
@@ -19,7 +19,7 @@ import { CourseModule } from './modules/course-module/course.module';
         AuthModule,
         UserModule,
         CourseModule,
-        // CoachModule
+        CoachModule
     ],
     controllers: [AppController],
     providers: [AppService],

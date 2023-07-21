@@ -9,6 +9,4 @@ import { CoachEntity, UserEntity } from "@Entites/index.ts";
     controllers: [CoachController],
     providers: [CoachService]
 })
-export class CoachModule{
-
-}
+export class CoachModule{}

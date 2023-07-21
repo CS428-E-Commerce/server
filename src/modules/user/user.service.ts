@@ -1,16 +1,16 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Repository } from "typeorm";
+import { HttpException, HttpStatus } from "@nestjs/common";
+import { plainToInstance } from "class-transformer";
 // Entities
 import { CoachEntity, UserEntity } from "@Entites/index.ts";
 
 // DTO
 import { GetUserDto, UpdateUserDto } from "./dto";
-import { HttpException, HttpStatus } from "@nestjs/common";
-import { plainToInstance } from "class-transformer";
+
+
+// Serialize
 import { UserSerialize } from "@Serialize/index.ts";
-
-// Entities
-
 
 export class UserService {
     constructor(
