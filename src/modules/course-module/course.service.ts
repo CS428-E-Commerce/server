@@ -7,6 +7,7 @@ import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
 import { FindCourseDTO, GetCourse, Scheduler } from "./dto/find-course.dto";
 import { plainToInstance } from "class-transformer";
 import { CourseSerialize, SchedulerSerialize } from "@Serialize/index.ts";
+import { IsNotEmpty } from "class-validator";
 
 @Injectable()
 export class CourseService{
@@ -48,37 +49,21 @@ export class CourseService{
     async updateCourse(courseDto: UpdateCourseDTO){
         try{
             const queryBuilder = this.courseRepo.createQueryBuilder('course')
-            queryBuilder.select()
+            const entityExistsForUpdate = await queryBuilder.select()
                         .from(CourseEntity, 'course')
-                        .where('course.id = :id', {id:courseDto.id})
+                        .where("course.id = :id", {id:courseDto.id})
+                        .getExists()
 
+            if (entityExistsForUpdate){
+                await queryBuilder.update(CourseEntity)
+                            .set(courseDto)
+                            .where("id=:id", {id: courseDto.id})
+                            .execute()
 
+                return {meta: {code: 200, msg: 'success'}, data: {}}
+            }
 
-
-            // const currentCourse = await this.courseRepo.findOne({
-            //     where: {
-            //         id: courseDto.id,
-            //         deletedAt: IsNull(),
-            //     }
-            // })
-            
-            // if (!currentCourse){
-            //     const course = await this.courseRepo.create(courseDto)
-
-            //     await this.courseRepo.save(course)
-                
-            //     const serializeCourse = plainToInstance(CourseSerialize, course)
-                
-            //     return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
-            // }
-
-            // currentCourse.updateAttributes(courseDto);
-
-            // await this.courseRepo.save(currentCourse);
-
-            // const serializeCourse = plainToInstance(CourseSerialize, currentCourse);
-
-            // return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
+            return {meta: {code: 404, msg: 'Id cannot be found in the database'}, data: {}}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -98,33 +83,39 @@ export class CourseService{
 
     async findCourse(courseDto: FindCourseDTO){
         try{
-            const course = await this.courseRepo.find({
-                select: {
-                    id: true,
-                    code: true,
-                    coachId: true,
-                    title: true,
-                    banner: true,
-                    status: true,
-                    level: true,
-                    maxSlot: true,
-                    cost: true,
-                    description: true,
-                },
-                where:  {
-                    title: courseDto.title ? courseDto.title : null,
-                    level: courseDto.level ? courseDto.level : null,
-                    status: courseDto.status ? courseDto.status : null,
-                    maxSlot: courseDto.maxSlot ? courseDto.maxSlot : null,
-                    code: courseDto.code ? courseDto.code : null,
-                    coachId: courseDto.coachId ? courseDto.coachId : null,
-                },
-                skip: courseDto.windowIndex * MAX_NUMBER_COURSE_LOAD,
-                take: MAX_NUMBER_COURSE_LOAD,
-            })
+            const queryBuilder = this.courseRepo.createQueryBuilder('course')
+            const listCourse = await queryBuilder.select()
+                                            .where(
+                                                "course.code LIKE :value",
+                                                {value: courseDto.code ? courseDto.code : '%'}
+                                            )
+                                            .andWhere(
+                                                "course.coachId = :value",
+                                                {value: courseDto.coachId ? courseDto.coachId: null}
+                                            )
+                                            .andWhere(
+                                                "course.maxSlot = :value",
+                                                {value: courseDto.maxSlot ? courseDto.coachId : null}
+                                            )
+                                            .andWhere(
+                                                "course.level = :value",
+                                                {value: courseDto.level ? courseDto.level : '%'}
+                                            )
+                                            .andWhere(
+                                                "course.status = :value",
+                                                {value: courseDto.status ? courseDto.status : '%'}
+                                            )
+                                            .andWhere(
+                                                "course.title = :value",
+                                                {value: courseDto.title ? courseDto.status : '%'}
+                                            )
+                                            .skip(courseDto.windowIndex)
+                                            .take(MAX_NUMBER_COURSE_LOAD)
+                                            .getMany()
             
-            const serializeCourses = plainToInstance(CourseSerialize, course)
-            return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
+            const serializeCourse = plainToInstance(CourseEntity, listCourse)
+
+            return {meta: {code: 200, msg: 'success'}, data: {serializeCourse}}
         }
         catch(error){
             // handle the exception and return an appropriate response
