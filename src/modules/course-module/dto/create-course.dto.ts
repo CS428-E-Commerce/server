@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsDate, IsOptional, IsString } from "class-validator";
 
 export class UpdateCourseDTO{ 
     @ApiProperty()
@@ -90,17 +90,16 @@ export class CreateCourseDTO{
 
 export class CreateSchedulerDTO{
     @ApiProperty()
-    id: number;
-
-    @ApiProperty()
     coachId: number;
 
     @ApiProperty()
     courseId: number;
 
     @ApiProperty()
+    @IsDate()
     startTime: Date;
 
     @ApiProperty()
+    @IsDate()
     endTime: Date;
 }
