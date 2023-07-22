@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { CourseService } from "./course.service";
 import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
-import { FindCourseDTO, GetCourse, Scheduler } from "./dto/find-course.dto";
+import { FindCourseDTO, GetCourse, GetID, Scheduler } from "./dto/find-course.dto";
 
 @Controller('api/courses')
 export class CourseController{
@@ -18,13 +18,13 @@ export class CourseController{
     }
 
     @Post('deleteCourse')
-    async deleteCourse(@Body() getCourse: GetCourse){
-        return this.courseService.deleteCourse(getCourse)
+    async deleteCourse(@Body() getCourseID: GetID){
+        return this.courseService.deleteCourse(getCourseID)
     }
 
-    @Post('updateScheduler')
-    async updateScheduler(@Body() scheduler: CreateSchedulerDTO){
-        return this.courseService.updateScheduler(scheduler);
+    @Post('createScheduler')
+    async createScheduler(@Body() createScheduler: CreateSchedulerDTO){
+        return this.courseService.createScheduler(createScheduler);
     }
 
     @Post('findScheduler')
@@ -33,7 +33,7 @@ export class CourseController{
     }
 
     @Post('deleteScheduler')
-    async deleteScheduler(@Body() scheduler: CreateSchedulerDTO){
-        return this.courseService.deleteScheduler(scheduler)
+    async deleteScheduler(@Body() schedulerID: GetID){
+        return this.courseService.deleteScheduler(schedulerID)
     }
 }
