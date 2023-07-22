@@ -4,7 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Repository } from "typeorm";
 import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
 import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
-import { FindCourseDTO, GetCourse, GetID, Scheduler } from "./dto/find-course.dto";
+import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
 import { plainToInstance } from "class-transformer";
 import { CourseSerialize, SchedulerSerialize } from "@Serialize/index.ts";
 
@@ -23,7 +23,7 @@ export class CourseService{
             
             const serializeCourse = plainToInstance(CourseSerialize, course)
 
-            //UPDATE COACH TcurrentCourseOTAL COURSE
+            //UPDATE COACH TOTAL COURSE
             const coach = await this.coachRepository.findOne({
                 where: {
                     id: course.coachId
@@ -94,40 +94,34 @@ export class CourseService{
 
     async findCourse(courseDto: FindCourseDTO){
         try{
-            const queryBuilder = this.courseRepo.createQueryBuilder('course')
-            //TODO: CHANGE FILTER TYPE
-            const listCourse = await queryBuilder.select()
-                                            .where(
-                                                "course.code LIKE :value",
-                                                {value: courseDto.code ? courseDto.code : null}
-                                            )
-                                            .orWhere(
-                                                "course.coachId = :value",
-                                                {value: courseDto.coachId ? courseDto.coachId: null}
-                                            )
-                                            .orWhere(
-                                                "course.maxSlot = :value",
-                                                {value: courseDto.maxSlot ? courseDto.coachId : null}
-                                            )
-                                            .orWhere(
-                                                "course.level = :value",
-                                                {value: courseDto.level ? courseDto.level : null}
-                                            )
-                                            .orWhere(
-                                                "course.status = :value",
-                                                {value: courseDto.status ? courseDto.status : null}
-                                            )
-                                            .orWhere(
-                                                "course.title = :value",
-                                                {value: courseDto.title ? courseDto.status : null}
-                                            )
-                                            .skip(courseDto.windowIndex)
-                                            .take(MAX_NUMBER_COURSE_LOAD)
-                                            .getMany()
+            // TODO: CHANGE FILTER STYLE
+            const course = await this.courseRepo.find({
+                select: {
+                    id: true,
+                    code: true,
+                    coachId: true,
+                    title: true,
+                    banner: true,
+                    status: true,
+                    level: true,
+                    maxSlot: true,
+                    cost: true,
+                    description: true,
+                },
+                where:  {
+                    title: courseDto.title ? courseDto.title : null,
+                    level: courseDto.level ? courseDto.level : null,
+                    status: courseDto.status ? courseDto.status : null,
+                    maxSlot: courseDto.maxSlot ? courseDto.maxSlot : null,
+                    code: courseDto.code ? courseDto.code : null,
+                    coachId: courseDto.coachId ? courseDto.coachId : null,
+                },
+                skip: courseDto.windowIndex * MAX_NUMBER_COURSE_LOAD,
+                take: MAX_NUMBER_COURSE_LOAD,
+            })
             
-            const serializeCourse = plainToInstance(CourseEntity, listCourse)
-
-            return {meta: {code: 200, msg: 'success'}, data: {serializeCourse}}
+            const serializeCourses = plainToInstance(CourseSerialize, course)
+            return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -170,7 +164,7 @@ export class CourseService{
         }
     }
 
-    async findScheduler(courseSchedule: Scheduler){
+    async findScheduler(courseSchedule: FindScheduler){
         try{
             const scheduler = await this.courseSchedulerRepo.find({
                 select: {

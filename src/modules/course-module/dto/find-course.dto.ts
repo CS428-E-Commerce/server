@@ -36,12 +36,7 @@ export class FindCourseDTO{
     windowIndex: number = 0;
 }
 
-export class GetCourse{
-    @ApiProperty()
-    id: number;
-}
-
-export class Scheduler{
+export class FindScheduler{
     @ApiProperty()
     courseId: number = 0;
 
