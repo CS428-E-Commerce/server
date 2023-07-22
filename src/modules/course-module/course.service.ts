@@ -2,7 +2,7 @@ import { CourseCalendarEntity, CourseEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Not, Repository } from "typeorm";
-import { CreateCourseDTO, CreateSchedulerDTO } from "./dto";
+import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
 import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
 import { FindCourseDTO, GetCourse, Scheduler } from "./dto/find-course.dto";
 import { plainToInstance } from "class-transformer";
@@ -14,32 +14,71 @@ export class CourseService{
                 @InjectRepository(CourseCalendarEntity) private courseSchedulerRepo: Repository<CourseCalendarEntity>,
                 ){}
 
-    async updateCourse(courseDto: CreateCourseDTO){
+    async createCourse(courseDto: CreateCourseDTO){
         try{
-            const currentCourse = await this.courseRepo.findOne({
-                where: {
-                    id: courseDto.id,
-                    deletedAt: IsNull(),
-                }
-            })
-            
-            if (!currentCourse){
-                const course = await this.courseRepo.create(courseDto)
+            const queryBuilder = this.courseRepo.createQueryBuilder('course')
 
-                await this.courseRepo.save(course)
-                
-                const serializeCourse = plainToInstance(CourseSerialize, course)
-                
-                return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
+            queryBuilder.insert()
+                        .into(CourseEntity)
+                        .values(
+                            [
+                                courseDto,
+                            ]
+                        )
+                        .execute()
+
+            return {meta: {code: 200, msg: 'success'}, data: {}}
+        }
+        catch(error){
+            // handle the exception and return an appropriate response
+            if (error instanceof HttpException) {
+                throw error;
+            } else {
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                        message: 'Internal server error',
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                );
             }
+        }
+    }
 
-            currentCourse.updateAttributes(courseDto);
+    async updateCourse(courseDto: UpdateCourseDTO){
+        try{
+            const queryBuilder = this.courseRepo.createQueryBuilder('course')
+            queryBuilder.select()
+                        .from(CourseEntity, 'course')
+                        .where('course.id = :id', {id:courseDto.id})
 
-            await this.courseRepo.save(currentCourse);
 
-            const serializeCourse = plainToInstance(CourseSerialize, currentCourse);
 
-            return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
+
+            // const currentCourse = await this.courseRepo.findOne({
+            //     where: {
+            //         id: courseDto.id,
+            //         deletedAt: IsNull(),
+            //     }
+            // })
+            
+            // if (!currentCourse){
+            //     const course = await this.courseRepo.create(courseDto)
+
+            //     await this.courseRepo.save(course)
+                
+            //     const serializeCourse = plainToInstance(CourseSerialize, course)
+                
+            //     return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
+            // }
+
+            // currentCourse.updateAttributes(courseDto);
+
+            // await this.courseRepo.save(currentCourse);
+
+            // const serializeCourse = plainToInstance(CourseSerialize, currentCourse);
+
+            // return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
         }
         catch(error){
             // handle the exception and return an appropriate response

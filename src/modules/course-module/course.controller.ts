@@ -8,7 +8,7 @@ export class CourseController{
     constructor(private courseService: CourseService){}
 
     @Post('updateCourse')
-    async updateCourse(@Body() courseDto: CreateCourseDTO){
+    async updateCourse(@Body() courseDto: UpdateCourseDTO){
         return this.courseService.updateCourse(courseDto);
     }
 
