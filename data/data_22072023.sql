@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: coach; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: coach; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.coach (
@@ -37,10 +37,10 @@ CREATE TABLE public.coach (
 );
 
 
-ALTER TABLE public.coach OWNER TO tungdo;
+ALTER TABLE public.coach OWNER TO postgres;
 
 --
--- Name: coach_certificate; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: coach_certificate; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.coach_certificate (
@@ -53,10 +53,10 @@ CREATE TABLE public.coach_certificate (
 );
 
 
-ALTER TABLE public.coach_certificate OWNER TO tungdo;
+ALTER TABLE public.coach_certificate OWNER TO postgres;
 
 --
--- Name: coach_certificate_id_seq; Type: SEQUENCE; Schema: public; Owner: tungdo
+-- Name: coach_certificate_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.coach_certificate_id_seq
@@ -68,17 +68,17 @@ CREATE SEQUENCE public.coach_certificate_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.coach_certificate_id_seq OWNER TO tungdo;
+ALTER TABLE public.coach_certificate_id_seq OWNER TO postgres;
 
 --
--- Name: coach_certificate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tungdo
+-- Name: coach_certificate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.coach_certificate_id_seq OWNED BY public.coach_certificate.id;
 
 
 --
--- Name: coach_id_seq; Type: SEQUENCE; Schema: public; Owner: tungdo
+-- Name: coach_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.coach_id_seq
@@ -90,17 +90,17 @@ CREATE SEQUENCE public.coach_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.coach_id_seq OWNER TO tungdo;
+ALTER TABLE public.coach_id_seq OWNER TO postgres;
 
 --
--- Name: coach_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tungdo
+-- Name: coach_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.coach_id_seq OWNED BY public.coach.id;
 
 
 --
--- Name: coach_skill; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: coach_skill; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.coach_skill (
@@ -113,10 +113,10 @@ CREATE TABLE public.coach_skill (
 );
 
 
-ALTER TABLE public.coach_skill OWNER TO tungdo;
+ALTER TABLE public.coach_skill OWNER TO postgres;
 
 --
--- Name: coach_skill_id_seq; Type: SEQUENCE; Schema: public; Owner: tungdo
+-- Name: coach_skill_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.coach_skill_id_seq
@@ -128,17 +128,17 @@ CREATE SEQUENCE public.coach_skill_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.coach_skill_id_seq OWNER TO tungdo;
+ALTER TABLE public.coach_skill_id_seq OWNER TO postgres;
 
 --
--- Name: coach_skill_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tungdo
+-- Name: coach_skill_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.coach_skill_id_seq OWNED BY public.coach_skill.id;
 
 
 --
--- Name: course; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: course; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.course (
@@ -159,10 +159,10 @@ CREATE TABLE public.course (
 );
 
 
-ALTER TABLE public.course OWNER TO tungdo;
+ALTER TABLE public.course OWNER TO postgres;
 
 --
--- Name: course_attendee; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: course_attendee; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.course_attendee (
@@ -175,10 +175,10 @@ CREATE TABLE public.course_attendee (
 );
 
 
-ALTER TABLE public.course_attendee OWNER TO tungdo;
+ALTER TABLE public.course_attendee OWNER TO postgres;
 
 --
--- Name: course_attendee_id_seq; Type: SEQUENCE; Schema: public; Owner: tungdo
+-- Name: course_attendee_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.course_attendee_id_seq
@@ -190,17 +190,17 @@ CREATE SEQUENCE public.course_attendee_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.course_attendee_id_seq OWNER TO tungdo;
+ALTER TABLE public.course_attendee_id_seq OWNER TO postgres;
 
 --
--- Name: course_attendee_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tungdo
+-- Name: course_attendee_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.course_attendee_id_seq OWNED BY public.course_attendee.id;
 
 
 --
--- Name: course_discussion; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: course_discussion; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.course_discussion (
@@ -215,10 +215,10 @@ CREATE TABLE public.course_discussion (
 );
 
 
-ALTER TABLE public.course_discussion OWNER TO tungdo;
+ALTER TABLE public.course_discussion OWNER TO postgres;
 
 --
--- Name: course_discussion_id_seq; Type: SEQUENCE; Schema: public; Owner: tungdo
+-- Name: course_discussion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.course_discussion_id_seq
@@ -230,17 +230,17 @@ CREATE SEQUENCE public.course_discussion_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.course_discussion_id_seq OWNER TO tungdo;
+ALTER TABLE public.course_discussion_id_seq OWNER TO postgres;
 
 --
--- Name: course_discussion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tungdo
+-- Name: course_discussion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.course_discussion_id_seq OWNED BY public.course_discussion.id;
 
 
 --
--- Name: course_id_seq; Type: SEQUENCE; Schema: public; Owner: tungdo
+-- Name: course_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.course_id_seq
@@ -252,17 +252,17 @@ CREATE SEQUENCE public.course_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.course_id_seq OWNER TO tungdo;
+ALTER TABLE public.course_id_seq OWNER TO postgres;
 
 --
--- Name: course_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tungdo
+-- Name: course_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.course_id_seq OWNED BY public.course.id;
 
 
 --
--- Name: course_schedule; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: course_schedule; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.course_schedule (
@@ -277,10 +277,10 @@ CREATE TABLE public.course_schedule (
 );
 
 
-ALTER TABLE public.course_schedule OWNER TO tungdo;
+ALTER TABLE public.course_schedule OWNER TO postgres;
 
 --
--- Name: course_schedule_id_seq; Type: SEQUENCE; Schema: public; Owner: tungdo
+-- Name: course_schedule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.course_schedule_id_seq
@@ -292,17 +292,17 @@ CREATE SEQUENCE public.course_schedule_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.course_schedule_id_seq OWNER TO tungdo;
+ALTER TABLE public.course_schedule_id_seq OWNER TO postgres;
 
 --
--- Name: course_schedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tungdo
+-- Name: course_schedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.course_schedule_id_seq OWNED BY public.course_schedule.id;
 
 
 --
--- Name: migrations; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: migrations; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.migrations (
@@ -312,10 +312,10 @@ CREATE TABLE public.migrations (
 );
 
 
-ALTER TABLE public.migrations OWNER TO tungdo;
+ALTER TABLE public.migrations OWNER TO postgres;
 
 --
--- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: tungdo
+-- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.migrations_id_seq
@@ -327,17 +327,17 @@ CREATE SEQUENCE public.migrations_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.migrations_id_seq OWNER TO tungdo;
+ALTER TABLE public.migrations_id_seq OWNER TO postgres;
 
 --
--- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tungdo
+-- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
 
 
 --
--- Name: user; Type: TABLE; Schema: public; Owner: tungdo
+-- Name: user; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."user" (
@@ -356,66 +356,66 @@ CREATE TABLE public."user" (
 );
 
 
-ALTER TABLE public."user" OWNER TO tungdo;
+ALTER TABLE public."user" OWNER TO postgres;
 
 --
--- Name: coach id; Type: DEFAULT; Schema: public; Owner: tungdo
+-- Name: coach id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.coach ALTER COLUMN id SET DEFAULT nextval('public.coach_id_seq'::regclass);
 
 
 --
--- Name: coach_certificate id; Type: DEFAULT; Schema: public; Owner: tungdo
+-- Name: coach_certificate id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.coach_certificate ALTER COLUMN id SET DEFAULT nextval('public.coach_certificate_id_seq'::regclass);
 
 
 --
--- Name: coach_skill id; Type: DEFAULT; Schema: public; Owner: tungdo
+-- Name: coach_skill id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.coach_skill ALTER COLUMN id SET DEFAULT nextval('public.coach_skill_id_seq'::regclass);
 
 
 --
--- Name: course id; Type: DEFAULT; Schema: public; Owner: tungdo
+-- Name: course id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.course ALTER COLUMN id SET DEFAULT nextval('public.course_id_seq'::regclass);
 
 
 --
--- Name: course_attendee id; Type: DEFAULT; Schema: public; Owner: tungdo
+-- Name: course_attendee id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.course_attendee ALTER COLUMN id SET DEFAULT nextval('public.course_attendee_id_seq'::regclass);
 
 
 --
--- Name: course_discussion id; Type: DEFAULT; Schema: public; Owner: tungdo
+-- Name: course_discussion id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.course_discussion ALTER COLUMN id SET DEFAULT nextval('public.course_discussion_id_seq'::regclass);
 
 
 --
--- Name: course_schedule id; Type: DEFAULT; Schema: public; Owner: tungdo
+-- Name: course_schedule id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.course_schedule ALTER COLUMN id SET DEFAULT nextval('public.course_schedule_id_seq'::regclass);
 
 
 --
--- Name: migrations id; Type: DEFAULT; Schema: public; Owner: tungdo
+-- Name: migrations id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.migrations_id_seq'::regclass);
 
 
 --
--- Data for Name: coach; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: coach; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.coach (id, "userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -424,7 +424,7 @@ COPY public.coach (id, "userId", "totalRate", "rateTurn", "totalStudent", "total
 
 
 --
--- Data for Name: coach_certificate; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: coach_certificate; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.coach_certificate (id, "coachId", certificate, "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -434,7 +434,7 @@ COPY public.coach_certificate (id, "coachId", certificate, "createdAt", "updated
 
 
 --
--- Data for Name: coach_skill; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: coach_skill; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.coach_skill (id, "coachId", skill, "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -444,7 +444,7 @@ COPY public.coach_skill (id, "coachId", skill, "createdAt", "updatedAt", "delete
 
 
 --
--- Data for Name: course; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: course; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.course (id, "coachId", title, banner, status, level, "maxSlot", cost, description, "zoomLink", "createdAt", "updatedAt", "deletedAt", code) FROM stdin;
@@ -452,7 +452,7 @@ COPY public.course (id, "coachId", title, banner, status, level, "maxSlot", cost
 
 
 --
--- Data for Name: course_attendee; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: course_attendee; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.course_attendee (id, "courseId", "userId", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -460,7 +460,7 @@ COPY public.course_attendee (id, "courseId", "userId", "createdAt", "updatedAt",
 
 
 --
--- Data for Name: course_discussion; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: course_discussion; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.course_discussion (id, "courseId", "userId", rate, comment, "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -468,7 +468,7 @@ COPY public.course_discussion (id, "courseId", "userId", rate, comment, "created
 
 
 --
--- Data for Name: course_schedule; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: course_schedule; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.course_schedule (id, "courseId", "coachId", "startTime", "endTime", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -476,7 +476,7 @@ COPY public.course_schedule (id, "courseId", "coachId", "startTime", "endTime", 
 
 
 --
--- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.migrations (id, "timestamp", name) FROM stdin;
@@ -486,7 +486,7 @@ COPY public.migrations (id, "timestamp", name) FROM stdin;
 
 
 --
--- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: tungdo
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public."user" (id, email, phone, password, description, address, avatar, username, role, "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -495,63 +495,63 @@ COPY public."user" (id, email, phone, password, description, address, avatar, us
 
 
 --
--- Name: coach_certificate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
+-- Name: coach_certificate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.coach_certificate_id_seq', 2, true);
 
 
 --
--- Name: coach_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
+-- Name: coach_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.coach_id_seq', 1, true);
 
 
 --
--- Name: coach_skill_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
+-- Name: coach_skill_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.coach_skill_id_seq', 6, true);
 
 
 --
--- Name: course_attendee_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
+-- Name: course_attendee_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.course_attendee_id_seq', 1, false);
 
 
 --
--- Name: course_discussion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
+-- Name: course_discussion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.course_discussion_id_seq', 1, false);
 
 
 --
--- Name: course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
+-- Name: course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.course_id_seq', 1, false);
 
 
 --
--- Name: course_schedule_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
+-- Name: course_schedule_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.course_schedule_id_seq', 1, false);
 
 
 --
--- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
+-- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.migrations_id_seq', 3, true);
 
 
 --
--- Name: course_attendee PK_00f5a34d9f436ad4ee051b5950e; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: course_attendee PK_00f5a34d9f436ad4ee051b5950e; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.course_attendee
@@ -559,7 +559,7 @@ ALTER TABLE ONLY public.course_attendee
 
 
 --
--- Name: coach_certificate PK_44eaa6a70a99530d72200098dfa; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: coach_certificate PK_44eaa6a70a99530d72200098dfa; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.coach_certificate
@@ -567,7 +567,7 @@ ALTER TABLE ONLY public.coach_certificate
 
 
 --
--- Name: course_schedule PK_70befb2f757fc4fbe6aab977f82; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: course_schedule PK_70befb2f757fc4fbe6aab977f82; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.course_schedule
@@ -575,7 +575,7 @@ ALTER TABLE ONLY public.course_schedule
 
 
 --
--- Name: course_discussion PK_84505932df22a87643dc36208ea; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: course_discussion PK_84505932df22a87643dc36208ea; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.course_discussion
@@ -583,7 +583,7 @@ ALTER TABLE ONLY public.course_discussion
 
 
 --
--- Name: migrations PK_8c82d7f526340ab734260ea46be; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: migrations PK_8c82d7f526340ab734260ea46be; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.migrations
@@ -591,7 +591,7 @@ ALTER TABLE ONLY public.migrations
 
 
 --
--- Name: coach_skill PK_bd0e9b3ee9d89415ee3b36614a8; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: coach_skill PK_bd0e9b3ee9d89415ee3b36614a8; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.coach_skill
@@ -599,7 +599,7 @@ ALTER TABLE ONLY public.coach_skill
 
 
 --
--- Name: course PK_bf95180dd756fd204fb01ce4916; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: course PK_bf95180dd756fd204fb01ce4916; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.course
@@ -607,7 +607,7 @@ ALTER TABLE ONLY public.course
 
 
 --
--- Name: coach PK_c2ca0875fe0755b197d0147713d; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: coach PK_c2ca0875fe0755b197d0147713d; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.coach
@@ -615,7 +615,7 @@ ALTER TABLE ONLY public.coach
 
 
 --
--- Name: user PK_cace4a159ff9f2512dd42373760; Type: CONSTRAINT; Schema: public; Owner: tungdo
+-- Name: user PK_cace4a159ff9f2512dd42373760; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."user"
