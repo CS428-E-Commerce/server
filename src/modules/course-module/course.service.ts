@@ -116,8 +116,8 @@ export class CourseService{
                     code: courseDto.code ? courseDto.code : null,
                     coachId: courseDto.coachId ? courseDto.coachId : null,
                 },
-                skip: courseDto.windowIndex * MAX_NUMBER_COURSE_LOAD,
-                take: MAX_NUMBER_COURSE_LOAD,
+                skip: courseDto.offset * courseDto.limit,
+                take: courseDto.limit,
             })
             
             const serializeCourses = plainToInstance(CourseSerialize, course)
@@ -177,7 +177,9 @@ export class CourseService{
                 where: {
                     courseId: courseSchedule.courseId,
                     startTime: courseSchedule.startTime ? courseSchedule.startTime : null,
-                }
+                },
+                skip: courseSchedule.offset * courseSchedule.limit,
+                take: courseSchedule.limit,
             })
 
             const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)

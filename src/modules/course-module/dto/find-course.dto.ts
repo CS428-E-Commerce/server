@@ -16,7 +16,6 @@ export class FindCourseDTO{
     @IsOptional()
     title: string = null;
     
-    
     @ApiProperty()
     @IsString()
     @IsOptional()
@@ -29,11 +28,13 @@ export class FindCourseDTO{
     
     @ApiProperty()
     @IsOptional()
-    
     maxSlot: number = null;
 
     @ApiProperty()
-    windowIndex: number = 0;
+    offset: number = 0;
+
+    @ApiProperty()
+    limit: number = 0;
 }
 
 export class FindScheduler{
@@ -43,6 +44,12 @@ export class FindScheduler{
     @ApiProperty()
     @IsOptional()
     startTime: Date = null;
+
+    @ApiProperty()
+    offset: number = 0;
+
+    @ApiProperty()
+    limit: number = 0;
 }
 
 export class GetID{

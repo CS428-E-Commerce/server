@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { CourseService } from "./course.service";
 import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
 import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
@@ -8,37 +8,37 @@ export class CourseController{
     constructor(private courseService: CourseService){}
 
     @Post('createCourse')
-    createCourse(@Body() courseDto: CreateCourseDTO){
+    async createCourse(@Body() courseDto: CreateCourseDTO){
         return this.courseService.createCourse(courseDto)
     }
 
     @Post('updateCourse')
-    updateCourse(@Body() courseDto: UpdateCourseDTO){
+    async updateCourse(@Body() courseDto: UpdateCourseDTO){
         return this.courseService.updateCourse(courseDto);
     }
 
     @Post('findCourse')
-    findCourse(@Query() FilterCourse: FindCourseDTO){
-        return this.courseService.findCourse(FilterCourse)
+    async findCourse(@Body() findCourseDTO: FindCourseDTO){
+        return this.courseService.findCourse(findCourseDTO)
     }
 
     @Post('deleteCourse')
-    deleteCourse(@Body() getCourseID: GetID){
+    async deleteCourse(@Body() getCourseID: GetID){
         return this.courseService.deleteCourse(getCourseID)
     }
 
     @Post('createScheduler')
-    createScheduler(@Body() createScheduler: CreateSchedulerDTO){
+    async createScheduler(@Body() createScheduler: CreateSchedulerDTO){
         return this.courseService.createScheduler(createScheduler);
     }
 
     @Post('findScheduler')
-    findScheduler(@Body() scheduler: FindScheduler){
+    async findScheduler(@Body() scheduler: FindScheduler){
         return this.courseService.findScheduler(scheduler)
     }
 
     @Post('deleteScheduler')
-    deleteScheduler(@Body() schedulerID: GetID){
+    async deleteScheduler(@Body() schedulerID: GetID){
         return this.courseService.deleteScheduler(schedulerID)
     }
 }
