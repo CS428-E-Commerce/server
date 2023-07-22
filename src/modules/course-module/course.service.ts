@@ -84,30 +84,31 @@ export class CourseService{
     async findCourse(courseDto: FindCourseDTO){
         try{
             const queryBuilder = this.courseRepo.createQueryBuilder('course')
+            //TODO: CHANGE FILTER TYPE
             const listCourse = await queryBuilder.select()
                                             .where(
                                                 "course.code LIKE :value",
-                                                {value: courseDto.code ? courseDto.code : '%'}
+                                                {value: courseDto.code ? courseDto.code : null}
                                             )
-                                            .andWhere(
+                                            .orWhere(
                                                 "course.coachId = :value",
                                                 {value: courseDto.coachId ? courseDto.coachId: null}
                                             )
-                                            .andWhere(
+                                            .orWhere(
                                                 "course.maxSlot = :value",
                                                 {value: courseDto.maxSlot ? courseDto.coachId : null}
                                             )
-                                            .andWhere(
+                                            .orWhere(
                                                 "course.level = :value",
-                                                {value: courseDto.level ? courseDto.level : '%'}
+                                                {value: courseDto.level ? courseDto.level : null}
                                             )
-                                            .andWhere(
+                                            .orWhere(
                                                 "course.status = :value",
-                                                {value: courseDto.status ? courseDto.status : '%'}
+                                                {value: courseDto.status ? courseDto.status : null}
                                             )
-                                            .andWhere(
+                                            .orWhere(
                                                 "course.title = :value",
-                                                {value: courseDto.title ? courseDto.status : '%'}
+                                                {value: courseDto.title ? courseDto.status : null}
                                             )
                                             .skip(courseDto.windowIndex)
                                             .take(MAX_NUMBER_COURSE_LOAD)
@@ -200,6 +201,16 @@ export class CourseService{
         }
     }
 
+    async createScheduler(createScheduler: CreateCourseDTO){
+        const scheduler = await this.courseSchedulerRepo.create(createScheduler)
+
+        await this.courseSchedulerRepo.save(scheduler)
+        
+        const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
+        
+        return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
+    }
+
     async updateScheduler(createScheduler: CreateSchedulerDTO){
         try{
             const currentScheduler = await this.courseSchedulerRepo.findOne({
@@ -208,15 +219,9 @@ export class CourseService{
                     deletedAt: IsNull(),
                 }
             })
-            
-            if (!currentScheduler){
-                const scheduler = await this.courseSchedulerRepo.create(createScheduler)
 
-                await this.courseSchedulerRepo.save(scheduler)
-                
-                const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
-                
-                return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
+            if (!currentScheduler){
+                return {meta: {code: 404, msg: 'scheduler not found'}, data: {}}
             }
 
             currentScheduler.updateAttributes(createScheduler);
