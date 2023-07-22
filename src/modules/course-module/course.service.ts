@@ -1,7 +1,7 @@
 import { CoachEntity, CourseCalendarEntity, CourseEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { IsNull, Repository } from "typeorm";
+import { IsNull, Not, Repository } from "typeorm";
 import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
 import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
 import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
@@ -18,8 +18,6 @@ export class CourseService{
         try{
             //CREATE NEW COURSE
             const course = await this.courseRepo.create(coursedto)
-
-            await this.courseRepo.save(course)
             
             const serializeCourse = plainToInstance(CourseSerialize, course)
 
@@ -39,6 +37,8 @@ export class CourseService{
 
             coach.totalCourse += 1
 
+            //COMMIT CHANGE
+            await this.courseRepo.save(course)
             await this.courseRepo.save(coach);
 
             return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
@@ -94,33 +94,24 @@ export class CourseService{
 
     async findCourse(courseDto: FindCourseDTO){
         try{
-            // TODO: CHANGE FILTER STYLE
-            const course = await this.courseRepo.find({
-                select: {
-                    id: true,
-                    code: true,
-                    coachId: true,
-                    title: true,
-                    banner: true,
-                    status: true,
-                    level: true,
-                    maxSlot: true,
-                    cost: true,
-                    description: true,
-                },
-                where:  {
-                    title: courseDto.title ? courseDto.title : null,
-                    level: courseDto.level ? courseDto.level : null,
-                    status: courseDto.status ? courseDto.status : null,
-                    maxSlot: courseDto.maxSlot ? courseDto.maxSlot : null,
-                    code: courseDto.code ? courseDto.code : null,
-                    coachId: courseDto.coachId ? courseDto.coachId : null,
-                },
-                skip: courseDto.offset * courseDto.limit,
-                take: courseDto.limit,
-            })
+            const {code, coachId, status, level, offset, limit} = courseDto
+
+            const queryBuilder = this.courseRepo.createQueryBuilder('course')
+
+            const listCourse = await queryBuilder.select()
+                        .where(
+                            {
+                                level: level ? level : Not(IsNull()),
+                                status: status ? status : Not(IsNull()),
+                                code: code ? code : Not(IsNull()),
+                                coachId: coachId ? coachId : Not(IsNull()),
+                            }
+                        )
+                        .offset(offset)
+                        .take(limit)
+                        .getMany()
             
-            const serializeCourses = plainToInstance(CourseSerialize, course)
+            const serializeCourses = plainToInstance(CourseSerialize, listCourse)
             return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
         }
         catch(error){
@@ -166,23 +157,22 @@ export class CourseService{
 
     async findScheduler(courseSchedule: FindScheduler){
         try{
-            const scheduler = await this.courseSchedulerRepo.find({
-                select: {
-                    id: true,
-                    coachId: true,
-                    courseId: true,
-                    startTime: true,
-                    endTime: true,
-                },
-                where: {
-                    courseId: courseSchedule.courseId,
-                    startTime: courseSchedule.startTime ? courseSchedule.startTime : null,
-                },
-                skip: courseSchedule.offset * courseSchedule.limit,
-                take: courseSchedule.limit,
-            })
+            const {courseId, startTime, offset, limit} = courseSchedule
 
-            const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
+            const queryBuilder = this.courseRepo.createQueryBuilder('course_schedule')
+
+            const listSchedule = await queryBuilder.select()
+                        .where(
+                            {
+                                courseId: courseId ? courseId : Not(IsNull()),
+                                startTime: startTime ? startTime : Not(IsNull()),
+                            }
+                        )
+                        .offset(offset)
+                        .take(limit)
+                        .getMany()
+
+            const serializeScheduler = plainToInstance(SchedulerSerialize, listSchedule)
 
             return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
         }

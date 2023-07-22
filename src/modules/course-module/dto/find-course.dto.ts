@@ -14,21 +14,12 @@ export class FindCourseDTO{
     @ApiProperty()
     @IsString()
     @IsOptional()
-    title: string = null;
-    
-    @ApiProperty()
-    @IsString()
-    @IsOptional()
     status: string = null;
     
     @ApiProperty()
     @IsString()
     @IsOptional()
     level: string = null;
-    
-    @ApiProperty()
-    @IsOptional()
-    maxSlot: number = null;
 
     @ApiProperty()
     offset: number = 0;
