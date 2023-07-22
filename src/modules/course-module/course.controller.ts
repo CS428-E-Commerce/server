@@ -7,37 +7,37 @@ import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
 export class CourseController{
     constructor(private courseService: CourseService){}
 
-    @Post('createCourse')
+    @Post('create')
     async createCourse(@Body() courseDto: CreateCourseDTO){
         return this.courseService.createCourse(courseDto)
     }
 
-    @Post('updateCourse')
+    @Post('update')
     async updateCourse(@Body() courseDto: UpdateCourseDTO){
         return this.courseService.updateCourse(courseDto);
     }
 
-    @Get('findCourse')
+    @Get('/')
     async findCourse(@Query() findCourseDTO: FindCourseDTO){
         return this.courseService.findCourse(findCourseDTO)
     }
 
-    @Post('deleteCourse')
+    @Post('delete')
     async deleteCourse(@Body() getCourseID: GetID){
         return this.courseService.deleteCourse(getCourseID)
     }
 
-    @Post('createScheduler')
+    @Post('schedule/create')
     async createScheduler(@Body() createScheduler: CreateSchedulerDTO){
         return this.courseService.createScheduler(createScheduler);
     }
 
-    @Get('findScheduler')
+    @Get('schedule')
     async findScheduler(@Query() scheduler: FindScheduler){
         return this.courseService.findScheduler(scheduler)
     }
 
-    @Post('deleteScheduler')
+    @Post('scedule/delete')
     async deleteScheduler(@Body() schedulerID: GetID){
         return this.courseService.deleteScheduler(schedulerID)
     }
