@@ -41,21 +41,25 @@ export class CoachSerialize {
     @Expose()
     @ApiProperty()
     @IsNumber()
+    @Type(() => Number)
     totalRate: number;
 
     @Expose()
     @ApiProperty()
     @IsNumber()
+    @Type(() => Number)
     rateTurn: number;
 
     @Expose()
     @ApiProperty()
     @IsNumber()
+    @Type(() => Number)
     totalStudent: number;
 
     @Expose()
     @ApiProperty()
     @IsNumber()
+    @Type(() => Number)
     totalCourse: number;
 
     @Expose()
