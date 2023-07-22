@@ -1,11 +1,17 @@
 import { Controller, Module } from "@nestjs/common";
-import { CoachController } from "./coach.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
+
+// Controller
+import { CoachController } from "./coach.controller";
+
+// Service
 import { CoachService } from "./coach.service";
-import { CoachEntity, UserEntity } from "@Entites/index.ts";
+
+// Entities
+import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, UserEntity } from "@Entites/index.ts";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CoachEntity, UserEntity])],
+    imports: [TypeOrmModule.forFeature([CoachEntity, UserEntity, CoachSkillEntity, CoachCertificateEntity])],
     controllers: [CoachController],
     providers: [CoachService]
 })
