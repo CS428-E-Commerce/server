@@ -19,7 +19,7 @@ export class CoachService {
 
     async findAll(filterParams: FilterCoachDto) {
         try {
-            const { offset, limit, name } = filterParams;
+            const { offset, limit, name, sortBy, direction } = filterParams;
 
             const queryBuilder = this._coachRepository.createQueryBuilder('coach');
 
@@ -33,12 +33,24 @@ export class CoachService {
                 queryBuilder.andWhere('user.username LIKE :fullName', { fullName: `%${name}%` });
             }
 
+            if(sortBy && direction){
+                if(sortBy === 'totalRate') {
+                    queryBuilder.addOrderBy(`coach.${sortBy}`, direction);   
+                } else {
+                    queryBuilder.addOrderBy(`user.${sortBy}`, direction);
+                }
+            }
+
+            const totalRecords = await queryBuilder.getCount();
+            const totalPage = Math.ceil(totalRecords / limit);
+
             const listCoach = await queryBuilder.skip(offset).take(limit).getMany();
+
 
             const serializeCoachInfo = plainToInstance(CoachSerialize, listCoach);
 
 
-            return { meta: { code: 200, message: 'success' }, data: serializeCoachInfo };
+            return { meta: { code: 200, message: 'success', total: totalPage }, data: serializeCoachInfo };
         } catch (error) {
             // handle the exception and return an appropriate response
             if (error instanceof HttpException) {

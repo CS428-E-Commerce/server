@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.6 (Homebrew)
--- Dumped by pg_dump version 14.6 (Homebrew)
+-- Dumped from database version 15.2 (Debian 15.2-1.pgdg110+1)
+-- Dumped by pg_dump version 15.2 (Debian 15.2-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -420,6 +420,10 @@ ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.m
 
 COPY public.coach (id, "userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "createdAt", "updatedAt", "deletedAt") FROM stdin;
 1	7dc5d904-b58e-4c49-ad6e-3a9e035c5ea9	2.8	\N	12013	1	2023-07-19 16:03:32.842386	2023-07-19 16:03:32.842386	\N
+2	48b71d9c-33d1-4575-bf92-7fabaa812e4d	3.5	\N	123	1	2023-07-23 15:26:37.646233	2023-07-23 15:26:37.646233	\N
+3	8a26fc03-af65-4ab7-8ae2-233ed21d879b	4	\N	5677	1	2023-07-23 15:29:03.739931	2023-07-23 15:29:03.739931	\N
+4	7617de5f-3f39-4648-b6fc-fba852620eae	5	\N	341	1	2023-07-23 15:42:07.114088	2023-07-23 15:42:07.114088	\N
+5	350fc119-f7fa-4347-bfd0-3b2a7e721849	3.8	\N	456	1	2023-07-23 15:43:29.1796	2023-07-23 15:43:29.1796	\N
 \.
 
 
@@ -430,6 +434,12 @@ COPY public.coach (id, "userId", "totalRate", "rateTurn", "totalStudent", "total
 COPY public.coach_certificate (id, "coachId", certificate, "createdAt", "updatedAt", "deletedAt") FROM stdin;
 1	1	NLTV	2023-07-22 09:56:16.207437	2023-07-22 09:56:16.207437	\N
 2	1	IELTS	2023-07-22 09:56:16.217606	2023-07-22 09:56:16.217606	\N
+3	2	NLTV	2023-07-23 15:27:28.577782	2023-07-23 15:27:28.577782	\N
+4	2	IELTS	2023-07-23 15:27:28.59448	2023-07-23 15:27:28.59448	\N
+5	3	NLTV	2023-07-23 15:29:24.632599	2023-07-23 15:29:24.632599	\N
+6	3	IELTS	2023-07-23 15:29:24.653204	2023-07-23 15:29:24.653204	\N
+7	4	NLTV	2023-07-23 15:43:20.574761	2023-07-23 15:43:20.574761	\N
+8	5	NLTV	2023-07-23 15:44:09.399858	2023-07-23 15:44:09.399858	\N
 \.
 
 
@@ -440,6 +450,12 @@ COPY public.coach_certificate (id, "coachId", certificate, "createdAt", "updated
 COPY public.coach_skill (id, "coachId", skill, "createdAt", "updatedAt", "deletedAt") FROM stdin;
 5	1	Grammar	2023-07-22 09:56:16.211023	2023-07-22 09:56:16.211023	\N
 6	1	Lexical	2023-07-22 09:56:16.211839	2023-07-22 09:56:16.211839	\N
+7	2	Grammar	2023-07-23 15:27:28.591126	2023-07-23 15:27:28.591126	\N
+8	3	Grammar	2023-07-23 15:29:24.650644	2023-07-23 15:29:24.650644	\N
+9	4	Conservation	2023-07-23 15:43:20.590974	2023-07-23 15:43:20.590974	\N
+10	4	Vocab	2023-07-23 15:43:20.591548	2023-07-23 15:43:20.591548	\N
+11	5	Vocab	2023-07-23 15:44:09.447223	2023-07-23 15:44:09.447223	\N
+12	5	Grammar	2023-07-23 15:44:09.457084	2023-07-23 15:44:09.457084	\N
 \.
 
 
@@ -491,6 +507,10 @@ COPY public.migrations (id, "timestamp", name) FROM stdin;
 
 COPY public."user" (id, email, phone, password, description, address, avatar, username, role, "createdAt", "updatedAt", "deletedAt") FROM stdin;
 7dc5d904-b58e-4c49-ad6e-3a9e035c5ea9	support@vietlist.com	2493211239	$2b$10$gFd6Aw/LnvIcxN2Rd.KpteS7ftBCIUAShFk4kd8feSHETsRtcB/J2	Enthusiasm with VietLish	\N	\N	Jack David	COACH	2023-07-19 16:03:32.864468	2023-07-19 16:03:32.864468	\N
+48b71d9c-33d1-4575-bf92-7fabaa812e4d	user@vietlist.com	2493211239	$2b$10$EgA5CZimIJ0v.DFTCytN1uQTZMERfIjFdhgKmYL5jp8xUHr81FWEK	Enthusiasm with VietLish	\N	\N	Jack Tommy	COACH	2023-07-23 15:26:37.678941	2023-07-23 15:26:37.678941	\N
+8a26fc03-af65-4ab7-8ae2-233ed21d879b	user2@vietlist.com	2493211239	$2b$10$ZOknRDcHnGZS3wZekw65OOjZkRgfk2hwO3/g2H3gd4jBw16lz6CFy	Enthusiasm with VietLish	\N	\N	David Michael	COACH	2023-07-23 15:29:03.758458	2023-07-23 15:29:03.758458	\N
+7617de5f-3f39-4648-b6fc-fba852620eae	user3@vietlist.com	2495969771	$2b$10$ONASezRHq6STTHXdubm38uzATLwjdmZn7FuYXoZ5O5W0tygSXTQEO	Enthusiasm with VietLish	\N	\N	Annie Mason	COACH	2023-07-23 15:42:07.141179	2023-07-23 15:42:07.141179	\N
+350fc119-f7fa-4347-bfd0-3b2a7e721849	user4@vietlist.com	2495969777	$2b$10$yadzVHEckxe967wdL6NCCuY4AsjGbr1I/s3.MG51Q2I1w5XwVMv5W	Enthusiasm with VietLish	\N	\N	Tyler Swift	COACH	2023-07-23 15:43:29.18898	2023-07-23 15:43:29.18898	\N
 \.
 
 
@@ -498,21 +518,21 @@ COPY public."user" (id, email, phone, password, description, address, avatar, us
 -- Name: coach_certificate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.coach_certificate_id_seq', 2, true);
+SELECT pg_catalog.setval('public.coach_certificate_id_seq', 8, true);
 
 
 --
 -- Name: coach_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.coach_id_seq', 1, true);
+SELECT pg_catalog.setval('public.coach_id_seq', 5, true);
 
 
 --
 -- Name: coach_skill_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.coach_skill_id_seq', 6, true);
+SELECT pg_catalog.setval('public.coach_skill_id_seq', 12, true);
 
 
 --

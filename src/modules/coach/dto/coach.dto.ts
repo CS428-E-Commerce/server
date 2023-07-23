@@ -1,5 +1,6 @@
+import { ESORT_DIRECTION } from "@Constants/index.ts";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class FilterCoachDto {
     @ApiProperty()
@@ -14,6 +15,16 @@ export class FilterCoachDto {
     @IsOptional()
     @IsString()
     name: string;
+
+    @ApiProperty()
+    @IsOptional()
+    @IsString()
+    sortBy: string;
+
+    @ApiProperty()
+    @IsOptional()
+    @IsEnum(ESORT_DIRECTION)
+    direction: ESORT_DIRECTION;
 }
 
 export class UpdateCoachDto {

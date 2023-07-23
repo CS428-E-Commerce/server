@@ -6,3 +6,8 @@ export enum ROLE_USER {
     STUDENT = "STUDENT",
     ADMIN = "ADMIN"
 }
+
+export enum ESORT_DIRECTION {
+    ASC = "ASC",
+    DSC = "DESC"
+}

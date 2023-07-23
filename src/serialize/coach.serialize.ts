@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Exclude, Expose, Type } from "class-transformer";
 import { IsNumber, IsString } from "class-validator";
 import { UserSerialize } from "./user.serialize";
+import { CourseSerialize } from "./course.serialize";
 
 
 @Exclude()
@@ -77,4 +78,9 @@ export class CoachSerialize {
     @ApiProperty()
     @Type(() => CoachSkillSerialize)
     skills: CoachSkillSerialize[];
+
+    @Expose()
+    @ApiProperty()
+    @Type(() => CourseSerialize)
+    courses: CourseSerialize[];
 }
