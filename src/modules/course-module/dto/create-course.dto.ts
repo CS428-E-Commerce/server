@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpdateCourseDTO{ 
+export class UpdateCourseDTO{ 
     @ApiProperty()
     id: number;
 

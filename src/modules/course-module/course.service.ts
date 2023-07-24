@@ -61,20 +61,18 @@ export class CourseService{
 
     async updateCourse(courseDto: UpdateCourseDTO){
         try{
-            const currentCourse = await this.courseRepo.findOne({
-                where: {
-                    id: courseDto.id,
-                    deletedAt: IsNull(),
-                }
-            })
-            
-            if (!currentCourse){                
-                throw new NotFoundException(
-                    "Course is not found"
-                )
-            }
+            const queryBuilder = this.courseRepo.createQueryBuilder('course')
 
-            return {meta: {code: 404, msg: 'Id cannot be found in the database'}, data: {}}
+            queryBuilder.insert()
+                        .into(CourseEntity)
+                        .values(
+                            [
+                                courseDto,
+                            ]
+                        )
+                        .execute()
+
+            return {meta: {code: 200, msg: 'success'}, data: {}}
         }
         catch(error){
             // handle the exception and return an appropriate response
