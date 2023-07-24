@@ -58,6 +58,8 @@ services:
       - '80:80'
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./localhost.crt:/etc/nginx/ssl-certificate/localhost.crt
+      - ./localhost.key:/etc/nginx/ssl-certificate/localhost.key
     depends_on:
       - app
     networks:

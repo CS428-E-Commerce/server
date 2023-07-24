@@ -1,10 +1,10 @@
 import { CoachEntity, CourseCalendarEntity, CourseEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { IsNull, Repository } from "typeorm";
+import { IsNull, Not, Repository } from "typeorm";
 import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
 import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
-import { FindCourseDTO, GetCourse, GetID, Scheduler } from "./dto/find-course.dto";
+import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
 import { plainToInstance } from "class-transformer";
 import { CourseSerialize, SchedulerSerialize } from "@Serialize/index.ts";
 
@@ -18,12 +18,10 @@ export class CourseService{
         try{
             //CREATE NEW COURSE
             const course = await this.courseRepo.create(coursedto)
-
-            await this.courseRepo.save(course)
             
             const serializeCourse = plainToInstance(CourseSerialize, course)
 
-            //UPDATE COACH TcurrentCourseOTAL COURSE
+            //UPDATE COACH TOTAL COURSE
             const coach = await this.coachRepository.findOne({
                 where: {
                     id: course.coachId
@@ -39,6 +37,8 @@ export class CourseService{
 
             coach.totalCourse += 1
 
+            //COMMIT CHANGE
+            await this.courseRepo.save(course)
             await this.courseRepo.save(coach);
 
             return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
@@ -74,13 +74,7 @@ export class CourseService{
                 )
             }
 
-            currentCourse.updateAttributes(courseDto);
-
-            await this.courseRepo.save(currentCourse);
-
-            const serializeCourse = plainToInstance(CourseSerialize, currentCourse);
-
-            return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
+            return {meta: {code: 404, msg: 'Id cannot be found in the database'}, data: {}}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -100,32 +94,24 @@ export class CourseService{
 
     async findCourse(courseDto: FindCourseDTO){
         try{
-            const course = await this.courseRepo.find({
-                select: {
-                    id: true,
-                    code: true,
-                    coachId: true,
-                    title: true,
-                    banner: true,
-                    status: true,
-                    level: true,
-                    maxSlot: true,
-                    cost: true,
-                    description: true,
-                },
-                where:  {
-                    title: courseDto.title ? courseDto.title : null,
-                    level: courseDto.level ? courseDto.level : null,
-                    status: courseDto.status ? courseDto.status : null,
-                    maxSlot: courseDto.maxSlot ? courseDto.maxSlot : null,
-                    code: courseDto.code ? courseDto.code : null,
-                    coachId: courseDto.coachId ? courseDto.coachId : null,
-                },
-                skip: courseDto.windowIndex * MAX_NUMBER_COURSE_LOAD,
-                take: MAX_NUMBER_COURSE_LOAD,
-            })
+            const {code, coachId, status, level, offset, limit} = courseDto
+
+            const queryBuilder = this.courseRepo.createQueryBuilder('course')
+
+            const listCourse = await queryBuilder.select()
+                        .where(
+                            {
+                                level: level ? level : Not(IsNull()),
+                                status: status ? status : Not(IsNull()),
+                                code: code ? code : Not(IsNull()),
+                                coachId: coachId ? coachId : Not(IsNull()),
+                            }
+                        )
+                        .offset(offset)
+                        .take(limit)
+                        .getMany()
             
-            const serializeCourses = plainToInstance(CourseSerialize, course)
+            const serializeCourses = plainToInstance(CourseSerialize, listCourse)
             return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
         }
         catch(error){
@@ -147,11 +133,7 @@ export class CourseService{
     async deleteCourse(courseId: GetID){
         try{
             const course = await this.courseRepo.delete({
-                id: courseId.id,
-            })
-
-            await this.courseSchedulerRepo.delete({
-                courseId: courseId.id
+                id: courseId.id
             })
             
             const serializeCourses = plainToInstance(CourseSerialize, course)
@@ -173,23 +155,24 @@ export class CourseService{
         }
     }
 
-    async findScheduler(courseSchedule: Scheduler){
+    async findScheduler(courseSchedule: FindScheduler){
         try{
-            const scheduler = await this.courseSchedulerRepo.find({
-                select: {
-                    id: true,
-                    coachId: true,
-                    courseId: true,
-                    startTime: true,
-                    endTime: true,
-                },
-                where: {
-                    courseId: courseSchedule.courseId,
-                    startTime: courseSchedule.startTime ? courseSchedule.startTime : null,
-                }
-            })
+            const {courseId, startTime, offset, limit} = courseSchedule
 
-            const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
+            const queryBuilder = this.courseRepo.createQueryBuilder('course_schedule')
+
+            const listSchedule = await queryBuilder.select()
+                        .where(
+                            {
+                                courseId: courseId ? courseId : Not(IsNull()),
+                                startTime: startTime ? startTime : Not(IsNull()),
+                            }
+                        )
+                        .offset(offset)
+                        .take(limit)
+                        .getMany()
+
+            const serializeScheduler = plainToInstance(SchedulerSerialize, listSchedule)
 
             return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
         }

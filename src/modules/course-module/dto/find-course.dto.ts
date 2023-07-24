@@ -14,40 +14,33 @@ export class FindCourseDTO{
     @ApiProperty()
     @IsString()
     @IsOptional()
-    title: string = null;
-    
-    
-    @ApiProperty()
-    @IsString()
-    @IsOptional()
     status: string = null;
     
     @ApiProperty()
     @IsString()
     @IsOptional()
     level: string = null;
-    
-    @ApiProperty()
-    @IsOptional()
-    
-    maxSlot: number = null;
 
     @ApiProperty()
-    windowIndex: number = 0;
+    offset: number = 0;
+
+    @ApiProperty()
+    limit: number = 0;
 }
 
-export class GetCourse{
-    @ApiProperty()
-    id: number;
-}
-
-export class Scheduler{
+export class FindScheduler{
     @ApiProperty()
     courseId: number = 0;
 
     @ApiProperty()
     @IsOptional()
     startTime: Date = null;
+
+    @ApiProperty()
+    offset: number = 0;
+
+    @ApiProperty()
+    limit: number = 0;
 }
 
 export class GetID{
