@@ -147,7 +147,11 @@ export class CourseService{
     async deleteCourse(courseId: GetID){
         try{
             const course = await this.courseRepo.delete({
-                id: courseId.id
+                id: courseId.id,
+            })
+
+            await this.courseSchedulerRepo.delete({
+                courseId: courseId.id
             })
             
             const serializeCourses = plainToInstance(CourseSerialize, course)
@@ -171,7 +175,14 @@ export class CourseService{
 
     async findScheduler(courseSchedule: Scheduler){
         try{
-            const scheduler = this.courseSchedulerRepo.find({
+            const scheduler = await this.courseSchedulerRepo.find({
+                select: {
+                    id: true,
+                    coachId: true,
+                    courseId: true,
+                    startTime: true,
+                    endTime: true,
+                },
                 where: {
                     courseId: courseSchedule.courseId,
                     startTime: courseSchedule.startTime ? courseSchedule.startTime : null,
