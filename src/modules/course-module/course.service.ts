@@ -16,32 +16,34 @@ export class CourseService{
                 ){}
     async createCourse(coursedto: CreateCourseDTO){
         try{
-            //CREATE NEW COURSE
+            // Create new course
             const course = await this.courseRepo.create(coursedto)
             
             const serializeCourse = plainToInstance(CourseSerialize, course)
 
-            //UPDATE COACH TOTAL COURSE
+            // Find coach of the course
             const coach = await this.coachRepository.findOne({
                 where: {
                     id: course.coachId
                 }
             })
 
-            // RAISE ERROR IF COACH IS NOT EXISTED
+            // Check is coach is existed or not
             if (!coach){
                 throw new NotFoundException(
                     "Coach of this course is not found"
                 )
             }
 
+            // If coach is existed, update totalCourse of the coach
             coach.totalCourse += 1
 
-            //COMMIT CHANGE
+            // Commit change to database
             await this.courseRepo.save(course)
             await this.courseRepo.save(coach);
 
-            return {meta: {code: 200, msg: 'success'}, data: serializeCourse}
+            // Return data
+            return {meta: {code: HttpStatus.OK, msg: 'success'}, data: serializeCourse}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -61,18 +63,30 @@ export class CourseService{
 
     async updateCourse(courseDto: UpdateCourseDTO){
         try{
-            const queryBuilder = this.courseRepo.createQueryBuilder('course')
+            // Get the course by ID
+            const course = await this.courseRepo.findOne({
+                where: {
+                    id: courseDto.id
+                }
+            });
 
-            queryBuilder.insert()
-                        .into(CourseEntity)
-                        .values(
-                            [
-                                courseDto,
-                            ]
-                        )
-                        .execute()
+            // Check if the given ID exists
+            if (!course) {
+                throw new HttpException(
+                {
+                    statusCode: HttpStatus.NOT_FOUND,
+                    message: 'Course not found',
+                },
+                HttpStatus.NOT_FOUND,
+                );
+            }
 
-            return {meta: {code: 200, msg: 'success'}, data: {}}
+            // Update course with new data
+            const updatedCourse = { ...course, ...courseDto };
+            await this.courseRepo.save(updatedCourse);
+
+            // Return data if success
+            return { meta: { code: HttpStatus.OK, msg: 'success' }, data: updatedCourse };
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -92,14 +106,16 @@ export class CourseService{
 
     async findCourse(courseDto: FindCourseDTO){
         try{
+            // Get data from user's input
             const {code, coachId, status, level, offset, limit} = courseDto
 
             const queryBuilder = this.courseRepo.createQueryBuilder('course')
 
+            // Query to find course from the database
             const listCourse = await queryBuilder.select()
                         .where(
-                            {
-                                level: level ? level : Not(IsNull()),
+                            { // And filter
+                                level: level ? level : Not(IsNull()), // If level is not null => find course with level, if it is null, ignore the level
                                 status: status ? status : Not(IsNull()),
                                 code: code ? code : Not(IsNull()),
                                 coachId: coachId ? coachId : Not(IsNull()),
@@ -109,8 +125,9 @@ export class CourseService{
                         .take(limit)
                         .getMany()
             
+            // Return data
             const serializeCourses = plainToInstance(CourseSerialize, listCourse)
-            return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
+            return {meta: {code: HttpStatus.OK, msg: 'success'}, data: serializeCourses}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -130,12 +147,13 @@ export class CourseService{
 
     async deleteCourse(courseId: GetID){
         try{
+            // Delete the course with id
+            // If the course is not existed => ignore
             const course = await this.courseRepo.delete({
                 id: courseId.id
             })
             
-            const serializeCourses = plainToInstance(CourseSerialize, course)
-            return {meta: {code: 200, msg: 'success'}, data: serializeCourses}
+            return {meta: {code: HttpStatus.OK, msg: 'success'}, data: {}}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -155,24 +173,27 @@ export class CourseService{
 
     async findScheduler(courseSchedule: FindScheduler){
         try{
+            // Get input from user
             const {courseId, startTime, offset, limit} = courseSchedule
 
+            // Find schedule with courseId and start time
             const queryBuilder = this.courseRepo.createQueryBuilder('course_schedule')
 
             const listSchedule = await queryBuilder.select()
                         .where(
                             {
-                                courseId: courseId ? courseId : Not(IsNull()),
-                                startTime: startTime ? startTime : Not(IsNull()),
+                                courseId: courseId, // must differ from null
+                                startTime: startTime ? startTime : Not(IsNull()), // if startTime is null then find all startTimer != null, else, find with startTime
                             }
                         )
                         .offset(offset)
                         .take(limit)
                         .getMany()
 
+            // Return data
             const serializeScheduler = plainToInstance(SchedulerSerialize, listSchedule)
 
-            return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
+            return {meta: {code: HttpStatus.OK, msg: 'success'}, data: serializeScheduler}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -194,12 +215,14 @@ export class CourseService{
 
     async createScheduler(createScheduler: CreateSchedulerDTO){
         try{
+            // Create new schedule with dto
             const scheduler = await this.courseSchedulerRepo.create(createScheduler)
 
+            // Commit change
             await this.courseSchedulerRepo.save(scheduler)
             
+            // Return data
             const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
-            
             return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
         }
         catch(error){
@@ -222,12 +245,13 @@ export class CourseService{
 
     async deleteScheduler(schedulerId: GetID){
         try{
+            // Delete schedule with id if it is existed
             const scheduler = await this.courseSchedulerRepo.delete({
                 id: schedulerId.id,
             })
             
-            const serializeScheduler = plainToInstance(SchedulerSerialize, scheduler)
-            return {meta: {code: 200, msg: 'success'}, data: serializeScheduler}
+            // Return if success
+            return {meta: {code: 200, msg: 'success'}, data: {}}
         }
         catch(error){
             // handle the exception and return an appropriate response
