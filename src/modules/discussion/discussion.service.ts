@@ -1,17 +1,14 @@
-import { CourseEntity, UserEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { CourseDiscussion } from "src/entities/discussion.entity";
-import { IsNull, Not, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { CreateDiscussionDTO, FindDiscussionsDTO } from "./dto/discussion.dto";
 import { plainToInstance } from "class-transformer";
-import { DiscussionSerialize } from "src/serialize/discussion.serialize";
+import { CourseDiscussion } from "@Entites/index.ts";
+import { DiscussionSerialize } from "@Serialize/index.ts";
 
 @Injectable()
 export class DiscussionService{
     constructor(@InjectRepository(CourseDiscussion) private courseDiscussion: Repository<CourseDiscussion>,
-                @InjectRepository(CourseEntity) private courseEntity: Repository<CourseEntity>,
-                @InjectRepository(UserEntity) private userEntity: Repository<UserEntity>,
                 ){}
 
     async createDiscussion(createDiscussionDTO: CreateDiscussionDTO) {
@@ -69,11 +66,12 @@ export class DiscussionService{
     }
     
     async findDiscussions(findDiscussionsDTO: FindDiscussionsDTO) {
-        const { courseId, startIndex } = findDiscussionsDTO;
+        const { courseId, offset, limit } = findDiscussionsDTO;
     
         const discussions = await this.courseDiscussion.find({
             where: { courseId },
-            skip: startIndex,
+            skip: offset,
+            take: limit,
         });
     
         const discussion_serialize = plainToInstance(DiscussionSerialize, discussions)
@@ -81,7 +79,7 @@ export class DiscussionService{
         return {meta: {code: HttpStatus.OK, msg: 'success'}, data: discussion_serialize};
     }
     
-    async deleteDiscussion(discussionId: number): Promise<boolean> {
+    async deleteDiscussion(discussionId: number) {
         try {
             const discussion = await this.courseDiscussion.findOne({
                 where: {
@@ -94,7 +92,7 @@ export class DiscussionService{
             }
         
             await this.courseDiscussion.remove(discussion);
-            return true;
+            return  {meta: {code: HttpStatus.OK, msg: 'success'}, data: {}};
         }
         catch(error){
             // handle the exception and return an appropriate response

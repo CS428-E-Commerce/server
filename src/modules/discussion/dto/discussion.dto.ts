@@ -7,5 +7,6 @@ export class CreateDiscussionDTO {
 
 export class FindDiscussionsDTO {
   courseId: number;
-  startIndex: number; // Starting index from where to fetch discussions
+  offset: number;
+  limit: number;
 }

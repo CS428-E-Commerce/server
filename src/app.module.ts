@@ -11,6 +11,8 @@ import { dataSourceOptions } from '@Configs/index.ts';
 import {  UserModule,CoachModule } from './modules';
 import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './modules/course-module/course.module';
+import { DiscoveryModule } from '@nestjs/core';
+import { DiscussionModule } from './modules/discussion/discussion.module';
 
 @Module({
     imports: [
@@ -19,7 +21,8 @@ import { CourseModule } from './modules/course-module/course.module';
         AuthModule,
         UserModule,
         CourseModule,
-        CoachModule
+        CoachModule,
+        DiscussionModule,
     ],
     controllers: [AppController],
     providers: [AppService],
