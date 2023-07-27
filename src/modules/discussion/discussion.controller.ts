@@ -11,7 +11,7 @@ export class DiscussionController{
       return await this.discussionService.createDiscussion(createDiscussionDTO);
     }
   
-    @Post('update')
+    @Put('update')
     async updateDiscussion(@Body() createDiscussionDTO: CreateDiscussionDTO) {
       return await this.discussionService.updateDiscussion(createDiscussionDTO);
     }
@@ -25,7 +25,7 @@ export class DiscussionController{
       const findDiscussionsDTO: FindDiscussionsDTO = { courseId, offset, limit };
       return await this.discussionService.findDiscussions(findDiscussionsDTO);
     }
-  
+
     @Delete(':id')
     async deleteDiscussion(@Param('id') id: number) {
       return await this.discussionService.deleteDiscussion(id);
