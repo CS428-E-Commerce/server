@@ -37,7 +37,7 @@ export class CourseController{
         return this.courseService.findScheduler(scheduler)
     }
 
-    @Post('scedule/delete')
+    @Post('schedule/delete')
     async deleteScheduler(@Body() schedulerID: GetID){
         return this.courseService.deleteScheduler(schedulerID)
     }

@@ -3,7 +3,6 @@ import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestj
 import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Not, Repository } from "typeorm";
 import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
-import { MAX_NUMBER_COURSE_LOAD } from "@Constants/index.ts";
 import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
 import { plainToInstance } from "class-transformer";
 import { CourseSerialize, SchedulerSerialize } from "@Serialize/index.ts";
