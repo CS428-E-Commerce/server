@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { DiscussionController } from "./discussion.controller";
 import { DiscussionService } from "./discussion.service";
-import { CourseDiscussion } from "@Entites/index.ts";
+import { CoachEntity, CourseDiscussion } from "@Entites/index.ts";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CourseDiscussion]),
+    imports: [TypeOrmModule.forFeature([CourseDiscussion, CoachEntity]),
         ],
     controllers: [DiscussionController],
     providers: [DiscussionService],

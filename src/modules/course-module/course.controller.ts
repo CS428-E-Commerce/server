@@ -7,7 +7,7 @@ import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
 export class CourseController{
     constructor(private courseService: CourseService){}
 
-    @Post('/')
+    @Post()
     async createCourse(@Body() courseDto: CreateCourseDTO){
         return this.courseService.createCourse(courseDto)
     }
@@ -17,7 +17,7 @@ export class CourseController{
         return this.courseService.updateCourse(courseDto);
     }
 
-    @Get('/')
+    @Get()
     async findCourse(@Query() findCourseDTO: FindCourseDTO){
         return this.courseService.findCourse(findCourseDTO)
     }

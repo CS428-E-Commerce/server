@@ -8,7 +8,7 @@ export class DiscussionController{
 
     @Post()
     async createDiscussion(@Body() createDiscussionDTO: CreateDiscussionDTO) {
-      return await this.discussionService.createDiscussion(createDiscussionDTO);
+      return await this.discussionService.updateDiscussion(createDiscussionDTO);
     }
   
     @Put('update')
