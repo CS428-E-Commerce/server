@@ -10,6 +10,10 @@ export class FindCourseDTO{
     @ApiProperty()
     @IsOptional()
     coachId: number = null;
+
+    @ApiProperty()
+    @IsOptional()
+    userId: string = null;
     
     @ApiProperty()
     @IsString()
