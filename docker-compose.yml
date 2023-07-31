@@ -56,8 +56,12 @@ services:
     image: nginx:latest
     ports:
       - '80:80'
+      - '443:443'
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./vinglish_online/vinglish_online.crt:/etc/nginx/vinglish_online.crt
+      - ./vinglish_online/vinglish_online.ca-bundle:/etc/nginx/vinglish_online.ca-bundle
+      - ./vinglish_online/vinglish_online.key:/etc/nginx/vinglish_online.key
     depends_on:
       - app
     networks:
