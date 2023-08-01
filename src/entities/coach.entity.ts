@@ -1,3 +1,4 @@
+import { UpdateCoachDto } from "src/modules/coach/dto";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
@@ -38,4 +39,9 @@ export class CoachEntity {
   
     @Column({ type: 'timestamp', nullable: true })
     deletedAt: Date;
+
+
+    updateAttributes({yearExperience}: Partial<UpdateCoachDto>) {
+        this.yearExperience = yearExperience ? yearExperience : this.yearExperience
+    }
 }

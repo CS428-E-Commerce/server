@@ -141,7 +141,10 @@ export class CoachService {
                     HttpStatus.CONFLICT
                 );
             }
-            const {skills, certificates, ...infoCoach } = updateCoachDto;
+            const {skills, certificates,yearExperience, ...infoCoach } = updateCoachDto;
+
+            existCoach.updateAttributes({yearExperience});
+            await this._coachRepository.save(existCoach);
 
             const currentInfoUser = await this._userRepository.findOneBy({
                 id: existCoach.userId,
