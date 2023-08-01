@@ -13,13 +13,11 @@ export class CoachController{
     constructor(private _coachService: CoachService){}
 
 
-    @UseGuards(AuthGuard)
     @Get('/')
     findAll(@Query() filterParams: FilterCoachDto ) {
         return this._coachService.findAll(filterParams);
     }
 
-    @UseGuards(AuthGuard)
     @Get('/:id')
     getDetail(@Param("id") coachId: number) {
         return this._coachService.findOne(coachId);

@@ -1,11 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Repository } from 'typeorm';
+import { plainToInstance } from 'class-transformer';
 
 // Entities
 import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseEntity, UserEntity } from '@Entites/index.ts';
+
+// DTO
 import { FilterCoachDto, UpdateCoachDto } from './dto';
-import { plainToInstance } from 'class-transformer';
+
+// Serialize
 import { CoachSerialize } from '@Serialize/index.ts';
 
 @Injectable()
@@ -45,7 +49,6 @@ export class CoachService {
             const totalPage = Math.ceil(totalRecords / limit);
 
             const listCoach = await queryBuilder.skip(offset).take(limit).getMany();
-
 
             const serializeCoachInfo = plainToInstance(CoachSerialize, listCoach);
 

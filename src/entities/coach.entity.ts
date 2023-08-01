@@ -21,6 +21,15 @@ export class CoachEntity {
     @Column('numeric', {nullable: true, default: 0})
     totalCourse: number;
 
+    @Column('numeric', {nullable: true, default: 0})
+    totalComment: number;
+
+    @Column('numeric', {nullable: true, default: 0})
+    yearExperience: number;
+
+    @Column('numeric', {nullable: true, default: 0})
+    averageCost: number;
+
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
 
