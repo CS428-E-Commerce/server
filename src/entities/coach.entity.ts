@@ -21,6 +21,9 @@ export class CoachEntity {
     @Column('numeric', {nullable: true, default: 0})
     totalCourse: number;
 
+    @Column('varchar', {nullable: true})
+    transactionId: string;
+
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
 

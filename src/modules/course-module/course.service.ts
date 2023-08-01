@@ -35,8 +35,6 @@ export class CourseService{
                 )
             }
 
-
-
             // If coach is existed, update totalCourse of the coach
             coach.totalCourse += 1
 

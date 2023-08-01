@@ -111,6 +111,11 @@ export class InitDatabase1688401721212 implements MigrationInterface {
                         isNullable: true,
                     }),
                     new TableColumn({
+                        name: 'transactionId',
+                        type: 'varchar',
+                        isNullable: true,
+                    }),
+                    new TableColumn({
                         name: 'createdAt',
                         type: 'timestamp',
                         default: 'CURRENT_TIMESTAMP',
