@@ -65,10 +65,6 @@ export class CreateCourseDTO{
     
     @ApiProperty()
     @IsString()
-    status: string;
-    
-    @ApiProperty()
-    @IsString()
     level: string;
     
     @ApiProperty()

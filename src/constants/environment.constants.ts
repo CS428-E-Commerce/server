@@ -11,4 +11,7 @@ export const POSTGRES_DB = process.env.POSTGRES_DB || 'ecommerce';
 
 
 // Course
-export const MAX_NUMBER_COURSE_LOAD = 12
+export class ESTATUS_COURSE{
+    public static AWAIT = 'AWAIT'
+    public static VERIFIED = 'VERIFIED'
+}

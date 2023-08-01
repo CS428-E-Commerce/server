@@ -11,3 +11,9 @@ export enum ESORT_DIRECTION {
     ASC = "ASC",
     DSC = "DESC"
 }
+
+// Course
+export enum ESTATUS_COURSE {
+    AWAIT = 'AWAIT',
+    VERIFIED = 'VERIFIED'
+}

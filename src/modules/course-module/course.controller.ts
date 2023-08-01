@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Put } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, Put, Param } from "@nestjs/common";
 import { CourseService } from "./course.service";
 import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
 import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
@@ -20,6 +20,11 @@ export class CourseController{
     @Get()
     async findCourse(@Query() findCourseDTO: FindCourseDTO){
         return this.courseService.findCourse(findCourseDTO)
+    }
+
+    @Get('detail/:id')
+    async findDetail(@Param('id') id: number){
+        return this.courseService.findCourseWithId(id)
     }
 
     @Post('delete')

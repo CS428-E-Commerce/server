@@ -1,4 +1,4 @@
-import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseCalendarEntity, CourseEntity } from "@Entites/index.ts";
+import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseCalendarEntity, CourseEntity, UserEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EntityManager, In, IsNull, Not, Repository } from "typeorm";
@@ -6,6 +6,7 @@ import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
 import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
 import { plainToInstance } from "class-transformer";
 import { CourseSerialize, SchedulerSerialize } from "@Serialize/index.ts";
+import { ESTATUS_COURSE } from "@Constants/index.ts";
 
 @Injectable()
 export class CourseService{
@@ -18,6 +19,7 @@ export class CourseService{
         try{
             // Create new course
             const course = await this.courseRepo.create(coursedto)
+            course.status = ESTATUS_COURSE.AWAIT
             
             const serializeCourse = plainToInstance(CourseSerialize, course)
 
@@ -104,12 +106,36 @@ export class CourseService{
         }
     }
 
+    async findCourseWithId(Id: number){
+        try {
+            const course = await this.courseRepo.findOne({
+                where: {
+                    id: Id,
+                }
+            })
+
+            return { meta: { code: HttpStatus.OK, msg: 'success' }, data: course };
+        }
+        catch(error){
+            // handle the exception and return an appropriate response
+            if (error instanceof HttpException) {
+                throw error;
+            } else {
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                        message: 'Internal server error',
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                );
+            }
+        }
+    }
+
     async findCourse(courseDto: FindCourseDTO){
         try{
             // Get data from user's input
             const {code, coachId, userId, status, level, offset, limit} = courseDto
-
-            const queryBuilder = this.courseRepo.createQueryBuilder('course')
 
             // Query to find course from the database               
             const query = this.courseRepo
@@ -126,7 +152,7 @@ export class CourseService{
 
             if (userId) query.addSelect('course.zoomLink')
 
-            query       // .addSelect('coach.name')
+            query       .addSelect('user.avatar', 'coachAvatar')
                         .addSelect('coach.totalRate / coach.rateTurn', 'coachRate')
                         .addSelect('coach.totalCourse', 'coachTotalCourse')
 
@@ -134,6 +160,7 @@ export class CourseService{
 
                         .innerJoin(CoachEntity, 'coach', 'course.coachId = coach.id')
                         .innerJoin(CoachCertificateEntity, 'coach_certificate', 'coach.id = coach_certificate.coachId')
+                        .innerJoin(UserEntity, 'user', 'coach."userId" = user.id')
 
                         .groupBy('course.id, course."coachId", coach."totalCourse", coach.totalRate, coach.rateTurn')
 
@@ -149,6 +176,7 @@ export class CourseService{
             const listCourse = await this.coachSkillRepository.createQueryBuilder('coach_skill')
                                     .innerJoin(`(${subquery})`, 'sub', 'sub."coachId" = coach_skill.coachId')
                                     .select('sub."courseId"', 'courseId')
+                                    .addSelect('sub.coachAvatar', 'coachAvatar')
                                     .addSelect('sub."coachId"', 'coachId')
                                     .addSelect('sub.title', 'title')
                                     .addSelect('sub.banner', 'banner')
