@@ -19,14 +19,9 @@ export class DiscussionController{
       return await this.discussionService.updateDiscussion(createDiscussionDTO);
     }
   
-    @Get(':courseId/:offset/:limit')
-    async findDiscussions(
-      @Param('courseId') courseId: number,
-      @Param('offset') offset: number,
-      @Param('limit') limit: number,
-    ) {
-      const findDiscussionsDTO: FindDiscussionsDTO = { courseId, offset, limit };
-      return await this.discussionService.findDiscussions(findDiscussionsDTO);
+    @Get()
+    async findDiscussions( @Query() findDTO: FindDiscussionsDTO ) {
+      return await this.discussionService.findDiscussions(findDTO);
     }
 
     @UseGuards(AuthGuard)
