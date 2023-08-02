@@ -46,13 +46,12 @@ export class CourseEntity {
     @Column({ type: 'timestamp', nullable: true })
     deletedAt: Date;
 
-    updateAttributes({code, coachId, title, banner, status, level, maxSlot, cost, description, zoomLink}: CreateCourseDTO) {
+    updateAttributes({code, coachId, title, banner, level, maxSlot, cost, description, zoomLink}: CreateCourseDTO) {
         this.code = code ? code : this.code
         this.coachId = coachId ? coachId : this.coachId
         this.description = description ? description : this.description
         this.banner = banner ? banner : this.banner
         this.title = title ? title : this.title
-        this.status = status ? status : this.status
         this.level = level ? level : this.level
         this.maxSlot = maxSlot ? maxSlot : this.maxSlot
         this.cost = cost ? cost : this.cost
