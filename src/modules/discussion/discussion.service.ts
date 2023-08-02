@@ -28,10 +28,17 @@ export class DiscussionService{
                 await this.courseDiscussion.save(createDiscussionDTO);
 
                 const coachId = await this.courseEntity.findOne({
-                    select: { coachId: true },
+                    select: { coachId: true, },
                     where: { id: courseId }
                 })
-                this.coachEntity.update({id: coachId.id}, {totalRate: createDiscussionDTO.rate, rateTurn: 1}) //Update coach rate
+
+                // Get the coach
+                const coach = await this.coachEntity.findOne({
+                    select: { totalComment: true, rateTurn: true },
+                    where: { id: coachId.id }
+                })
+
+                this.coachEntity.update({id: coachId.id}, {totalRate: createDiscussionDTO.rate, rateTurn: coach.rateTurn + 1, totalComment: coach.totalComment + 1}) //Update coach rate
 
                 return {meta: {code: HttpStatus.OK, msg: 'Add new review successfully'}, data: {}}
             }

@@ -39,6 +39,8 @@ export class CourseService{
 
             // If coach is existed, update totalCourse of the coach
             coach.totalCourse += 1
+            // Then update average cost of coach
+            coach.averageCost = (coach.averageCost*(coach.totalCourse-1) + course.cost)/coach.totalCourse
 
             // Commit change to database
             await this.courseRepo.save(course)
@@ -83,9 +85,29 @@ export class CourseService{
                 );
             }
 
+            // Find coach of the course
+            const coach = await this.coachRepository.findOne({
+                where: {
+                    id: course.coachId
+                }
+            })
+            // Check if the coach exists
+            if (!coach) {
+                throw new HttpException(
+                {
+                    statusCode: HttpStatus.NOT_FOUND,
+                    message: 'Coach not found',
+                },
+                HttpStatus.NOT_FOUND,
+                );
+            }
+            // Then update average cost of coach
+            coach.averageCost = coach.averageCost - (course.cost - courseDto.cost)/coach.totalCourse
+
             // Update course with new data
             const updatedCourse = { ...course, ...courseDto };
-            await this.courseRepo.save(updatedCourse);
+            await this.courseRepo.save(updatedCourse);     
+            await this.coachRepository.save(coach)       
 
             // Return data if success
             return { meta: { code: HttpStatus.OK, msg: 'success' }, data: updatedCourse };
@@ -114,7 +136,20 @@ export class CourseService{
                 }
             })
 
-            return { meta: { code: HttpStatus.OK, msg: 'success' }, data: course };
+            // Find schedule of course
+            const schedule = await this.courseSchedulerRepo.find({
+                select: {
+                    startTime: true,
+                    endTime: true,
+                },
+                where: {
+                    courseId: course.id
+                }
+            })
+
+            const scheSerializer = plainToInstance(SchedulerSerialize, schedule)
+
+            return { meta: { code: HttpStatus.OK, msg: 'success' }, data: course, schedule: scheSerializer };
         }
         catch(error){
             // handle the exception and return an appropriate response
