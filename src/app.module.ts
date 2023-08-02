@@ -13,7 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './modules/course-module/course.module';
 import { DiscoveryModule } from '@nestjs/core';
 import { DiscussionModule } from './modules/discussion/discussion.module';
-import { StripeModule } from './stripe/stripe.module';
+import { PaymentModule } from './stripe/stripe.module';
 
 @Module({
     imports: [
@@ -24,7 +24,7 @@ import { StripeModule } from './stripe/stripe.module';
         CourseModule,
         CoachModule,
         DiscussionModule,
-        StripeModule,
+        PaymentModule,
     ],
     controllers: [AppController],
     providers: [AppService],
