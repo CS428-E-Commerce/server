@@ -179,14 +179,20 @@ export class CourseService{
             })
 
             // Find skills of coach
-            const coach_skill = this.coachSkillRepository.find({
+            const coach_skill = await this.coachSkillRepository.find({
+                select: {
+                    skill: true,
+                },
                 where: {
                     coachId: coach.id
                 }
             })
 
             // Find certificate of coach
-            const coach_cert = this.coachCertificateRepository.find({
+            const coach_cert = await this.coachCertificateRepository.find({
+                select: {
+                    certificate: true
+                },
                 where: {
                     coachId: coach.id
                 }
