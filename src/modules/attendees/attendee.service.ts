@@ -1,4 +1,4 @@
-import { CoachEntity, CourseAttendeeEntity } from "@Entites/index.ts";
+import { CoachEntity, CourseAttendeeEntity, CourseEntity } from "@Entites/index.ts";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -11,11 +11,32 @@ export class AttendeeService {
   constructor(
     @InjectRepository(CourseAttendeeEntity) private attendeeRepository: Repository<CourseAttendeeEntity>,
     @InjectRepository(CoachEntity) private coachEntity: Repository<CoachEntity>,
+    @InjectRepository(CourseEntity) private courseEntity: Repository<CourseEntity>
   ) {}
 
   async createAttendee(createAttendeeDTO: CreateAttendeeDTO){
     const attendee = this.attendeeRepository.create(createAttendeeDTO);
 
+    // Update course
+    const course = await this.courseEntity.findOne({
+      where: {
+        id: createAttendeeDTO.courseId
+      }
+    })
+
+    course.attendeeNumber += 1
+
+    // Update coach
+    const coach = await this.coachEntity.findOne({
+      where: {
+        id: course.coachId
+      }
+    })
+
+    coach.totalStudent += 1
+
+    await this.coachEntity.save(coach)
+    await this.courseEntity.save(course);
     await this.attendeeRepository.save(attendee);
 
     return {meta: {code: HttpStatus.OK, msg: 'success'}, data: {}}

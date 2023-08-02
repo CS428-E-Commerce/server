@@ -19,7 +19,7 @@ export class CourseService{
         try{
             // Create new course
             const course = await this.courseRepo.create(coursedto)
-            course.status = ESTATUS_COURSE.AWAIT
+            course.status = course.status ? course.status : ESTATUS_COURSE.AWAIT
             
             const serializeCourse = plainToInstance(CourseSerialize, course)
 

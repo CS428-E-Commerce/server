@@ -72,6 +72,11 @@ export class CreateCourseDTO{
     
     @ApiProperty()
     cost: number;
+
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
+    status: string;
     
     @ApiProperty()
     @IsString()
