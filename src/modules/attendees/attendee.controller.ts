@@ -1,12 +1,13 @@
-import { Body, Controller, Param, Post, Get, Delete } from "@nestjs/common";
+import { Body, Controller, Param, Post, Get, Delete, UseGuards } from "@nestjs/common";
 import { AttendeeService } from "./attendee.service";
-import { CourseAttendeeEntity } from "@Entites/index.ts";
 import { CreateAttendeeDTO } from "./dto/attendee.dto";
+import { AuthGuard } from "src/auth";
 
 @Controller('api/attendees')
 export class AttendeeController {
     constructor(private readonly attendeeService: AttendeeService) {}
 
+    @UseGuards(AuthGuard)
     @Post()
     createAttendee(@Body() createAttendeeDTO: CreateAttendeeDTO) {
         return this.attendeeService.createAttendee(createAttendeeDTO);
@@ -17,6 +18,7 @@ export class AttendeeController {
         return this.attendeeService.getAttendeeByCourseId(courseId);
     }
 
+    @UseGuards(AuthGuard)
     @Delete(':id')
     deleteAttendee(@Param('id') id: number) {
         return this.attendeeService.deleteAttendee(id);
