@@ -153,6 +153,7 @@ export class CourseService{
             if (userId) query.addSelect('course.zoomLink')
 
             query       .addSelect('user.avatar', 'coachAvatar')
+                        .addSelect('user.username', 'coachname')
                         .addSelect('coach.totalRate / coach.rateTurn', 'coachRate')
                         .addSelect('coach.totalCourse', 'coachTotalCourse')
 
@@ -165,7 +166,7 @@ export class CourseService{
                         .innerJoin(UserEntity, 'user', 'coach."userId" = user.id')
                         .innerJoin(CourseCalendarEntity, 'schedule', 'schedule."courseId" = course.id')
 
-                        .groupBy('course.id, course."coachId", coach."totalCourse", coach.totalRate, coach.rateTurn, user.avatar')
+                        .groupBy('course.id, course."coachId", coach."totalCourse", coach.totalRate, coach.rateTurn, user.avatar, user.username')
 
             if (level) query.where('course.level = :level', { level })
             if (status) query.andWhere('course.status = :status', { status })
@@ -176,6 +177,7 @@ export class CourseService{
             const listCourse = await this.coachSkillRepository.createQueryBuilder('coach_skill')
                                     .innerJoin(`(${subquery})`, 'sub', 'sub."coachId" = coach_skill.coachId')
                                     .select('sub."courseId"', 'courseId')
+                                    .addSelect('sub.coachname', 'coachname')
                                     .addSelect('sub."startTime"', 'startTime')
                                     .addSelect('sub."coachAvatar"', 'coachAvatar')
                                     .addSelect('sub."coachId"', 'coachId')
@@ -191,7 +193,7 @@ export class CourseService{
                                     .addSelect("sub.certificate", "certificate")
                                     .addSelect("string_agg(coach_skill.skill, ',')", 'skill')
                                     .groupBy('sub."courseId"')
-                                    .addGroupBy('sub."coachId", sub.title, sub.banner, sub.status, sub.level, sub."maxSlot", sub.cost, sub.description, sub."coachRate", sub."coachTotalCourse", sub.certificate, sub."startTime", sub."coachAvatar"')
+                                    .addGroupBy('sub."coachId", sub.title, sub.banner, sub.status, sub.level, sub."maxSlot", sub.cost, sub.description, sub."coachRate", sub."coachTotalCourse", sub.certificate, sub."startTime", sub."coachAvatar", sub.coachname')
                                     .limit(limit)
                                     .offset(offset)
                                     .getRawMany()
