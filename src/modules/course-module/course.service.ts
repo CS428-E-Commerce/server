@@ -239,8 +239,9 @@ export class CourseService{
                         .addSelect('course.cost', 'cost')
                         .addSelect('course.description', 'description')
 
-            query       .addSelect('user.avatar', 'coachAvatar')
+                        .addSelect('user.avatar', 'coachAvatar')
                         .addSelect('user.username', 'coachname')
+                        
                         .addSelect('coach.totalRate / coach.rateTurn', 'coachRate')
                         .addSelect('coach.totalCourse', 'coachTotalCourse')
 
@@ -249,9 +250,9 @@ export class CourseService{
                         .addSelect('MIN(schedule."startTime")', 'startTime')
 
                         .innerJoin(CoachEntity, 'coach', 'course.coachId = coach.id')
-                        .innerJoin(CoachCertificateEntity, 'coach_certificate', 'coach.id = coach_certificate.coachId')
+                        .leftJoin(CoachCertificateEntity, 'coach_certificate', 'coach.id = coach_certificate.coachId')
                         .innerJoin(UserEntity, 'user', 'coach."userId" = user.id')
-                        .innerJoin(CourseCalendarEntity, 'schedule', 'schedule."courseId" = course.id')
+                        .leftJoin(CourseCalendarEntity, 'schedule', 'schedule."courseId" = course.id')
 
                         .groupBy('course.id, course."coachId", coach."totalCourse", coach.totalRate, coach.rateTurn, user.avatar, user.username')
 
@@ -262,7 +263,7 @@ export class CourseService{
 
             const subquery = query.getQuery()
             const listCourse = await this.coachSkillRepository.createQueryBuilder('coach_skill')
-                                    .innerJoin(`(${subquery})`, 'sub', 'sub."coachId" = coach_skill.coachId')
+                                    .leftJoin(`(${subquery})`, 'sub', 'sub."coachId" = coach_skill.coachId')
                                     .select('sub."courseId"', 'courseId')
                                     .addSelect('sub.coachname', 'coachname')
                                     .addSelect('sub."startTime"', 'startTime')
