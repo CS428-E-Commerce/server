@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Query, Put, Param, UseGuards } from "@nest
 import { CourseService } from "./course.service";
 import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
 import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
-import { AuthGuard } from "src/auth";
+import { AuthGuard, RolesGuard } from '../../auth';
 
 @Controller('api/courses')
 export class CourseController{
@@ -25,9 +25,9 @@ export class CourseController{
         return this.courseService.findCourse(findCourseDTO)
     }
 
-    @Get('detail/:id')
-    async findDetail(@Param('id') id: number){
-        return this.courseService.findCourseWithId(id)
+    @Get('detail/:id/:userid')
+    async findDetail(@Param('id') id: number, @Param('userid') userid: string){
+        return this.courseService.findCourseWithId(id, userid)
     }
 
     @UseGuards(AuthGuard)

@@ -1,4 +1,4 @@
-import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseCalendarEntity, CourseEntity, UserEntity } from "@Entites/index.ts";
+import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseAttendeeEntity, CourseCalendarEntity, CourseEntity, UserEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EntityManager, In, IsNull, Not, Repository } from "typeorm";
@@ -13,7 +13,9 @@ export class CourseService{
     constructor(@InjectRepository(CourseEntity) private courseRepo: Repository<CourseEntity>,
                 @InjectRepository(CourseCalendarEntity) private courseSchedulerRepo: Repository<CourseCalendarEntity>,
                 @InjectRepository(CoachEntity) private coachRepository: Repository<CoachEntity>,
-                @InjectRepository(CoachSkillEntity) private coachSkillRepository: Repository<CoachSkillEntity>
+                @InjectRepository(CoachSkillEntity) private coachSkillRepository: Repository<CoachSkillEntity>,
+                @InjectRepository(CourseAttendeeEntity) private courseAttendee: Repository<CourseAttendeeEntity>,
+                @InjectRepository(CoachCertificateEntity) private coachCertificateRepository: Repository<CoachCertificateEntity>,
                 ){}
     async createCourse(coursedto: CreateCourseDTO){
         try{
@@ -128,11 +130,65 @@ export class CourseService{
         }
     }
 
-    async findCourseWithId(Id: number){
+    async findCourseWithId(Id: number, userId: string){
         try {
-            const course = await this.courseRepo.findOne({
+            // Check if userId in attendee of the course
+            const attendeeInCourse = await this.courseAttendee.exist({
                 where: {
-                    id: Id,
+                    courseId: Id,
+                    userId: userId,
+                }
+            })
+
+            // Query to find course from the database         
+            const course = await this.courseRepo.findOne({
+                select: {
+                    id: true,
+                    code: true,
+                    title: true,
+                    banner: true,
+                    status: true,
+                    level: true,
+                    maxSlot: true,
+                    cost: true,
+                    description: true,
+                    attendeeNumber: true,
+                    zoomLink: attendeeInCourse,
+                },
+                where: {
+                    id: Id
+                }
+            })
+
+            // Find coach of course
+            const coach = await this.coachRepository.findOne({
+                select: {
+                    id: true,
+                    userId: true,
+                    totalRate: true,
+                    rateTurn: true,
+                    totalStudent: true,
+                    totalCourse: true,
+                    totalComment: true,
+                    yearExperience: true,
+                    averageCost: true,
+                },
+                where: {
+                    id: course.coachId
+                }
+            })
+
+            // Find skills of coach
+            const coach_skill = this.coachSkillRepository.find({
+                where: {
+                    coachId: coach.id
+                }
+            })
+
+            // Find certificate of coach
+            const coach_cert = this.coachCertificateRepository.find({
+                where: {
+                    coachId: coach.id
                 }
             })
 
@@ -143,13 +199,11 @@ export class CourseService{
                     endTime: true,
                 },
                 where: {
-                    courseId: course.id
+                    courseId: 2,
                 }
             })
 
-            const scheSerializer = plainToInstance(SchedulerSerialize, schedule)
-
-            return { meta: { code: HttpStatus.OK, msg: 'success' }, data: course, schedule: scheSerializer };
+            return { meta: { code: HttpStatus.OK, msg: 'success' }, course, coach, coach_skill, coach_cert, schedule };
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -184,8 +238,6 @@ export class CourseService{
                         .addSelect('course.maxSlot', 'maxSlot')
                         .addSelect('course.cost', 'cost')
                         .addSelect('course.description', 'description')
-
-            if (userId) query.addSelect('course.zoomLink')
 
             query       .addSelect('user.avatar', 'coachAvatar')
                         .addSelect('user.username', 'coachname')

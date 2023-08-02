@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query, Put, Param, Delete, UseGuards } from "@nestjs/common";
 import { DiscussionService } from "./discussion.service";
 import { CreateDiscussionDTO, FindDiscussionsDTO } from "./dto/discussion.dto";
-import { AuthGuard } from "src/auth";
+import { AuthGuard, RolesGuard } from '../../auth';
 
 @Controller('api/discussion')
 export class DiscussionController{
