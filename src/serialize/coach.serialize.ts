@@ -65,6 +65,24 @@ export class CoachSerialize {
 
     @Expose()
     @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    totalComment: number;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    averageCost: number;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    yearExperience: number;
+
+    @Expose()
+    @ApiProperty()
     @Type(() => UserSerialize)
     coachInfo: UserSerialize;
 

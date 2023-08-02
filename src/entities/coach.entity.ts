@@ -1,3 +1,4 @@
+import { UpdateCoachDto } from "src/modules/coach/dto";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
@@ -21,8 +22,14 @@ export class CoachEntity {
     @Column('numeric', {nullable: true, default: 0})
     totalCourse: number;
 
-    @Column('varchar', {nullable: true})
-    transactionId: string;
+    @Column('numeric', {nullable: true, default: 0})
+    totalComment: number;
+
+    @Column('numeric', {nullable: true, default: 0})
+    yearExperience: number;
+
+    @Column('numeric', {nullable: true, default: 0})
+    averageCost: number;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
@@ -32,4 +39,9 @@ export class CoachEntity {
   
     @Column({ type: 'timestamp', nullable: true })
     deletedAt: Date;
+
+
+    updateAttributes({yearExperience}: Partial<UpdateCoachDto>) {
+        this.yearExperience = yearExperience ? yearExperience : this.yearExperience
+    }
 }

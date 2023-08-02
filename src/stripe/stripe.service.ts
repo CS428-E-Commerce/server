@@ -67,7 +67,7 @@ export class StripeService {
         await this.stripeClient.transfers.create({
             amount: Math.round(course.cost * 0.95), // Only send 95% of course cost to coach
             currency: 'usd',
-            destination: coachAccountId.transactionId, // The seller's Stripe Connect account ID
+            destination: coachAccountId.stripeId, // The seller's Stripe Connect account ID
         });
 
         return {meta: {code: HttpStatus.OK, msg: 'success'}, data: {}};
