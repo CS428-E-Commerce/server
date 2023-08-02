@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsOptional, IsString } from "class-validator";
+import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class FindCourseDTO{
     @ApiProperty()
@@ -10,12 +10,10 @@ export class FindCourseDTO{
     @ApiProperty()
     @IsOptional()
     coachId: number = null;
-    
+
     @ApiProperty()
-    @IsString()
     @IsOptional()
-    title: string = null;
-    
+    userId: string = null;
     
     @ApiProperty()
     @IsString()
@@ -26,27 +24,30 @@ export class FindCourseDTO{
     @IsString()
     @IsOptional()
     level: string = null;
-    
-    @ApiProperty()
-    @IsOptional()
-    maxSlot: number = null;
 
     @ApiProperty()
-    windowIndex: number = 0;
+    offset: number = 0;
+
+    @ApiProperty()
+    limit: number = 0;
 }
 
-export class GetCourse{
-    @ApiProperty()
-    @IsString()
-    code: string = null;
-}
-
-export class Scheduler{
+export class FindScheduler{
     @ApiProperty()
     courseId: number = 0;
 
     @ApiProperty()
-    @IsDate()
     @IsOptional()
     startTime: Date = null;
+
+    @ApiProperty()
+    offset: number = 0;
+
+    @ApiProperty()
+    limit: number = 0;
+}
+
+export class GetID{
+    @ApiProperty()
+    id: number;
 }

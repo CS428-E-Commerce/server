@@ -31,6 +31,9 @@ export class CoachEntity {
     @Column('numeric', {nullable: true, default: 0})
     averageCost: number;
 
+    @Column('varchar', {nullable: true, default: 0})
+    stripeId: string;
+
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
 

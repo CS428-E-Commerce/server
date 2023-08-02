@@ -1,39 +1,55 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, Put, Param, UseGuards } from "@nestjs/common";
 import { CourseService } from "./course.service";
-import { CreateCourseDTO, CreateSchedulerDTO } from "./dto";
-import { FindCourseDTO, GetCourse, Scheduler } from "./dto/find-course.dto";
+import { CreateCourseDTO, CreateSchedulerDTO, UpdateCourseDTO } from "./dto";
+import { FindCourseDTO, GetID, FindScheduler } from "./dto/find-course.dto";
+import { AuthGuard, RolesGuard } from '../../auth';
 
 @Controller('api/courses')
 export class CourseController{
     constructor(private courseService: CourseService){}
 
-    @Post('updateCourse')
-    async updateCourse(@Body() courseDto: CreateCourseDTO){
+    @UseGuards(AuthGuard)
+    @Post()
+    async createCourse(@Body() courseDto: CreateCourseDTO){
+        return this.courseService.createCourse(courseDto)
+    }
+
+    @UseGuards(AuthGuard)
+    @Put('update')
+    async updateCourse(@Body() courseDto: UpdateCourseDTO){
         return this.courseService.updateCourse(courseDto);
     }
 
-    @Post('findCourse')
-    async findCourse(@Body() findCourseDTO: FindCourseDTO){
+    @Get()
+    async findCourse(@Query() findCourseDTO: FindCourseDTO){
         return this.courseService.findCourse(findCourseDTO)
     }
 
-    @Post('deleteCourse')
-    async deleteCourse(@Body() getCourse: GetCourse){
-        return this.courseService.deleteCourse(getCourse)
+    @Get('detail/:id/:userid')
+    async findDetail(@Param('id') id: number, @Param('userid') userid: string){
+        return this.courseService.findCourseWithId(id, userid)
     }
 
-    @Post('updateScheduler')
-    async updateScheduler(@Body() scheduler: CreateSchedulerDTO){
-        return this.courseService.updateScheduler(scheduler);
+    @UseGuards(AuthGuard)
+    @Post('delete')
+    async deleteCourse(@Body() getCourseID: GetID){
+        return this.courseService.deleteCourse(getCourseID)
     }
 
-    @Post('findScheduler')
-    async findScheduler(@Body() scheduler: Scheduler){
+    @UseGuards(AuthGuard)
+    @Post('schedule')
+    async createScheduler(@Body() createScheduler: CreateSchedulerDTO){
+        return this.courseService.createScheduler(createScheduler);
+    }
+
+    @Get('schedule')
+    async findScheduler(@Query() scheduler: FindScheduler){
         return this.courseService.findScheduler(scheduler)
     }
 
-    @Post('deleteScheduler')
-    async deleteScheduler(@Body() scheduler: CreateSchedulerDTO){
-        return this.courseService.deleteScheduler(scheduler)
+    @UseGuards(AuthGuard)
+    @Post('schedule/delete')
+    async deleteScheduler(@Body() schedulerID: GetID){
+        return this.courseService.deleteScheduler(schedulerID)
     }
 }

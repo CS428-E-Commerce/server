@@ -1,11 +1,23 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 
-@Entity({name: 'attendees'})
-export class AttendeeEntity {
-    @PrimaryColumn('varchar', { unique: true, nullable: false })    
-    courseID: string;
+@Entity({ name: 'course_attendee' })
+export class CourseAttendeeEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryColumn('varchar', { nullable: false })
-    studentID: string;
+  @Column({ type: 'int' })
+  courseId: number;
+
+  @Column({ type: 'varchar' })
+  userId: string;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
+  deletedAt: Date;
 }

@@ -12,7 +12,6 @@ import { CoachService } from "./coach.service";
 export class CoachController{
     constructor(private _coachService: CoachService){}
 
-
     @Get('/')
     findAll(@Query() filterParams: FilterCoachDto ) {
         return this._coachService.findAll(filterParams);
