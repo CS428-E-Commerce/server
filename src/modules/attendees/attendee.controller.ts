@@ -1,7 +1,7 @@
 import { Body, Controller, Param, Post, Get, Delete, UseGuards } from "@nestjs/common";
 import { AttendeeService } from "./attendee.service";
 import { CreateAttendeeDTO } from "./dto/attendee.dto";
-import { AuthGuard } from "src/auth";
+import { AuthGuard } from "../../auth";
 
 @Controller('api/attendees')
 export class AttendeeController {

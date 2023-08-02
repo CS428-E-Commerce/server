@@ -8,7 +8,7 @@ import { AuthGuard, RolesGuard } from '../../auth';
 export class CourseController{
     constructor(private courseService: CourseService){}
 
-    // @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard)
     @Post()
     async createCourse(@Body() courseDto: CreateCourseDTO){
         return this.courseService.createCourse(courseDto)

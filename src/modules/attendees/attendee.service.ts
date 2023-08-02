@@ -1,5 +1,5 @@
 import { CoachEntity, CourseAttendeeEntity, CourseEntity } from "@Entites/index.ts";
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateAttendeeDTO } from "./dto/attendee.dto";
@@ -15,48 +15,96 @@ export class AttendeeService {
   ) {}
 
   async createAttendee(createAttendeeDTO: CreateAttendeeDTO){
-    const attendee = this.attendeeRepository.create(createAttendeeDTO);
+      try {
+          const attendee = this.attendeeRepository.create(createAttendeeDTO);
 
-    // Update course
-    const course = await this.courseEntity.findOne({
-      where: {
-        id: createAttendeeDTO.courseId
+          // Update course
+          const course = await this.courseEntity.findOne({
+            where: {
+              id: createAttendeeDTO.courseId
+            }
+          })
+
+          course.attendeeNumber += 1
+
+          // Update coach
+          const coach = await this.coachEntity.findOne({
+            where: {
+              id: course.coachId
+            }
+          })
+
+          coach.totalStudent += 1
+
+          await this.coachEntity.save(coach)
+          await this.courseEntity.save(course);
+          await this.attendeeRepository.save(attendee);
+
+          return {meta: {code: HttpStatus.OK, msg: 'success'}, data: {}}
       }
-    })
-
-    course.attendeeNumber += 1
-
-    // Update coach
-    const coach = await this.coachEntity.findOne({
-      where: {
-        id: course.coachId
-      }
-    })
-
-    coach.totalStudent += 1
-
-    await this.coachEntity.save(coach)
-    await this.courseEntity.save(course);
-    await this.attendeeRepository.save(attendee);
-
-    return {meta: {code: HttpStatus.OK, msg: 'success'}, data: {}}
+      catch(error){
+        // handle the exception and return an appropriate response
+        if (error instanceof HttpException) {
+            throw error;
+        } else {
+            throw new HttpException(
+                {
+                    statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                    message: 'Internal server error',
+                },
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
   }
 
   async getAttendeeByCourseId(courseId: number) {
-    const attendee = await this.attendeeRepository.find({
-                        where: {
-                            courseId: courseId
-                        }
-                    });
+      try {
+        const attendee = await this.attendeeRepository.find({
+                            where: {
+                                courseId: courseId
+                            }
+                        });
 
-    const attendee_serialize = plainToInstance(AttendeeSerialize, attendee)
+        const attendee_serialize = plainToInstance(AttendeeSerialize, attendee)
 
-    return attendee_serialize
+        return {meta: {code: HttpStatus.OK, msg: 'success'}, data: attendee_serialize}
+      }
+      catch(error){
+        // handle the exception and return an appropriate response
+        if (error instanceof HttpException) {
+            throw error;
+        } else {
+            throw new HttpException(
+                {
+                    statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                    message: 'Internal server error',
+                },
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
   }
 
   async deleteAttendee(id: number) {
-    await this.attendeeRepository.delete(id);
+    try {
+      await this.attendeeRepository.delete(id);
 
-    return {meta: {code: HttpStatus.OK, msg: 'success'}, data: {}}
+      return {meta: {code: HttpStatus.OK, msg: 'success'}, data: {}}
+    }
+    catch(error){
+      // handle the exception and return an appropriate response
+      if (error instanceof HttpException) {
+          throw error;
+      } else {
+          throw new HttpException(
+              {
+                  statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                  message: 'Internal server error',
+              },
+              HttpStatus.INTERNAL_SERVER_ERROR
+          );
+      }
+    }
   }
 }

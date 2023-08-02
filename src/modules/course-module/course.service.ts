@@ -252,12 +252,12 @@ export class CourseService{
                         .addSelect('coach.totalRate / coach.rateTurn', 'coachRate')
                         .addSelect('coach.totalCourse', 'coachTotalCourse')
 
-                        .addSelect("string_agg(coach_certificate.certificate, ',')", "certificate")
+                        // .addSelect("string_agg(coach_certificate.certificate, ',')", "certificate")
 
                         .addSelect('MIN(schedule."startTime")', 'startTime')
 
                         .innerJoin(CoachEntity, 'coach', 'course.coachId = coach.id')
-                        .leftJoin(CoachCertificateEntity, 'coach_certificate', 'coach.id = coach_certificate.coachId')
+                        // .leftJoin(CoachCertificateEntity, 'coach_certificate', 'coach.id = coach_certificate.coachId')
                         .innerJoin(UserEntity, 'user', 'coach."userId" = user.id')
                         .leftJoin(CourseCalendarEntity, 'schedule', 'schedule."courseId" = course.id')
 
@@ -268,38 +268,41 @@ export class CourseService{
             if (code) query.andWhere('course.code = :code', { code })
             if (coachId) query.andWhere('coach.id = :id', { id: coachId });
 
-            const subquery = query.getQuery()
-            const listCourse = await this.coachSkillRepository.createQueryBuilder('coach_skill')
-                                    .leftJoin(`(${subquery})`, 'sub', 'sub."coachId" = coach_skill.coachId')
-                                    .select('sub."courseId"', 'courseId')
-                                    .addSelect('sub.coachname', 'coachname')
-                                    .addSelect('sub."startTime"', 'startTime')
-                                    .addSelect('sub."coachAvatar"', 'coachAvatar')
-                                    .addSelect('sub."coachId"', 'coachId')
-                                    .addSelect('sub.title', 'title')
-                                    .addSelect('sub.banner', 'banner')
-                                    .addSelect('sub.status', 'status')
-                                    .addSelect('sub.level', 'level')
-                                    .addSelect('sub."maxSlot"', 'maxSlot')
-                                    .addSelect('sub.cost', 'cost')
-                                    .addSelect('sub.description', 'description')
-                                    .addSelect('sub."coachRate"', 'coachRate')
-                                    .addSelect('sub."coachTotalCourse"', 'coachTotalCourse')
-                                    .addSelect("sub.certificate", "certificate")
-                                    .addSelect("string_agg(coach_skill.skill, ',')", 'skill')
-                                    .groupBy('sub."courseId"')
-                                    .addGroupBy('sub."coachId", sub.title, sub.banner, sub.status, sub.level, sub."maxSlot", sub.cost, sub.description, sub."coachRate", sub."coachTotalCourse", sub.certificate, sub."startTime", sub."coachAvatar", sub.coachname')
-                                    .limit(limit)
+            // const subquery = query.getQuery()
+            // const listCourse = await this.coachSkillRepository.createQueryBuilder('coach_skill')
+            //                         .leftJoin(`(${subquery})`, 'sub', 'sub."coachId" = coach_skill.coachId')
+            //                         .select('sub."courseId"', 'courseId')
+            //                         .addSelect('sub.coachname', 'coachname')
+            //                         .addSelect('sub."startTime"', 'startTime')
+            //                         .addSelect('sub."coachAvatar"', 'coachAvatar')
+            //                         .addSelect('sub."coachId"', 'coachId')
+            //                         .addSelect('sub.title', 'title')
+            //                         .addSelect('sub.banner', 'banner')
+            //                         .addSelect('sub.status', 'status')
+            //                         .addSelect('sub.level', 'level')
+            //                         .addSelect('sub."maxSlot"', 'maxSlot')
+            //                         .addSelect('sub.cost', 'cost')
+            //                         .addSelect('sub.description', 'description')
+            //                         .addSelect('sub."coachRate"', 'coachRate')
+            //                         .addSelect('sub."coachTotalCourse"', 'coachTotalCourse')
+            //                         .addSelect("sub.certificate", "certificate")
+            //                         .addSelect("string_agg(coach_skill.skill, ',')", 'skill')
+            //                         .groupBy('sub."courseId"')
+            //                         .addGroupBy('sub."coachId", sub.title, sub.banner, sub.status, sub.level, sub."maxSlot", sub.cost, sub.description, sub."coachRate", sub."coachTotalCourse", sub.certificate, sub."startTime", sub."coachAvatar", sub.coachname')
+            //                         .limit(limit)
+            //                         .offset(offset)
+            //                         .getRawMany()
+
+            const listCourse = await query.limit(limit)
                                     .offset(offset)
                                     .getRawMany()
 
-
-            // const listCourse = await query.limit(limit).offset(offset).getRawMany()
             // // Return data
             return {meta: {code: HttpStatus.OK, msg: 'success'}, data: listCourse}
         }
         catch(error){
             // handle the exception and return an appropriate response
+            console.log(error)
             if (error instanceof HttpException) {
                 throw error;
             } else {

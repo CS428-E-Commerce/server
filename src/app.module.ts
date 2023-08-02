@@ -14,6 +14,7 @@ import { CourseModule } from './modules/course-module/course.module';
 import { DiscoveryModule } from '@nestjs/core';
 import { DiscussionModule } from './modules/discussion/discussion.module';
 import { PaymentModule } from './stripe/stripe.module';
+import { AttendeeModule } from './modules/attendees/attendee.module';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { PaymentModule } from './stripe/stripe.module';
         CoachModule,
         DiscussionModule,
         PaymentModule,
+        AttendeeModule,
     ],
     controllers: [AppController],
     providers: [AppService],
