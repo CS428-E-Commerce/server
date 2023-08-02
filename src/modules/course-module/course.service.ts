@@ -39,14 +39,15 @@ export class CourseService{
                 )
             }
 
+
             // If coach is existed, update totalCourse of the coach
             coach.totalCourse += 1
             // Then update average cost of coach
             coach.averageCost = (coach.averageCost*(coach.totalCourse-1) + course.cost)/coach.totalCourse
 
             // Commit change to database
-            await this.courseRepo.save(course)
-            await this.courseRepo.save(coach);
+            await this.courseRepo.save(course);
+            await this.coachRepository.save(coach);
 
             // Return data
             return {meta: {code: HttpStatus.OK, msg: 'success'}, data: serializeCourse}
