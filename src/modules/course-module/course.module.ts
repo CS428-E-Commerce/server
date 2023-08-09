@@ -1,7 +1,7 @@
 import { Controller, Module } from "@nestjs/common";
 import { CourseController } from "./course.controller";
 import { CourseService } from "./course.service";
-import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseAttendeeEntity, CourseCalendarEntity, CourseEntity } from "@Entites/index.ts";
+import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseAttendeeEntity, CourseCalendarEntity, CourseEntity, UserEntity } from "@Entites/index.ts";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
@@ -11,6 +11,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
             TypeOrmModule.forFeature([CoachCertificateEntity]),
             TypeOrmModule.forFeature([CoachSkillEntity]),
             TypeOrmModule.forFeature([CourseAttendeeEntity]),
+            TypeOrmModule.forFeature([UserEntity]),
         ],
     controllers: [CourseController],
     providers: [CourseService],
