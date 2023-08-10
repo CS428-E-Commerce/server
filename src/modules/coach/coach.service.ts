@@ -4,7 +4,7 @@ import { IsNull, Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
 // Entities
-import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseEntity, UserEntity } from '@Entites/index.ts';
+import { CoachCertificateEntity, CoachEntity, CoachSkillEntity, CourseCalendarEntity, CourseEntity, UserEntity } from '@Entites/index.ts';
 
 // DTO
 import { FilterCoachDto, UpdateCoachDto } from './dto';
@@ -100,6 +100,8 @@ export class CoachService {
             queryBuilder.leftJoinAndMapMany('coach.skills', CoachSkillEntity, 'coach_skill', 'coach."id" = coach_skill.coachId');
 
             queryBuilder.leftJoinAndMapMany('coach.courses', CourseEntity, 'course', 'coach."id" = course.coachId');
+
+            queryBuilder.leftJoinAndMapMany('course.schedules', CourseCalendarEntity, 'course_calendar', 'course."id" = course_calendar.courseId')
 
             const coachFullInfo = await queryBuilder.getOne();
 

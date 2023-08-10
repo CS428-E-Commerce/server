@@ -3,6 +3,7 @@ import { Exclude, Expose, Type } from "class-transformer";
 import { IsNumber, IsString } from "class-validator";
 import { UserSerialize } from "./user.serialize";
 import { CourseSerialize } from "./course.serialize";
+import { SchedulerSerialize } from "./scheduler.serialize";
 
 
 @Exclude()
@@ -29,6 +30,14 @@ export class CoachCertificateSerialize {
     @ApiProperty()
     @IsString()
     certificate: string;
+}
+
+@Exclude()
+class CourseCoachSerialize extends CourseSerialize{
+    @Expose()
+    @ApiProperty()
+    @Type(() => SchedulerSerialize)
+    schedules: SchedulerSerialize[];
 }
 
 
@@ -99,6 +108,6 @@ export class CoachSerialize {
 
     @Expose()
     @ApiProperty()
-    @Type(() => CourseSerialize)
-    courses: CourseSerialize[];
+    @Type(() => CourseCoachSerialize)
+    courses: CourseCoachSerialize[];
 }

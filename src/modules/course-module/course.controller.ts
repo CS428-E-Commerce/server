@@ -15,7 +15,7 @@ export class CourseController{
     }
 
     @UseGuards(AuthGuard)
-    @Put('update')
+    @Put()
     async updateCourse(@Body() courseDto: UpdateCourseDTO){
         return this.courseService.updateCourse(courseDto);
     }

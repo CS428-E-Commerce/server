@@ -159,7 +159,8 @@ CREATE TABLE public.course (
     "createdAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "updatedAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "deletedAt" timestamp without time zone,
-    code character varying NOT NULL
+    code character varying NOT NULL,
+    "attendeeNumber" numeric
 );
 
 
@@ -451,7 +452,7 @@ COPY public.coach_skill (id, "coachId", skill, "createdAt", "updatedAt", "delete
 -- Data for Name: course; Type: TABLE DATA; Schema: public; Owner: tungdo
 --
 
-COPY public.course (id, "coachId", title, banner, status, level, "maxSlot", cost, description, "zoomLink", "createdAt", "updatedAt", "deletedAt", code) FROM stdin;
+COPY public.course (id, "coachId", title, banner, status, level, "maxSlot", cost, description, "zoomLink", "createdAt", "updatedAt", "deletedAt", code, "attendeeNumber") FROM stdin;
 \.
 
 
@@ -488,6 +489,7 @@ COPY public.migrations (id, "timestamp", name) FROM stdin;
 3	1689750360339	AddCodeColumnToCourse1689750360339
 4	1690903870334	AddTotalReviewAndYearExperienceToCoach1690903870334
 5	1690943513363	AddStripeIdToCoach1690943513363
+6	1690964591049	AddAttendeeNumberToCourse1690964591049
 \.
 
 
@@ -553,7 +555,7 @@ SELECT pg_catalog.setval('public.course_schedule_id_seq', 1, false);
 -- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tungdo
 --
 
-SELECT pg_catalog.setval('public.migrations_id_seq', 5, true);
+SELECT pg_catalog.setval('public.migrations_id_seq', 6, true);
 
 
 --
