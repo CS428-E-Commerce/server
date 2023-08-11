@@ -34,8 +34,8 @@ export class CourseEntity {
     @Column('text', { nullable: true })
     description: string;
 
-    @Column('text', { nullable: true })
-    attendeeNumber: string;
+    @Column('numeric', { nullable: true })
+    attendeeNumber: number;
 
     @Column('varchar', {nullable:false})
     zoomLink: string

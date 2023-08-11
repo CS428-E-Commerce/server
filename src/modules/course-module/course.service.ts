@@ -16,6 +16,7 @@ export class CourseService{
                 @InjectRepository(CoachSkillEntity) private coachSkillRepository: Repository<CoachSkillEntity>,
                 @InjectRepository(CourseAttendeeEntity) private courseAttendee: Repository<CourseAttendeeEntity>,
                 @InjectRepository(CoachCertificateEntity) private coachCertificateRepository: Repository<CoachCertificateEntity>,
+                @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
                 ){}
     async createCourse(coursedto: CreateCourseDTO){
         try{
@@ -179,6 +180,17 @@ export class CourseService{
                 }
             })
 
+            // Find detail information of coach
+            const coach_detail = await this.userRepository.findOne({
+                select: {
+                    username: true,
+                    avatar: true,
+                },
+                where: {
+                    id: coach.userId
+                }
+            })
+
             // Find skills of coach
             const coach_skill = await this.coachSkillRepository.find({
                 select: {
@@ -206,11 +218,11 @@ export class CourseService{
                     endTime: true,
                 },
                 where: {
-                    courseId: 2,
+                    courseId: course.id,
                 }
             })
 
-            return { meta: { code: HttpStatus.OK, msg: 'success' }, course, coach, coach_skill, coach_cert, schedule };
+            return { meta: { code: HttpStatus.OK, msg: 'success' }, course, coach, coach_detail, coach_skill, coach_cert, schedule };
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -245,6 +257,7 @@ export class CourseService{
                         .addSelect('course.maxSlot', 'maxSlot')
                         .addSelect('course.cost', 'cost')
                         .addSelect('course.description', 'description')
+                        .addSelect('course.attendeeNumber', 'attendeeNumber')
 
                         .addSelect('user.avatar', 'coachAvatar')
                         .addSelect('user.username', 'coachname')
@@ -252,12 +265,9 @@ export class CourseService{
                         .addSelect('coach.totalRate / coach.rateTurn', 'coachRate')
                         .addSelect('coach.totalCourse', 'coachTotalCourse')
 
-                        // .addSelect("string_agg(coach_certificate.certificate, ',')", "certificate")
-
                         .addSelect('MIN(schedule."startTime")', 'startTime')
 
                         .innerJoin(CoachEntity, 'coach', 'course.coachId = coach.id')
-                        // .leftJoin(CoachCertificateEntity, 'coach_certificate', 'coach.id = coach_certificate.coachId')
                         .innerJoin(UserEntity, 'user', 'coach."userId" = user.id')
                         .leftJoin(CourseCalendarEntity, 'schedule', 'schedule."courseId" = course.id')
 
@@ -268,37 +278,19 @@ export class CourseService{
             if (code) query.andWhere('course.code = :code', { code })
             if (coachId) query.andWhere('coach.id = :id', { id: coachId });
 
-            // const subquery = query.getQuery()
-            // const listCourse = await this.coachSkillRepository.createQueryBuilder('coach_skill')
-            //                         .leftJoin(`(${subquery})`, 'sub', 'sub."coachId" = coach_skill.coachId')
-            //                         .select('sub."courseId"', 'courseId')
-            //                         .addSelect('sub.coachname', 'coachname')
-            //                         .addSelect('sub."startTime"', 'startTime')
-            //                         .addSelect('sub."coachAvatar"', 'coachAvatar')
-            //                         .addSelect('sub."coachId"', 'coachId')
-            //                         .addSelect('sub.title', 'title')
-            //                         .addSelect('sub.banner', 'banner')
-            //                         .addSelect('sub.status', 'status')
-            //                         .addSelect('sub.level', 'level')
-            //                         .addSelect('sub."maxSlot"', 'maxSlot')
-            //                         .addSelect('sub.cost', 'cost')
-            //                         .addSelect('sub.description', 'description')
-            //                         .addSelect('sub."coachRate"', 'coachRate')
-            //                         .addSelect('sub."coachTotalCourse"', 'coachTotalCourse')
-            //                         .addSelect("sub.certificate", "certificate")
-            //                         .addSelect("string_agg(coach_skill.skill, ',')", 'skill')
-            //                         .groupBy('sub."courseId"')
-            //                         .addGroupBy('sub."coachId", sub.title, sub.banner, sub.status, sub.level, sub."maxSlot", sub.cost, sub.description, sub."coachRate", sub."coachTotalCourse", sub.certificate, sub."startTime", sub."coachAvatar", sub.coachname')
-            //                         .limit(limit)
-            //                         .offset(offset)
-            //                         .getRawMany()
+            // If userId is provided
+            if (userId) query.innerJoin(CourseAttendeeEntity, 'course_attendee', 'course_attendee."userId" = :userid and course_attendee."courseId" = course.id', { userid: userId })
+
+
+            var lastPage = await query.getCount()
+            lastPage = Math.ceil(lastPage / limit)
 
             const listCourse = await query.limit(limit)
                                     .offset(offset)
                                     .getRawMany()
 
             // // Return data
-            return {meta: {code: HttpStatus.OK, msg: 'success'}, data: listCourse}
+            return {meta: {code: HttpStatus.OK, msg: 'success'}, data: listCourse, lastPage}
         }
         catch(error){
             // handle the exception and return an appropriate response
@@ -349,7 +341,7 @@ export class CourseService{
             const {courseId, startTime, offset, limit} = courseSchedule
 
             // Find schedule with courseId and start time
-            const queryBuilder = this.courseRepo.createQueryBuilder('course_schedule')
+            const queryBuilder = this.courseSchedulerRepo.createQueryBuilder('course_schedule')
 
             const listSchedule = await queryBuilder.select()
                         .where(
