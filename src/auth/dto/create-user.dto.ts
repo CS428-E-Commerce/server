@@ -1,4 +1,4 @@
-import { ROLE_USER } from '@Constants/index.ts';
+import { EROLE_USER } from '@Constants/index.ts';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
@@ -20,7 +20,7 @@ export class SignUpDto {
     password: string;
 
     @ApiProperty()
-    @IsEnum(ROLE_USER)
+    @IsEnum(EROLE_USER)
     @IsNotEmpty()
     role: string;
 }
