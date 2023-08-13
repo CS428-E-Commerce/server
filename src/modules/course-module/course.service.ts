@@ -42,7 +42,9 @@ export class CourseService{
 
 
             // If coach is existed, update totalCourse of the coach
-            coach.totalCourse += 1
+            coach.totalCourse = Number(coach.totalCourse) + 1
+            console.log(coach.totalCourse)
+            
             // Then update average cost of coach
             coach.averageCost = (coach.averageCost*(coach.totalCourse-1) + course.cost)/coach.totalCourse
 
