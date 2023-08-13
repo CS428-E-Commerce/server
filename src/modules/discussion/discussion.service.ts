@@ -15,7 +15,7 @@ export class DiscussionService{
     
     async updateDiscussion(createDiscussionDTO: CreateDiscussionDTO) {
         try {
-            const { userId, courseId } = createDiscussionDTO;
+            const { userId, courseId, rate, comment } = createDiscussionDTO;
             const discussion = await this.courseDiscussion.findOne({
                 where: {
                     userId: userId,
@@ -28,28 +28,27 @@ export class DiscussionService{
                 await this.courseDiscussion.save(createDiscussionDTO);
 
                 const coachId = await this.courseEntity.findOne({
-                    select: { coachId: true, },
+                    select: { coachId: true},
                     where: { id: courseId }
                 })
 
                 // Get the coach
                 const coach = await this.coachEntity.findOne({
-                    select: { totalComment: true, rateTurn: true },
                     where: { id: coachId.id }
                 })
 
-                this.coachEntity.update({id: coachId.id}, {totalRate: createDiscussionDTO.rate, rateTurn: coach.rateTurn + 1, totalComment: coach.totalComment + 1}) //Update coach rate
+                const nRateTurn = Number(coach.rateTurn) + 1
+                const nTotalRate = (Number(coach.totalRate) * Number(coach.rateTurn) + Number(createDiscussionDTO.rate)) / nRateTurn
+                
+                coach.totalRate = nTotalRate
+                coach.rateTurn = nRateTurn
+                coach.totalComment = nRateTurn //Update coach rate
 
+                await this.coachEntity.save(coach)
                 return {meta: {code: HttpStatus.OK, msg: 'Add new review successfully'}, data: {}}
             }
         
             // If it existed, update information of discussion and coach
-            await this.courseDiscussion.update({ userId, courseId }, createDiscussionDTO);
-
-            // Find the discussion before modify
-            const preDiscussion = await this.courseDiscussion.findOne({
-                where: { userId, courseId }
-            })
 
             // Find the coach Id
             const coachId = await this.courseEntity.findOne({
@@ -59,18 +58,18 @@ export class DiscussionService{
 
             // Get the coach
             const coach = await this.coachEntity.findOne({
-                where: {id: coachId.id}
+                where: {id: coachId.coachId}
             })
 
             // Update coach + discussion
-            const preRate = preDiscussion.rate
-            preDiscussion.comment = createDiscussionDTO.comment
-            preDiscussion.rate = createDiscussionDTO.rate
-            coach.totalRate = coach.totalRate + createDiscussionDTO.rate - preRate
-
+            const preRate = Number(discussion.rate)
+            discussion.comment = createDiscussionDTO.comment
+            discussion.rate = Number(createDiscussionDTO.rate)
+            coach.totalRate = (Number(coach.totalRate)*Number(coach.rateTurn) + Number(createDiscussionDTO.rate) - preRate) / Number(coach.rateTurn)
+            
             // Submit change of coach and discussion
-            this.coachEntity.save(coach)
-            this.courseDiscussion.save(preDiscussion)
+            await this.coachEntity.save(coach)
+            await this.courseDiscussion.save(discussion)
 
             // Return data
             return {meta: {code: HttpStatus.OK, msg: 'Update the review successfully'}, data: {}};
@@ -130,8 +129,8 @@ export class DiscussionService{
             })
 
             // Update value of rate in coach
-            coach.rateTurn -= 1
-            coach.totalRate -= discussion.rate
+            coach.totalRate = (Number(coach.totalRate) * Number(coach.rateTurn) - Number(discussion.rate)) / (Number(coach.rateTurn) - 1)
+            coach.rateTurn = Number(coach.rateTurn) - 1
         
             // Commit change to coach and discussion
             await this.coachEntity.save(coach)

@@ -7,7 +7,7 @@ import { AuthGuard, RolesGuard } from '../../auth';
 export class DiscussionController{
     constructor(private discussionService: DiscussionService){}
 
-    @UseGuards(AuthGuard)
+    // @UseGuards(AuthGuard)
     @Post()
     async createDiscussion(@Body() createDiscussionDTO: CreateDiscussionDTO) {
       return await this.discussionService.updateDiscussion(createDiscussionDTO);
