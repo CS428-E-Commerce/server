@@ -1,7 +1,8 @@
-import { Body, Controller, Param, Post, Get, Delete, UseGuards } from "@nestjs/common";
+import { Body, Controller, Param, Post, Get, Delete, UseGuards, Query } from "@nestjs/common";
 import { AttendeeService } from "./attendee.service";
 import { CreateAttendeeDTO } from "./dto/attendee.dto";
 import { AuthGuard } from "../../auth";
+import { FindDiscussionsDTO } from "../discussion/dto/discussion.dto";
 
 @Controller('api/attendees')
 export class AttendeeController {
@@ -13,9 +14,9 @@ export class AttendeeController {
         return this.attendeeService.createAttendee(createAttendeeDTO);
     }
 
-    @Get(':courseId')
-    getAttendeeById(@Param('courseId') courseId: number) {
-        return this.attendeeService.getAttendeeByCourseId(courseId);
+    @Get()
+    getAttendeeById(@Query() findDTO: FindDiscussionsDTO ) {
+        return this.attendeeService.getAttendeeByCourseId(findDTO);
     }
 
     @UseGuards(AuthGuard)
