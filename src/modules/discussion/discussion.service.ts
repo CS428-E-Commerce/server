@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateDiscussionDTO, FindDiscussionsDTO } from "./dto/discussion.dto";
 import { plainToInstance } from "class-transformer";
-import { CoachEntity, CourseDiscussion, CourseEntity } from "@Entites/index.ts";
+import { CoachEntity, CourseDiscussion, CourseEntity, UserEntity } from "@Entites/index.ts";
 import { DiscussionSerialize } from "@Serialize/index.ts";
 
 @Injectable()
@@ -93,15 +93,32 @@ export class DiscussionService{
     async findDiscussions(findDiscussionsDTO: FindDiscussionsDTO) {
         const { courseId, offset, limit } = findDiscussionsDTO;
     
-        const discussions = await this.courseDiscussion.find({
-            where: { courseId },
-            skip: offset,
-            take: limit,
-        });
-    
-        const discussion_serialize = plainToInstance(DiscussionSerialize, discussions)
+        // const discussions = await this.courseDiscussion.find({
+        //     where: { courseId },
+        //     skip: offset,
+        //     take: limit,
+        // });
 
-        return {meta: {code: HttpStatus.OK, msg: 'success'}, data: discussion_serialize};
+        const query = this.courseDiscussion.createQueryBuilder('course_discussion')
+                            .select('user.username', 'username')
+                            .addSelect('user.avatar', 'avatar')
+                            .addSelect('course_discussion."userId"', 'userId')
+                            .addSelect('course_discussion."courseId"', 'courseId')
+                            .addSelect('course_discussion.rate', 'rate')
+                            .addSelect('course_discussion.comment', 'comment')
+                            .addSelect('course_discussion.id', 'id')
+                            .innerJoin(UserEntity, 'user', 'user.id=course_discussion.userId')
+
+        if (courseId) query.where('course_discussion."courseId"=:id', {id: courseId})
+
+        const discussions = await query
+                            .limit(limit)
+                            .offset(offset)
+                            .getRawMany()
+    
+        // const discussion_serialize = plainToInstance(DiscussionSerialize, discussions)
+
+        return {meta: {code: HttpStatus.OK, msg: 'success'}, data: discussions};
     }
     
     async deleteDiscussion(discussionId: number) {
