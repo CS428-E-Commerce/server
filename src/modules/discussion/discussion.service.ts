@@ -92,12 +92,6 @@ export class DiscussionService{
     
     async findDiscussions(findDiscussionsDTO: FindDiscussionsDTO) {
         const { courseId, offset, limit } = findDiscussionsDTO;
-    
-        // const discussions = await this.courseDiscussion.find({
-        //     where: { courseId },
-        //     skip: offset,
-        //     take: limit,
-        // });
 
         const query = this.courseDiscussion.createQueryBuilder('course_discussion')
                             .select('user.username', 'username')
@@ -107,7 +101,8 @@ export class DiscussionService{
                             .addSelect('course_discussion.rate', 'rate')
                             .addSelect('course_discussion.comment', 'comment')
                             .addSelect('course_discussion.id', 'id')
-                            .innerJoin(UserEntity, 'user', 'user.id=course_discussion.userId')
+                            .addSelect('course_discussion."createdAt"', 'createAt')
+                            .leftJoin(UserEntity, 'user', 'user.id=course_discussion.userId')
 
         if (courseId) query.where('course_discussion."courseId"=:id', {id: courseId})
 
@@ -115,8 +110,6 @@ export class DiscussionService{
                             .limit(limit)
                             .offset(offset)
                             .getRawMany()
-    
-        // const discussion_serialize = plainToInstance(DiscussionSerialize, discussions)
 
         return {meta: {code: HttpStatus.OK, msg: 'success'}, data: discussions};
     }
