@@ -1,10 +1,11 @@
-import { CoachEntity, CourseAttendeeEntity, CourseEntity } from "@Entites/index.ts";
+import { CoachEntity, CourseAttendeeEntity, CourseEntity, UserEntity } from "@Entites/index.ts";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateAttendeeDTO } from "./dto/attendee.dto";
 import { plainToInstance } from "class-transformer";
 import { AttendeeSerialize } from "@Serialize/index.ts";
+import { FindDiscussionsDTO } from "../discussion/dto/discussion.dto";
 
 @Injectable()
 export class AttendeeService {
@@ -58,17 +59,23 @@ export class AttendeeService {
     }
   }
 
-  async getAttendeeByCourseId(courseId: number) {
+  async getAttendeeByCourseId(findDto: FindDiscussionsDTO) {
       try {
-        const attendee = await this.attendeeRepository.find({
-                            where: {
-                                courseId: courseId
-                            }
-                        });
+        const { courseId, offset, limit } = findDto
+        const attendee = await this.attendeeRepository.createQueryBuilder('course_attendee')
+                                    .select('course_attendee.id')
+                                    .addSelect('course_attendee."userId"')
+                                    .addSelect('course_attendee."courseId"')
+                                    .addSelect('course_attendee."createdAt"')
+                                    .addSelect('user.username')
+                                    .addSelect('user.avatar')
+                                    .where('course_attendee."courseId"=:id', {id: courseId})
+                                    .leftJoin(UserEntity, 'user', 'user.id=course_attendee."userId"')
+                                    .offset(offset)
+                                    .limit(limit)
+                                    .getRawMany()
 
-        const attendee_serialize = plainToInstance(AttendeeSerialize, attendee)
-
-        return {meta: {code: HttpStatus.OK, msg: 'success'}, data: attendee_serialize}
+        return {meta: {code: HttpStatus.OK, msg: 'success'}, data: attendee}
       }
       catch(error){
         // handle the exception and return an appropriate response
