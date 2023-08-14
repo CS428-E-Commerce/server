@@ -10,7 +10,8 @@ import { GetUserDto, UpdateUserDto } from "./dto";
 
 
 // Serialize
-import { UserSerialize } from "@Serialize/index.ts";
+import { CoachSerialize, UserSerialize } from "@Serialize/index.ts";
+import { EROLE_USER } from "@Constants/index.ts";
 
 export class UserService {
     constructor(
@@ -28,6 +29,16 @@ export class UserService {
             })
 
             const serializeUser = plainToInstance(UserSerialize, currentUser);
+            
+            if(currentUser.role === EROLE_USER.COACH){
+                const coachInfo = this._coachRepository.findOneBy({
+                    userId: currentUser.id
+                })
+
+                const serialzeCoachInfo = plainToInstance(CoachSerialize, {...coachInfo, coachInfo: serializeUser});
+
+                return {meta: {code: 200, msg: 'success'}, data: serialzeCoachInfo}
+            }
 
             return {meta: {code: 200, msg: 'success'}, data: serializeUser}
 

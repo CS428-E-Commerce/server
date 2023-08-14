@@ -1,4 +1,4 @@
-import { ROLE_USER } from '@Constants/index.ts';
+import { EROLE_USER } from '@Constants/index.ts';
 import { ExecutionContext, SetMetadata, createParamDecorator } from '@nestjs/common';
 
 export const UserInfo = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
@@ -8,4 +8,4 @@ export const UserInfo = createParamDecorator((data: unknown, ctx: ExecutionConte
 });
 
 export const ROLES_KEY = 'roles';
-export const Roles = (...roles: ROLE_USER[]) => SetMetadata(ROLES_KEY, roles);
+export const Roles = (...roles: EROLE_USER[]) => SetMetadata(ROLES_KEY, roles);

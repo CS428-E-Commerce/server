@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 
 // Constants
-import { ROLE_USER } from '@Constants/index.ts';
+import { EROLE_USER } from '@Constants/index.ts';
 
 // Decorator
 import { ROLES_KEY } from '@Decorators/index.ts';
@@ -13,7 +13,7 @@ export class RolesGuard implements CanActivate {
     constructor(private reflector: Reflector, private jwtService: JwtService) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        const requiredRoles = this.reflector.getAllAndOverride<ROLE_USER[]>(ROLES_KEY, [
+        const requiredRoles = this.reflector.getAllAndOverride<EROLE_USER[]>(ROLES_KEY, [
             context.getHandler(),
             context.getClass(),
         ]);

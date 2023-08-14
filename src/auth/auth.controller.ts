@@ -10,7 +10,7 @@ import { AuthGuard, RolesGuard } from "./guard";
 import { Roles } from "@Decorators/index.ts";
 
 // Constants
-import { ROLE_USER } from "@Constants/index.ts";
+import { EROLE_USER } from "@Constants/index.ts";
 
 
 
@@ -31,7 +31,7 @@ export class AuthController {
     }
 
     @UseGuards(AuthGuard, RolesGuard)
-    @Roles(ROLE_USER.COACH)
+    @Roles(EROLE_USER.COACH)
     @Get('/')
     test(){
         return 'hgelo';

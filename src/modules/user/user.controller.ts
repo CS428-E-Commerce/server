@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Put, UseGuards } from '@nestjs/common';
 
 // Constants
-import { ROLE_USER } from '@Constants/index.ts';
+import { EROLE_USER } from '@Constants/index.ts';
 
 // Guards
 import { AuthGuard, RolesGuard } from '../../auth';
@@ -21,7 +21,7 @@ export class UserController {
     constructor(private userService: UserService) {}
 
     @UseGuards(AuthGuard, RolesGuard)
-    @Roles(ROLE_USER.COACH, ROLE_USER.STUDENT, ROLE_USER.ADMIN)
+    @Roles(EROLE_USER.COACH, EROLE_USER.STUDENT, EROLE_USER.ADMIN)
     @ApiOkResponse({
         description: 'The User records',
         type: UserSerialize,
@@ -33,7 +33,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard, RolesGuard)
-    @Roles(ROLE_USER.COACH, ROLE_USER.STUDENT, ROLE_USER.ADMIN)
+    @Roles(EROLE_USER.COACH, EROLE_USER.STUDENT, EROLE_USER.ADMIN)
     @Put('/')
     update(@Body() updateUserDto: UpdateUserDto, @UserInfo() userInfo: GetUserDto) {
         return this.userService.updateUser(updateUserDto, userInfo);
