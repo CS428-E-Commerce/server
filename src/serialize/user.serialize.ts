@@ -1,7 +1,57 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Exclude, Expose } from "class-transformer";
-import { IsString } from "class-validator";
+import { Exclude, Expose, Type } from "class-transformer";
+import { IsNumber, IsString } from "class-validator";
+import { CoachSerialize } from "./coach.serialize";
 
+@Exclude()
+class CoachInfo {
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    id: string;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    totalRate: number;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    rateTurn: number;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    totalStudent: number;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    totalCourse: number;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    totalComment: number;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    averageCost: number;
+
+    @Expose()
+    @ApiProperty()
+    @IsNumber()
+    @Type(() => Number)
+    yearExperience: number;
+}
 
 
 @Exclude()
@@ -40,5 +90,10 @@ export class UserSerialize {
     @ApiProperty()
     @IsString()
     phone: string;
+
+    @Expose()
+    @ApiProperty()
+    @Type(() => CoachInfo)
+    coachInfo: CoachInfo
 
 }

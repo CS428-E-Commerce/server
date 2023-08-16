@@ -31,11 +31,11 @@ export class UserService {
             const serializeUser = plainToInstance(UserSerialize, currentUser);
             
             if(currentUser.role === EROLE_USER.COACH){
-                const coachInfo = this._coachRepository.findOneBy({
+                const coachInfo = await this._coachRepository.findOneBy({
                     userId: currentUser.id
                 })
 
-                const serialzeCoachInfo = plainToInstance(CoachSerialize, {...coachInfo, coachInfo: serializeUser});
+                const serialzeCoachInfo = plainToInstance(UserSerialize, {...serializeUser, coachInfo});
 
                 return {meta: {code: 200, msg: 'success'}, data: serialzeCoachInfo}
             }
