@@ -9,7 +9,7 @@ import { LoginDto, SignUpDto } from './dto';
 
 // Entities
 import { UserEntity,CoachEntity } from '@Entites/index.ts';
-import { ROLE_USER } from '@Constants/index.ts';
+import { EROLE_USER } from '@Constants/index.ts';
 
 export class AuthService {
     constructor(
@@ -49,7 +49,7 @@ export class AuthService {
 
             user.setAttribute();
 
-            if(role === ROLE_USER.COACH) {
+            if(role === EROLE_USER.COACH) {
                 const newCoach = this._coachRepository.create({userId: user.id});
                 await this._coachRepository.save(newCoach);
             }

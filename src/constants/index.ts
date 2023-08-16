@@ -1,7 +1,7 @@
 export * from './environment.constants';
 
 
-export enum ROLE_USER {
+export enum EROLE_USER {
     COACH = "COACH",
     STUDENT = "STUDENT",
     ADMIN = "ADMIN"
