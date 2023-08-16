@@ -15,6 +15,7 @@ import { DiscoveryModule } from '@nestjs/core';
 import { DiscussionModule } from './modules/discussion/discussion.module';
 import { PaymentModule } from './stripe/stripe.module';
 import { AttendeeModule } from './modules/attendees/attendee.module';
+import { VerifyModule } from './modules/verify/verify.module';
 
 @Module({
     imports: [
@@ -27,6 +28,7 @@ import { AttendeeModule } from './modules/attendees/attendee.module';
         DiscussionModule,
         PaymentModule,
         AttendeeModule,
+        VerifyModule,
     ],
     controllers: [AppController],
     providers: [AppService],
