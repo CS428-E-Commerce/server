@@ -1,4 +1,4 @@
--- Active: 1690955496882@@127.0.0.1@5432@ecommerce
+-- Active: 1691740502523@@127.0.0.1@5432@ecommerce
 INSERT INTO "user" (id, email, phone, password, description, address, avatar, username, role)
 VALUES
     ('user_id_1', 'user1@example.com', '+123456789', 'password1', 'User 1 description', '123 Main St', 'avatar1.png', 'user_1', 'user'),
@@ -6,10 +6,10 @@ VALUES
     ('user_id_3', 'user3@example.com', '+111222333', 'password3', 'User 3 description', '789 Oak St', 'avatar3.png', 'user_3', 'user');
 
 
-INSERT INTO coach ("userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "transactionId")
+INSERT INTO coach ("userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "stripeId")
 VALUES
-    ('user_id_1', 4.5, 10, 30, 5, 'transaction_id_1'),
-    ('user_id_2', 4.8, 15, 50, 8, 'transaction_id_2');
+    ('user_id_1', 5, 3, 30, 5, 'transaction_id_1'),
+    ('user_id_2', 5, 1, 50, 8, 'transaction_id_2');
 
 
 INSERT INTO coach_skill ("coachId", skill)
