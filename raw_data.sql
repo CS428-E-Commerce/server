@@ -60,13 +60,13 @@ VALUES
 
 -- DELETE FROM "coach";
 
-INSERT INTO "coach" ("id", "userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "createdAt", "updatedAt", "deletedAt", "totalComment", "yearExperience", "averageCost", "stripeId")
+INSERT INTO "coach" ("userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "createdAt", "updatedAt", "deletedAt", "totalComment", "yearExperience", "averageCost", "stripeId")
 VALUES
-    (1, 'f47ac10b-58cc-4372-a567-0e02b2c3d479', 4.8, 20, 30, 15, NOW(), NOW(), NULL, 50, 5, 50.00, 'stripe_johndoe'),
-    (2, '02dd1904-920c-45b0-a572-09512c01ddaa', 4.9, 25, 40, 20, NOW(), NOW(), NULL, 60, 8, 60.00, 'stripe_mikesmith'),
-    (3, 'f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 4.7, 18, 25, 12, NOW(), NOW(), NULL, 45, 6, 55.00, 'stripe_davidbrown'),
-    (4, '8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 4.6, 22, 35, 18, NOW(), NOW(), NULL, 40, 7, 45.00, 'stripe_williamjones'),
-    (5, '1634e6e4-af6b-472f-8980-ef7e6eb80b67', 4.7, 19, 28, 14, NOW(), NOW(), NULL, 55, 9, 65.00, 'stripe_ryancooper');
+    ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 4.8, 20, 30, 15, NOW(), NOW(), NULL, 50, 5, 50.00, 'stripe_johndoe'),
+    ('02dd1904-920c-45b0-a572-09512c01ddaa', 4.9, 25, 40, 20, NOW(), NOW(), NULL, 60, 8, 60.00, 'stripe_mikesmith'),
+    ('f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 4.7, 18, 25, 12, NOW(), NOW(), NULL, 45, 6, 55.00, 'stripe_davidbrown'),
+    ('8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 4.6, 22, 35, 18, NOW(), NOW(), NULL, 40, 7, 45.00, 'stripe_williamjones'),
+    ('1634e6e4-af6b-472f-8980-ef7e6eb80b67', 4.7, 19, 28, 14, NOW(), NOW(), NULL, 55, 9, 65.00, 'stripe_ryancooper');
 
 -- DELETE FROM "coach_certificate";
 
@@ -110,18 +110,18 @@ VALUES
 
 -- DELETE FROM "course";
 
-INSERT INTO "course" ("id", "coachId", "title", "banner", "status", "level", "maxSlot", "cost", "description", "zoomLink", "createdAt", "updatedAt", "deletedAt", "code", "attendeeNumber")
+INSERT INTO "course" ("coachId", "title", "banner", "status", "level", "maxSlot", "cost", "description", "zoomLink", "createdAt", "updatedAt", "deletedAt", "code", "attendeeNumber")
 VALUES
-    (1, 1, 'Java Programming Fundamentals', 'https://nhyirapremiumuniversity.com/wp-content/uploads/2018/11/course.png', 'ACTIVE', 'beginner', 20, 75.00, 'Learn the basics of Java programming language.', 'https://zoom.us/javademo', NOW(), NOW(), NULL, 'JAVA101', 0),
-    (2, 2, 'Introduction to Graphic Design', 'https://traininglot.com/wp-content/uploads/2015/01/courses.png', 'ACTIVE', 'beginner', 15, 50.00, 'Discover the principles of graphic design.', 'https://zoom.us/graphicdesign', NOW(), NOW(), NULL, 'GD101', 0),
-    (3, 3, 'Digital Marketing Strategies', 'https://www.pmctechpoly.org/wp-content/uploads/2017/04/course_offered.jpg', 'ACTIVE', 'intermediate', 25, 90.00, 'Explore effective digital marketing strategies.', 'https://zoom.us/marketingstrategies', NOW(), NOW(), NULL, 'MKTG202', 0),
-    (4, 4, 'Portrait Photography Workshop', 'https://www.questpond.com/img/2.png', 'ACTIVE', 'intermediate', 12, 120.00, 'Master the art of portrait photography.', 'https://zoom.us/photographyworkshop', NOW(), NOW(), NULL, 'PHOTO303', 0),
-    (5, 5, 'Financial Planning for Beginners', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'ACTIVE', 'beginner', 30, 60.00, 'Learn the basics of personal financial planning.', 'https://zoom.us/financialplanning', NOW(), NOW(), NULL, 'FIN101', 0),
-    (6, 1, 'Agile Project Management', 'https://scalar.usc.edu/works/c2c-digital-magazine-fall-2019--winter-2020/media/training.jpg', 'ACTIVE', 'advanced', 18, 95.00, 'Implement Agile methodologies in project management.', 'https://zoom.us/agilemanagement', NOW(), NOW(), NULL, 'AGILE401', 0),
-    (7, 2, 'UI/UX Design Principles', 'https://coolessay.s3.amazonaws.com/courses-6-1.jpg', 'ACTIVE', 'intermediate', 20, 70.00, 'Explore the principles of UI/UX design.', 'https://zoom.us/uiuxdesign', NOW(), NOW(), NULL, 'UIUX202', 0),
-    (8, 3, 'Effective Sales Techniques', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'ACTIVE', 'advanced', 25, 110.00, 'Master advanced sales techniques and strategies.', 'https://zoom.us/salestechniques', NOW(), NOW(), NULL, 'SALES501', 0),
-    (9, 4, 'Event Photography Masterclass', 'https://www.drjimtaylor.com/4.0/wp-content/uploads/2019/12/Online-courses.jpg', 'ACTIVE', 'advanced', 10, 150.00, 'Become an expert in event photography.', 'https://zoom.us/eventphotography', NOW(), NOW(), NULL, 'EVENTPHOTO502', 0),
-    (10, 5, 'Risk Management in Finance', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'ACTIVE', 'intermediate', 28, 80.00, 'Learn effective risk management strategies in finance.', 'https://zoom.us/riskmanagement', NOW(), NOW(), NULL, 'RISK202', 0);
+    (1, 'Java Programming Fundamentals', 'https://nhyirapremiumuniversity.com/wp-content/uploads/2018/11/course.png', 'ACTIVE', 'beginner', 20, 75.00, 'Learn the basics of Java programming language.', 'https://zoom.us/javademo', NOW(), NOW(), NULL, 'JAVA101', 0),
+    (2, 'Introduction to Graphic Design', 'https://traininglot.com/wp-content/uploads/2015/01/courses.png', 'ACTIVE', 'beginner', 15, 50.00, 'Discover the principles of graphic design.', 'https://zoom.us/graphicdesign', NOW(), NOW(), NULL, 'GD101', 0),
+    (3, 'Digital Marketing Strategies', 'https://www.pmctechpoly.org/wp-content/uploads/2017/04/course_offered.jpg', 'ACTIVE', 'intermediate', 25, 90.00, 'Explore effective digital marketing strategies.', 'https://zoom.us/marketingstrategies', NOW(), NOW(), NULL, 'MKTG202', 0),
+    (4, 'Portrait Photography Workshop', 'https://www.questpond.com/img/2.png', 'ACTIVE', 'intermediate', 12, 120.00, 'Master the art of portrait photography.', 'https://zoom.us/photographyworkshop', NOW(), NOW(), NULL, 'PHOTO303', 0),
+    (5, 'Financial Planning for Beginners', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'ACTIVE', 'beginner', 30, 60.00, 'Learn the basics of personal financial planning.', 'https://zoom.us/financialplanning', NOW(), NOW(), NULL, 'FIN101', 0),
+    (1, 'Agile Project Management', 'https://scalar.usc.edu/works/c2c-digital-magazine-fall-2019--winter-2020/media/training.jpg', 'ACTIVE', 'advanced', 18, 95.00, 'Implement Agile methodologies in project management.', 'https://zoom.us/agilemanagement', NOW(), NOW(), NULL, 'AGILE401', 0),
+    (2, 'UI/UX Design Principles', 'https://coolessay.s3.amazonaws.com/courses-6-1.jpg', 'ACTIVE', 'intermediate', 20, 70.00, 'Explore the principles of UI/UX design.', 'https://zoom.us/uiuxdesign', NOW(), NOW(), NULL, 'UIUX202', 0),
+    (3, 'Effective Sales Techniques', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'ACTIVE', 'advanced', 25, 110.00, 'Master advanced sales techniques and strategies.', 'https://zoom.us/salestechniques', NOW(), NOW(), NULL, 'SALES501', 0),
+    (4, 'Event Photography Masterclass', 'https://www.drjimtaylor.com/4.0/wp-content/uploads/2019/12/Online-courses.jpg', 'ACTIVE', 'advanced', 10, 150.00, 'Become an expert in event photography.', 'https://zoom.us/eventphotography', NOW(), NOW(), NULL, 'EVENTPHOTO502', 0),
+    (5, 'Risk Management in Finance', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'ACTIVE', 'intermediate', 28, 80.00, 'Learn effective risk management strategies in finance.', 'https://zoom.us/riskmanagement', NOW(), NOW(), NULL, 'RISK202', 0);
 
 -- DELETE FROM "course_attendee";
 
@@ -186,3 +186,7 @@ VALUES
     (10, 5, '2023-08-21 16:00:00', '2023-08-21 18:00:00', NOW(), NOW(), NULL),
     (10, 5, '2023-08-23 16:00:00', '2023-08-23 18:00:00', NOW(), NOW(), NULL);
 
+
+
+INSERT INTO "course"("code", "coachId", "title", "banner", "status", "level", "maxSlot", "cost", "description", "attendeeNumber", "zoomLink", "createdAt", "updatedAt", "deletedAt") VALUES 
+(1, 'Java Programming Fundamentals', 'https://nhyirapremiumuniversity.com/wp-content/uploads/2018/11/course.png', 'ACTIVE', 'beginner', 20, 75.00, 'Learn the basics of Java programming language.', 'https://zoom.us/javademo', NOW(), NOW(), NULL, 'JAVA101', 0),
