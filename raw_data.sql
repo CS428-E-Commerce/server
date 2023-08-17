@@ -28,7 +28,7 @@ VALUES (1, 'Certificate X'),
 INSERT INTO course ("coachId", "code", title, banner, "status", "level", "maxSlot", "cost", "description", "zoomLink")
 VALUES
     (1, 'C1', 'Course 1', 'https://wallpaperaccess.com/full/2757765.png', 'Active', 'Beginner', 20, 100, 'Description for Course 1', 'zoom_link_1'),
-    (2, 'C2', 'Course 2', 'banner_url_2https://cdn.wallpapersafari.com/11/19/403Ncn.jpg', 'Active', 'Intermediate', 15, 150, 'Description for Course 2', 'zoom_link_2'),
+    (2, 'C2', 'Course 2', 'https://cdn.wallpapersafari.com/11/19/403Ncn.jpg', 'Active', 'Intermediate', 15, 150, 'Description for Course 2', 'zoom_link_2'),
     (1, 'C3', 'Course 3', 'https://cdn.wallpapersafari.com/41/61/I9DFQV.jpg', 'Active', 'Advanced', 10, 200, 'Description for Course 3', 'zoom_link_3');
 
 
