@@ -251,29 +251,30 @@ export class CourseService{
             const query = this.courseRepo
                         .createQueryBuilder('course')
                         .select("course.id", 'courseId')
-                        .addSelect('course.coachId', 'coachId')
+                        .addSelect('course."coachId"', 'coachId')
                         .addSelect('course.title', 'title')
                         .addSelect('course.banner', 'banner')
                         .addSelect('course.status', 'status')
                         .addSelect('course.level', 'level')
-                        .addSelect('course.maxSlot', 'maxSlot')
+                        .addSelect('course."maxSlot"', 'maxSlot')
                         .addSelect('course.cost', 'cost')
                         .addSelect('course.description', 'description')
-                        .addSelect('course.attendeeNumber', 'attendeeNumber')
+                        .addSelect('course."attendeeNumber"', 'attendeeNumber')
 
                         .addSelect('user.avatar', 'coachAvatar')
                         .addSelect('user.username', 'coachname')
                         
-                        .addSelect('coach.totalRate / coach.rateTurn', 'coachRate')
-                        .addSelect('coach.totalCourse', 'coachTotalCourse')
+                        .addSelect('coach."totalRate"', 'coachRate')
+                        .addSelect('coach."totalCourse"', 'coachTotalCourse')
+                        .addSelect('coach.id', 'coachid')
 
                         .addSelect('MIN(schedule."startTime")', 'startTime')
 
-                        .innerJoin(CoachEntity, 'coach', 'course.coachId = coach.id')
-                        .innerJoin(UserEntity, 'user', 'coach."userId" = user.id')
+                        .leftJoin(CoachEntity, 'coach', 'course."coachId" = coach.id')
+                        .leftJoin(UserEntity, 'user', 'coach."userId" = user.id')
                         .leftJoin(CourseCalendarEntity, 'schedule', 'schedule."courseId" = course.id')
 
-                        .groupBy('course.id, course."coachId", coach."totalCourse", coach.totalRate, coach.rateTurn, user.avatar, user.username')
+                        .groupBy('course.id, course."coachId", coach."totalCourse", coach."totalRate", coach."rateTurn", user.avatar, user.username, coach.id')
 
             if (level) query.where('course.level = :level', { level })
             if (status) query.andWhere('course.status = :status', { status })
