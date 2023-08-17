@@ -1,9 +1,9 @@
 -- Active: 1691740502523@@127.0.0.1@5432@ecommerce
 INSERT INTO "user" (id, email, phone, password, description, address, avatar, username, role)
 VALUES
-    ('user_id_1', 'user1@example.com', '+123456789', 'password1', 'User 1 description', '123 Main St', 'avatar1.png', 'user_1', 'user'),
-    ('user_id_2', 'user2@example.com', '+987654321', 'password2', 'User 2 description', '456 Elm St', 'avatar2.png', 'user_2', 'user'),
-    ('user_id_3', 'user3@example.com', '+111222333', 'password3', 'User 3 description', '789 Oak St', 'avatar3.png', 'user_3', 'user');
+    ('user_id_1', 'user1@example.com', '+123456789', 'password1', 'User 1 description', '123 Main St', 'https://wallpapertag.com/wallpaper/full/5/f/4/494653-1440x900-hd-wallpaper-2560x1440-for-ipad.jpg', 'user_1', 'user'),
+    ('user_id_2', 'user2@example.com', '+987654321', 'password2', 'User 2 description', '456 Elm St', 'https://wallpapercave.com/wp/7IxTmx7.jpg', 'user_2', 'user'),
+    ('user_id_3', 'user3@example.com', '+111222333', 'password3', 'User 3 description', '789 Oak St', 'https://wallpapercave.com/wp/mGlEbHK.jpg', 'user_3', 'user');
 
 
 INSERT INTO coach ("userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "stripeId")
@@ -27,9 +27,9 @@ VALUES (1, 'Certificate X'),
 
 INSERT INTO course ("coachId", "code", title, banner, "status", "level", "maxSlot", "cost", "description", "zoomLink")
 VALUES
-    (1, 'C1', 'Course 1', 'banner_url_1', 'Active', 'Beginner', 20, 100, 'Description for Course 1', 'zoom_link_1'),
-    (2, 'C2', 'Course 2', 'banner_url_2', 'Active', 'Intermediate', 15, 150, 'Description for Course 2', 'zoom_link_2'),
-    (1, 'C3', 'Course 3', NULL, 'Active', 'Advanced', 10, 200, 'Description for Course 3', 'zoom_link_3');
+    (1, 'C1', 'Course 1', 'https://wallpaperaccess.com/full/2757765.png', 'Active', 'Beginner', 20, 100, 'Description for Course 1', 'zoom_link_1'),
+    (2, 'C2', 'Course 2', 'banner_url_2https://cdn.wallpapersafari.com/11/19/403Ncn.jpg', 'Active', 'Intermediate', 15, 150, 'Description for Course 2', 'zoom_link_2'),
+    (1, 'C3', 'Course 3', 'https://cdn.wallpapersafari.com/41/61/I9DFQV.jpg', 'Active', 'Advanced', 10, 200, 'Description for Course 3', 'zoom_link_3');
 
 
 
