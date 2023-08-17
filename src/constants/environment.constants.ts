@@ -13,5 +13,6 @@ export const POSTGRES_DB = process.env.POSTGRES_DB || 'ecommerce';
 // Course
 export class ESTATUS_COURSE{
     public static AWAIT = 'AWAIT'
-    public static VERIFIED = 'VERIFIED'
+    public static ACTIVE = 'ACTIVE'
+    public static DECLINED = 'DECLINED'
 }
