@@ -283,16 +283,15 @@ export class CourseService{
             // If userId is provided
             if (userId) query.innerJoin(CourseAttendeeEntity, 'course_attendee', 'course_attendee."userId" = :userid and course_attendee."courseId" = course.id', { userid: userId })
 
-
-            var lastPage = await query.getCount()
-            lastPage = Math.ceil(lastPage / limit)
+            const total = await query.getCount()
+            const lastPage = Math.ceil(total / limit)
 
             const listCourse = await query.limit(limit)
                                     .offset(offset)
                                     .getRawMany()
 
             // // Return data
-            return {meta: {code: HttpStatus.OK, msg: 'success'}, data: listCourse, lastPage}
+            return {meta: {code: HttpStatus.OK, msg: 'success'}, data: listCourse, lastPage, total}
         }
         catch(error){
             // handle the exception and return an appropriate response
