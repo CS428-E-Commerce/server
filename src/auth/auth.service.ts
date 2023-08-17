@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-
+import {AES, enc} from 'crypto-js';
 // DTO
 import { LoginDto, SignUpDto } from './dto';
 
@@ -42,8 +42,11 @@ export class AuthService {
 
             await this.checkExistUser(email);
 
+            const bytes = AES.decrypt(password, process.env.AUTH_SECRET);
+            const originalPassword = bytes.toString(enc.Utf8);
+
             const salt = await bcrypt.genSalt();
-            const hashPassword = await bcrypt.hash(password, salt);
+            const hashPassword = await bcrypt.hash(originalPassword, salt);
 
             const user = this._userRepository.create({ email, password: hashPassword, role });
 
@@ -95,7 +98,10 @@ export class AuthService {
                 );
             }
 
-            const checkPassword = await bcrypt.compare(password, currentUser.password);
+            const bytes = AES.decrypt(password, process.env.AUTH_SECRET);
+            const originalPassword = bytes.toString(enc.Utf8);
+
+            const checkPassword = await bcrypt.compare(originalPassword, currentUser.password);
 
             if (!checkPassword) {
                 console.error('invalid Password');
