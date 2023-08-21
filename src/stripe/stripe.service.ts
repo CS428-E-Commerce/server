@@ -1,5 +1,5 @@
 import { CoachEntity, CourseEntity } from '@Entites/index.ts';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Stripe from 'stripe';
 import { Repository } from 'typeorm';
@@ -29,6 +29,8 @@ export class StripeService {
             }
         })
 
+        if (!course) throw new HttpException('course not found', HttpStatus.BAD_REQUEST)
+
         const paymentIntent = await this.stripeClient.paymentIntents.create({
             amount: Number(course.cost),
             currency: 'usd',
@@ -47,7 +49,7 @@ export class StripeService {
         // Find coach transaction Id
         const coachAccountId = await this.coachRepo.findOne({
             select: {
-
+                stripeId: true,
             },
             where: {
                 id: coachId,
@@ -64,6 +66,9 @@ export class StripeService {
             }
         })
         
+        if (!course) throw new HttpException('Course not found', HttpStatus.BAD_REQUEST)
+        if (!coachAccountId) throw new HttpException('Coach not found', HttpStatus.BAD_REQUEST)
+
         // Create a Transfer to send funds to the seller's bank account
         await this.stripeClient.transfers.create({
             amount: Math.round(Number(course.cost) * 0.95), // Only send 95% of course cost to coach
