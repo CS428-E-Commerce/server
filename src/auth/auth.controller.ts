@@ -11,7 +11,7 @@ import { Roles, UserInfo } from "@Decorators/index.ts";
 
 // Constants
 import { EROLE_USER } from "@Constants/index.ts";
-import { GetUserDto } from "src/modules/user/dto";
+import { GetUserDto } from "../modules/user/dto";
 
 
 
