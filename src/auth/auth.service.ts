@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import {AES, enc} from 'crypto-js';
 // DTO
-import { LoginDto, SignUpDto } from './dto';
+import { ChangePasswordDTO, LoginDto, SignUpDto } from './dto';
 
 // Entities
 import { UserEntity,CoachEntity } from '@Entites/index.ts';
@@ -118,6 +118,61 @@ export class AuthService {
             const accessToken: string = this._jwtService.sign(payloadJwt);
 
             return { meta: { code: 200, msg: 'success' }, data: { accessToken, email } };
+        } catch (error) {
+            // handle the exception and return an appropriate response
+            if (error instanceof HttpException) {
+                throw error;
+            } else {
+                console.log(error);
+
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                        message: 'Internal server error',
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                );
+            }
+        }
+    }
+
+    async changePassword(changePasswordDTO: ChangePasswordDTO, userEmail: string){
+        try {
+            const {password, newPassword} = changePasswordDTO;
+
+            const oldBytes = AES.decrypt(password, process.env.AUTH_SECRET);
+            const originalOldPassword = oldBytes.toString(enc.Utf8);
+
+            await this.checkExistUser(userEmail);
+
+            const currentUser = await this._userRepository.findOneBy({
+                email: userEmail
+            })
+
+            const checkOldPassword = await bcrypt.compare(originalOldPassword, currentUser.password);
+
+            if (!checkOldPassword) {
+                console.error('Current password is not valid');
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.CONFLICT,
+                        message: 'Current password is not valid',
+                    },
+                    HttpStatus.CONFLICT
+                );
+            }
+
+            const newBytes = AES.decrypt(newPassword, process.env.AUTH_SECRET);
+            const originalNewPassword = newBytes.toString(enc.Utf8);
+
+            const salt = await bcrypt.genSalt();
+            const hashNewPassword = await bcrypt.hash(originalNewPassword, salt);
+
+            currentUser.updateAttributes({password: hashNewPassword});
+
+            await this._userRepository.save(currentUser);
+
+            return {meta: {code: 200, message: "Update Password successfully"}, data: null}
         } catch (error) {
             // handle the exception and return an appropriate response
             if (error instanceof HttpException) {

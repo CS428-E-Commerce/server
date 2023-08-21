@@ -36,3 +36,15 @@ export class LoginDto {
     @IsNotEmpty()
     password: string;
 }
+
+export class ChangePasswordDTO {
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    password: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    newPassword: string;
+}

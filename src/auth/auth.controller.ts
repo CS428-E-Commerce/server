@@ -3,14 +3,15 @@ import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 // Service
 import { AuthService } from "./auth.service";
 // Dto
-import { LoginDto, SignUpDto } from "./dto";
+import { ChangePasswordDTO, LoginDto, SignUpDto } from "./dto";
 // Guard
 import { AuthGuard, RolesGuard } from "./guard";
 // Decorator
-import { Roles } from "@Decorators/index.ts";
+import { Roles, UserInfo } from "@Decorators/index.ts";
 
 // Constants
 import { EROLE_USER } from "@Constants/index.ts";
+import { GetUserDto } from "src/modules/user/dto";
 
 
 
@@ -35,5 +36,11 @@ export class AuthController {
     @Get('/')
     test(){
         return 'hgelo';
+    }
+
+    @UseGuards(AuthGuard)
+    @Post('/change-password')
+    changePassword(@Body() changePasswordDto: ChangePasswordDTO, @UserInfo() userInfo: GetUserDto){
+        return this._authService.changePassword(changePasswordDto, userInfo.email);
     }
 }   

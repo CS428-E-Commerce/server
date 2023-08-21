@@ -3,7 +3,14 @@ import { IsOptional, IsString } from "class-validator";
 
 
 export class GetUserDto {
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
     email: string;
+    
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
     role: string;
 }
 
@@ -32,4 +39,9 @@ export class UpdateUserDto {
     @IsString()
     @IsOptional()
     description: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
+    password: string;
 }

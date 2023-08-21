@@ -46,12 +46,12 @@ export class UserEntity {
         this.id = uuidv4();
     }
 
-    updateAttributes({phone, address, description, avatar, username}: UpdateUserDto) {
+    updateAttributes({phone, address, description, avatar, username, password}: Partial<UpdateUserDto>) {
         this.phone = phone ? phone : this.phone
         this.address = address ? address : this.address
         this.description = description ? description : this.description
         this.avatar = avatar ? avatar : this.avatar
-        this.username = username ? username : this.username
-
+        this.username = username ? username : this.username;
+        this.password = password ? password : this.password;
     }
 }
