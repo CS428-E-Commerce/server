@@ -30,7 +30,7 @@ export class StripeService {
         })
 
         const paymentIntent = await this.stripeClient.paymentIntents.create({
-            amount: course.cost,
+            amount: Number(course.cost),
             currency: 'usd',
         });
 
@@ -66,7 +66,7 @@ export class StripeService {
         
         // Create a Transfer to send funds to the seller's bank account
         await this.stripeClient.transfers.create({
-            amount: Math.round(course.cost * 0.95), // Only send 95% of course cost to coach
+            amount: Math.round(Number(course.cost) * 0.95), // Only send 95% of course cost to coach
             currency: 'usd',
             destination: coachAccountId.stripeId, // The seller's Stripe Connect account ID
         });
