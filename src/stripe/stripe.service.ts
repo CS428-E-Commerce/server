@@ -8,10 +8,11 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class StripeService {
   private stripeClient: Stripe;
+  private SECRET_KEY = 'sk_test_51NaE1pH6fBgGoCwayTpBmBzzMXCurrHJDO3wejM69DvSESANB3wFWnK8zKbqpZuko393UipLoxs6fmkPSO4hTdCo00SmyrDKbn'
 
   constructor(@InjectRepository(CourseEntity) private courseRepo: Repository<CourseEntity>,
                 @InjectRepository(CoachEntity) private coachRepo: Repository<CoachEntity>) {
-    this.stripeClient = new Stripe('YOUR_SECRET_KEY', {
+    this.stripeClient = new Stripe(this.SECRET_KEY, {
       apiVersion: '2022-11-15', // Replace with the desired API version
     });
   }
