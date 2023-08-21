@@ -43,7 +43,6 @@ export class CourseService{
 
             // If coach is existed, update totalCourse of the coach
             coach.totalCourse = Number(coach.totalCourse) + 1
-            console.log(coach.totalCourse)
             
             // Then update average cost of coach
             coach.averageCost = (coach.averageCost*(coach.totalCourse-1) + course.cost)/coach.totalCourse
@@ -245,7 +244,7 @@ export class CourseService{
     async findCourse(courseDto: FindCourseDTO){
         try{
             // Get data from user's input
-            const {code, coachId, userId, status, level, offset, limit} = courseDto
+            const {title, code, coachId, userId, status, level, offset, limit} = courseDto
 
             // Query to find course from the database               
             const query = this.courseRepo
@@ -279,7 +278,8 @@ export class CourseService{
             if (level) query.where('course.level = :level', { level })
             if (status) query.andWhere('course.status = :status', { status })
             if (code) query.andWhere('course.code = :code', { code })
-            if (coachId) query.andWhere('coach.id = :id', { id: coachId });
+            if (coachId) query.andWhere('coach.id = :id', { id: coachId })
+            if (title) query.andWhere('course.title = :title', {title})
 
             // If userId is provided
             if (userId) query.innerJoin(CourseAttendeeEntity, 'course_attendee', 'course_attendee."userId" = :userid and course_attendee."courseId" = course.id', { userid: userId })
