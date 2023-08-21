@@ -279,7 +279,7 @@ export class CourseService{
             if (status) query.andWhere('course.status = :status', { status })
             if (code) query.andWhere('course.code = :code', { code })
             if (coachId) query.andWhere('coach.id = :id', { id: coachId })
-            if (title) query.andWhere('course.title = :title', {title})
+            if (title) query.andWhere("course.title ILIKE '%" + title + "%'")
 
             // If userId is provided
             if (userId) query.innerJoin(CourseAttendeeEntity, 'course_attendee', 'course_attendee."userId" = :userid and course_attendee."courseId" = course.id', { userid: userId })
