@@ -143,11 +143,20 @@ export class AuthService {
             const oldBytes = AES.decrypt(password, process.env.AUTH_SECRET);
             const originalOldPassword = oldBytes.toString(enc.Utf8);
 
-            await this.checkExistUser(userEmail);
-
             const currentUser = await this._userRepository.findOneBy({
                 email: userEmail
             })
+
+            if(!currentUser) {
+                console.error('User is not exist');
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.CONFLICT,
+                        message: 'User is not exist',
+                    },
+                    HttpStatus.CONFLICT
+                );
+            }
 
             const checkOldPassword = await bcrypt.compare(originalOldPassword, currentUser.password);
 
