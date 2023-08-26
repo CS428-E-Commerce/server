@@ -153,8 +153,6 @@ export class CourseService{
                                         .andWhere('course.id=:courseid', {courseid: Id})
                                         .getExists()
 
-            console.log('----------------------------------', coachOfCourse)
-
             // Query to find course from the database         
             const course = await this.courseRepo.findOne({
                 select: {
