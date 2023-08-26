@@ -143,6 +143,18 @@ export class CourseService{
                 }
             })
 
+            // Check if userId is the coach of the course
+            const coachOfCourse = await this.courseRepo.createQueryBuilder('course')
+                                        .select('course."coachId"')
+                                        .addSelect('course.id')
+                                        .addSelect('coach."userId"')
+                                        .leftJoin(CoachEntity, 'coach', 'coach.id=course."coachId"')
+                                        .where('coach."userId"=:id', {id: userId})
+                                        .andWhere('course.id=:courseid', {courseid: Id})
+                                        .getExists()
+
+            console.log('----------------------------------', coachOfCourse)
+
             // Query to find course from the database         
             const course = await this.courseRepo.findOne({
                 select: {
@@ -155,8 +167,9 @@ export class CourseService{
                     maxSlot: true,
                     cost: true,
                     description: true,
+                    coachId: true,
                     attendeeNumber: true,
-                    zoomLink: attendeeInCourse,
+                    zoomLink: attendeeInCourse || coachOfCourse,
                 },
                 where: {
                     id: Id
