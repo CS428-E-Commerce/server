@@ -43,25 +43,25 @@ SELECT setval(pg_get_serial_sequence('"user"', 'id'), 1, false);
 
 INSERT INTO "user" ("id", "email", "phone", "password", "description", "address", "avatar", "username", "role")
 VALUES
-    ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'johndoe@gmail.com', '123-456-7890', 'password1', 'John Doe - Software Engineer', '123 Main St, City 1', 'https://i.pravatar.cc/300?u=f47ac10b-58cc-4372-a567-0e02b2c3d479', 'johndoe', 'COACH'),
-    ('1aeb200a-44d1-4f2f-b953-7455b2a27b6d', 'janedoe@gmail.com', '987-654-3210', 'password2', 'Jane Doe - Graphic Designer', '456 Elm St, City 2', 'https://i.pravatar.cc/300?u=1aeb200a-44d1-4f2f-b953-7455b2a27b6d', 'janedoe', 'STUDENT'),
-    ('02dd1904-920c-45b0-a572-09512c01ddaa', 'mikesmith@gmail.com', '555-555-5555', 'password3', 'Mike Smith - Marketing Specialist', '789 Oak St, City 3', 'https://i.pravatar.cc/300?u=02dd1904-920c-45b0-a572-09512c01ddaa', 'mikesmith', 'COACH'),
-    ('85ff1191-c1db-4d48-a620-23ff54b35610', 'emilyjohnson@gmail.com', '111-222-3333', 'password4', 'Emily Johnson - Photographer', '101 Pine St, City 4', 'https://i.pravatar.cc/300?u=85ff1191-c1db-4d48-a620-23ff54b35610', 'emilyjohnson', 'STUDENT'),
-    ('f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 'davidbrown@gmail.com', '444-555-6666', 'password5', 'David Brown - Financial Analyst', '111 Maple St, City 5', 'https://i.pravatar.cc/300?u=f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 'davidbrown', 'COACH'),
+    ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'johndoe@gmail.com', '123-456-7890', 'password1', 'John Doe - Vietnamese student', '123 Main St, City 1', 'https://i.pravatar.cc/300?u=f47ac10b-58cc-4372-a567-0e02b2c3d479', 'johndoe', 'COACH'),
+    ('1aeb200a-44d1-4f2f-b953-7455b2a27b6d', 'janedoe@gmail.com', '987-654-3210', 'password2', 'Jane Doe - English student', '456 Elm St, City 2', 'https://i.pravatar.cc/300?u=1aeb200a-44d1-4f2f-b953-7455b2a27b6d', 'janedoe', 'STUDENT'),
+    ('02dd1904-920c-45b0-a572-09512c01ddaa', 'mikesmith@gmail.com', '555-555-5555', 'password3', 'Mike Smith - Vietnamese reseacher', '789 Oak St, City 3', 'https://i.pravatar.cc/300?u=02dd1904-920c-45b0-a572-09512c01ddaa', 'mikesmith', 'COACH'),
+    ('85ff1191-c1db-4d48-a620-23ff54b35610', 'emilyjohnson@gmail.com', '111-222-3333', 'password4', 'Emily Johnson - Learn Vietnamese in a month with me', '101 Pine St, City 4', 'https://i.pravatar.cc/300?u=85ff1191-c1db-4d48-a620-23ff54b35610', 'emilyjohnson', 'STUDENT'),
+    ('f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 'davidbrown@gmail.com', '444-555-6666', 'password5', 'David Brown - Vietnamese Analyst', '111 Maple St, City 5', 'https://i.pravatar.cc/300?u=f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 'davidbrown', 'COACH'),
     ('ea0317a0-08a3-47e6-a963-1cb8466f6f7a', 'oliviataylor@gmail.com', '777-888-9999', 'password6', 'Olivia Taylor - Writer', '222 Cedar St, City 6', 'https://i.pravatar.cc/300?u=ea0317a0-08a3-47e6-a963-1cb8466f6f7a', 'oliviataylor', 'STUDENT'),
-    ('8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 'williamjones@gmail.com', '222-333-4444', 'password7', 'William Jones - Sales Manager', '333 Birch St, City 7', 'https://i.pravatar.cc/300?u=8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 'williamjones', 'COACH'),
-    ('c14b8b0d-c4b1-4d5c-a6b7-4c30176b7269', 'sophiasmith@gmail.com', '666-777-8888', 'password8', 'Sophia Smith - HR Specialist', '444 Walnut St, City 8', 'https://i.pravatar.cc/300?u=c14b8b0d-c4b1-4d5c-a6b7-4c30176b7269', 'sophiasmith', 'STUDENT'),
-    ('1634e6e4-af6b-472f-8980-ef7e6eb80b67', 'ryancooper@gmail.com', '999-000-1111', 'password9', 'Ryan Cooper - Product Designer', '555 Pine St, City 9', 'https://i.pravatar.cc/300?u=1634e6e4-af6b-472f-8980-ef7e6eb80b67', 'ryancooper', 'COACH'),
-    ('f571e504-0b18-45d6-bd0c-05b8c4df53b6', 'laurawilson@gmail.com', '333-444-5555', 'password10', 'Laura Wilson - Project Manager', '666 Oak St, City 10', 'https://i.pravatar.cc/300?u=f571e504-0b18-45d6-bd0c-05b8c4df53b6', 'laurawilson', 'STUDENT');
+    ('8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 'williamjones@gmail.com', '222-333-4444', 'password7', 'William Jones - Vietnamese teacher', '333 Birch St, City 7', 'https://i.pravatar.cc/300?u=8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 'williamjones', 'COACH'),
+    ('c14b8b0d-c4b1-4d5c-a6b7-4c30176b7269', 'sophiasmith@gmail.com', '666-777-8888', 'password8', 'Sophia Smith - Vietnamese reseacher', '444 Walnut St, City 8', 'https://i.pravatar.cc/300?u=c14b8b0d-c4b1-4d5c-a6b7-4c30176b7269', 'sophiasmith', 'STUDENT'),
+    ('1634e6e4-af6b-472f-8980-ef7e6eb80b67', 'ryancooper@gmail.com', '999-000-1111', 'password9', 'Ryan Cooper - Vietnamese reseacher', '555 Pine St, City 9', 'https://i.pravatar.cc/300?u=1634e6e4-af6b-472f-8980-ef7e6eb80b67', 'ryancooper', 'COACH'),
+    ('f571e504-0b18-45d6-bd0c-05b8c4df53b6', 'laurawilson@gmail.com', '333-444-5555', 'password10', 'Laura Wilson - Just a student', '666 Oak St, City 10', 'https://i.pravatar.cc/300?u=f571e504-0b18-45d6-bd0c-05b8c4df53b6', 'laurawilson', 'STUDENT');
 
 
 INSERT INTO "coach" ("userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "createdAt", "updatedAt", "deletedAt", "totalComment", "yearExperience", "averageCost", "stripeId")
 VALUES
-    ('02dd1904-920c-45b0-a572-09512c01ddaa', 4.8, 20, 30, 15, NOW(), NOW(), NULL, 50, 5, 50.00, 'stripe_teacher1'),
-    ('f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 4.9, 25, 40, 20, NOW(), NOW(), NULL, 60, 8, 60.00, 'stripe_teacher2'),
-    ('8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 4.7, 18, 25, 12, NOW(), NOW(), NULL, 45, 6, 55.00, 'stripe_teacher3'),
-    ('1634e6e4-af6b-472f-8980-ef7e6eb80b67', 4.6, 22, 35, 18, NOW(), NOW(), NULL, 40, 7, 45.00, 'stripe_teacher4'),
-    ('c14b8b0d-c4b1-4d5c-a6b7-4c30176b7269', 4.7, 19, 28, 14, NOW(), NOW(), NULL, 55, 9, 65.00, 'stripe_teacher5');
+    ('02dd1904-920c-45b0-a572-09512c01ddaa', 3.5, 2, 2, 1, NOW(), NOW(), NULL, 2, 0, 75.00, 'stripe_teacher1'),
+    ('f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 5.0, 1, 1, 1, NOW(), NOW(), NULL, 1, 0, 50.00, 'stripe_teacher2'),
+    ('8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 4.0, 1, 1, 1, NOW(), NOW(), NULL, 1, 0, 90.00, 'stripe_teacher3'),
+    ('1634e6e4-af6b-472f-8980-ef7e6eb80b67', 3.5, 2, 2, 1, NOW(), NOW(), NULL, 2, 0, 120.00, 'stripe_teacher4'),
+    ('c14b8b0d-c4b1-4d5c-a6b7-4c30176b7269', 4.0, 2, 2, 1, NOW(), NOW(), NULL, 2, 0, 60.00, 'stripe_teacher5');
 
 INSERT INTO "coach_certificate" ("coachId", "certificate", "createdAt", "updatedAt", "deletedAt")
 VALUES
@@ -105,14 +105,14 @@ VALUES
 
 INSERT INTO "course_discussion" ("courseId", "userId", "rate", "comment", "createdAt", "updatedAt", "deletedAt")
 VALUES
-    (1, '1aeb200a-44d1-4f2f-b953-7455b2a27b6d', 4.5, 'Great course, learned a lot!', NOW(), NOW(), NULL),
-    (1, '02dd1904-920c-45b0-a572-09512c01ddaa', 3.8, 'Nội dung có thể cụ thể hơn.', NOW(), NOW(), NULL),
+    (1, '1aeb200a-44d1-4f2f-b953-7455b2a27b6d', 4.0, 'Great course, learned a lot!', NOW(), NOW(), NULL),
+    (1, '02dd1904-920c-45b0-a572-09512c01ddaa', 3.0, 'Nội dung có thể cụ thể hơn.', NOW(), NOW(), NULL),
     (2, 'f47ac10b-58cc-4372-a567-0e02b2c3d479', 5.0, 'Khóa học tuyệt vời! Rất đáng giới thiệu.', NOW(), NOW(), NULL),
-    (3, '85ff1191-c1db-4d48-a620-23ff54b35610', 4.2, 'Giúp tôi cải thiện kỹ năng của mình.', NOW(), NOW(), NULL),
-    (4, 'f47ac10b-58cc-4372-a567-0e02b2c3d479', 4.7, 'Giảng viên có kiến thức và hấp dẫn.', NOW(), NOW(), NULL),
-    (4, '02dd1904-920c-45b0-a572-09512c01ddaa', 3.5, 'Mong đợi nhiều bài tập thực tế hơn.', NOW(), NOW(), NULL),
+    (3, '85ff1191-c1db-4d48-a620-23ff54b35610', 4.0, 'Giúp tôi cải thiện kỹ năng của mình.', NOW(), NOW(), NULL),
+    (4, 'f47ac10b-58cc-4372-a567-0e02b2c3d479', 4.0, 'Giảng viên có kiến thức và hấp dẫn.', NOW(), NOW(), NULL),
+    (4, '02dd1904-920c-45b0-a572-09512c01ddaa', 3.0, 'Mong đợi nhiều bài tập thực tế hơn.', NOW(), NOW(), NULL),
     (5, '1aeb200a-44d1-4f2f-b953-7455b2a27b6d', 4.0, 'Giải thích rõ ràng, kiến thức hữu ích.', NOW(), NOW(), NULL),
-    (5, '85ff1191-c1db-4d48-a620-23ff54b35610', 4.8, 'Thích thú với các buổi học tương tác.', NOW(), NOW(), NULL);
+    (5, '85ff1191-c1db-4d48-a620-23ff54b35610', 4.0, 'Thích thú với các buổi học tương tác.', NOW(), NOW(), NULL);
 
 
 INSERT INTO "course_schedule" ("courseId", "coachId", "startTime", "endTime", "createdAt", "updatedAt", "deletedAt")
