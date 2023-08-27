@@ -45,7 +45,7 @@ export class CourseService{
             coach.totalCourse = Number(coach.totalCourse) + 1
             
             // Then update average cost of coach
-            coach.averageCost = (coach.averageCost*(coach.totalCourse-1) + course.cost)/coach.totalCourse
+            coach.averageCost = (Number(coach.averageCost)*(coach.totalCourse-1) + Number(course.cost))/coach.totalCourse
 
             // Commit change to database
             await this.courseRepo.save(course);
