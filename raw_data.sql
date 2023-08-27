@@ -55,13 +55,13 @@ VALUES
     ('f571e504-0b18-45d6-bd0c-05b8c4df53b6', 'laurawilson@gmail.com', '333-444-5555', 'password10', 'Laura Wilson - Project Manager', '666 Oak St, City 10', 'https://i.pravatar.cc/300?u=f571e504-0b18-45d6-bd0c-05b8c4df53b6', 'laurawilson', 'STUDENT');
 
 
-INSERT INTO "coach" ("id", "userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "createdAt", "updatedAt", "deletedAt", "totalComment", "yearExperience", "averageCost", "stripeId")
+INSERT INTO "coach" ("userId", "totalRate", "rateTurn", "totalStudent", "totalCourse", "createdAt", "updatedAt", "deletedAt", "totalComment", "yearExperience", "averageCost", "stripeId")
 VALUES
-    (1, '02dd1904-920c-45b0-a572-09512c01ddaa', 4.8, 20, 30, 15, NOW(), NOW(), NULL, 50, 5, 50.00, 'stripe_teacher1'),
-    (2, 'f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 4.9, 25, 40, 20, NOW(), NOW(), NULL, 60, 8, 60.00, 'stripe_teacher2'),
-    (3, '8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 4.7, 18, 25, 12, NOW(), NOW(), NULL, 45, 6, 55.00, 'stripe_teacher3'),
-    (4, '1634e6e4-af6b-472f-8980-ef7e6eb80b67', 4.6, 22, 35, 18, NOW(), NOW(), NULL, 40, 7, 45.00, 'stripe_teacher4'),
-    (5, 'c14b8b0d-c4b1-4d5c-a6b7-4c30176b7269', 4.7, 19, 28, 14, NOW(), NOW(), NULL, 55, 9, 65.00, 'stripe_teacher5');
+    ('02dd1904-920c-45b0-a572-09512c01ddaa', 4.8, 20, 30, 15, NOW(), NOW(), NULL, 50, 5, 50.00, 'stripe_teacher1'),
+    ('f991b597-b9e4-43fb-9d82-468fc4bb7d8f', 4.9, 25, 40, 20, NOW(), NOW(), NULL, 60, 8, 60.00, 'stripe_teacher2'),
+    ('8d7b8e15-cf3e-4c0f-88a4-2fb1b2e1f3a1', 4.7, 18, 25, 12, NOW(), NOW(), NULL, 45, 6, 55.00, 'stripe_teacher3'),
+    ('1634e6e4-af6b-472f-8980-ef7e6eb80b67', 4.6, 22, 35, 18, NOW(), NOW(), NULL, 40, 7, 45.00, 'stripe_teacher4'),
+    ('c14b8b0d-c4b1-4d5c-a6b7-4c30176b7269', 4.7, 19, 28, 14, NOW(), NOW(), NULL, 55, 9, 65.00, 'stripe_teacher5');
 
 INSERT INTO "coach_certificate" ("coachId", "certificate", "createdAt", "updatedAt", "deletedAt")
 VALUES
@@ -84,13 +84,13 @@ VALUES
     (5, 'Vietnamese Language Proficiency', NOW(), NOW(), NULL),
     (5, 'Vietnamese Language Literature', NOW(), NOW(), NULL);
 
-INSERT INTO "course" ("id", "coachId", "title", "banner", "status", "level", "maxSlot", "cost", "description", "zoomLink", "createdAt", "updatedAt", "deletedAt", "code", "attendeeNumber")
+INSERT INTO "course" ("coachId", "title", "banner", "status", "level", "maxSlot", "cost", "description", "zoomLink", "createdAt", "updatedAt", "deletedAt", "code", "attendeeNumber")
 VALUES
-    (1, 1, 'Basic Vietnamese Language Course', 'https://nhyirapremiumuniversity.com/wp-content/uploads/2018/11/course.png', 'active', 'beginner', 20, 75.00, 'Learn the fundamentals of the Vietnamese language.', 'https://zoom.us/vietnamese101', NOW(), NOW(), NULL, 'VIET101', 0),
-    (2, 2, 'Intermediate Vietnamese Language Course', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'active', 'intermediate', 15, 50.00, 'Improve your Vietnamese language skills.', 'https://zoom.us/vietnamese202', NOW(), NOW(), NULL, 'VIET202', 0),
-    (3, 3, 'Advanced Vietnamese Language Course', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'active', 'advance', 25, 90.00, 'Master the Vietnamese language with advanced lessons.', 'https://zoom.us/vietnamese303', NOW(), NOW(), NULL, 'VIET303', 0),
-    (4, 4, 'Vietnamese Conversation Practice', 'https://www.drjimtaylor.com/4.0/wp-content/uploads/2019/12/Online-courses.jpg', 'active', 'intermediate', 12, 120.00, 'Enhance your conversational skills in Vietnamese.', 'https://zoom.us/vietnameseconversation', NOW(), NOW(), NULL, 'VIETCONVO', 0),
-    (5, 5, 'Vietnamese Writing Workshop', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'active', 'advance', 30, 60.00, 'Learn to write in Vietnamese with style.', 'https://zoom.us/vietnamesewriting', NOW(), NOW(), NULL, 'VIETWRITING', 0);
+    (1, 'Basic Vietnamese Language Course', 'https://nhyirapremiumuniversity.com/wp-content/uploads/2018/11/course.png', 'active', 'beginner', 20, 75.00, 'Learn the fundamentals of the Vietnamese language.', 'https://zoom.us/vietnamese101', NOW(), NOW(), NULL, 'VIET101', 0),
+    (2, 'Intermediate Vietnamese Language Course', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'active', 'intermediate', 15, 50.00, 'Improve your Vietnamese language skills.', 'https://zoom.us/vietnamese202', NOW(), NOW(), NULL, 'VIET202', 0),
+    (3, 'Advanced Vietnamese Language Course', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'active', 'advance', 25, 90.00, 'Master the Vietnamese language with advanced lessons.', 'https://zoom.us/vietnamese303', NOW(), NOW(), NULL, 'VIET303', 0),
+    (4, 'Vietnamese Conversation Practice', 'https://www.drjimtaylor.com/4.0/wp-content/uploads/2019/12/Online-courses.jpg', 'active', 'intermediate', 12, 120.00, 'Enhance your conversational skills in Vietnamese.', 'https://zoom.us/vietnameseconversation', NOW(), NOW(), NULL, 'VIETCONVO', 0),
+    (5, 'Vietnamese Writing Workshop', 'https://www.study2apply.com/wp-content/uploads/2015/10/Courses.jpg', 'active', 'advance', 30, 60.00, 'Learn to write in Vietnamese with style.', 'https://zoom.us/vietnamesewriting', NOW(), NOW(), NULL, 'VIETWRITING', 0);
 
 INSERT INTO "course_attendee" ("courseId", "userId", "createdAt", "updatedAt", "deletedAt")
 VALUES
