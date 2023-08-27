@@ -41,9 +41,6 @@ DELETE FROM "user";
 -- Reset auto-increment sequence for id column in "user" table
 SELECT setval(pg_get_serial_sequence('"user"', 'id'), 1, false);
 
-
-
-
 INSERT INTO "user" ("id", "email", "phone", "password", "description", "address", "avatar", "username", "role")
 VALUES
     ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'johndoe@gmail.com', '123-456-7890', 'password1', 'John Doe - Software Engineer', '123 Main St, City 1', 'https://i.pravatar.cc/300?u=f47ac10b-58cc-4372-a567-0e02b2c3d479', 'johndoe', 'COACH'),
