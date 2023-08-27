@@ -34,7 +34,7 @@ export class DiscussionService{
 
                 // Get the coach
                 const coach = await this.coachEntity.findOne({
-                    where: { id: coachId.id }
+                    where: { id: coachId.coachId }
                 })
 
                 const nRateTurn = Number(coach.rateTurn) + 1
